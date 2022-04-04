@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "205303263113",
+    "project_id": "foodwastage-8f500",
+    "storage_bucket": "foodwastage-8f500.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:205303263113:android:d75c57d40e6b2471a3bb58",
+        "android_client_info": {
+          "package_name": "com.example.foodwastage"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "205303263113-59hjm7ob2hd1ej93o2qi7nj9hs7ccit8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.foodwastage",
+            "certificate_hash": "2163b59f30de7c1306b17082dcb72ad968c7a330"
+          }
+        },
+        {
+          "client_id": "205303263113-qlsgeimo4rgm930ft9um8q6mf75r4q6m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWxu2TJ26kzasuzKAfi9x9gQ1cDI0h2xY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "205303263113-qlsgeimo4rgm930ft9um8q6mf75r4q6m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
