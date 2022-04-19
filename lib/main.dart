@@ -9,13 +9,14 @@ import 'package:foodwastage/network/local/Cach_helper.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/styles/thems.dart';
 
+
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
 
-  Bloc.observer = MyBlocObserver();
+
 
   await CacheHelper.init();
 
@@ -28,7 +29,13 @@ void main() async {
   else
     widget=LoginScreen();
 
-  runApp( MyApp(widget));
+  BlocOverrides.runZoned(
+        () {
+      runApp( MyApp(widget));
+    },
+    blocObserver: MyBlocObserver(),
+  );
+  // runApp( MyApp(widget));
 }
 
 class MyApp extends StatelessWidget {

@@ -118,6 +118,9 @@ class RegisterScreen extends StatelessWidget
                               if(value!.isEmpty){
                                 return 'please confirm your password';
                               }
+                            if(passwordController.text!=confirmPasswordController.text){
+                            return "Password does not match";
+                            }
                               return null;
                             },
                             prefix: Icons.vpn_key_sharp,
@@ -194,7 +197,8 @@ class RegisterScreen extends StatelessWidget
         },
         listener: (BuildContext context, Object? state)
         {
-          if(state is FoodSuccessCreateState)
+
+          if(state is FoodSuccessCreateState )
           {
             CacheHelper.saveData
               (

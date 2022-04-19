@@ -5,7 +5,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodwastage/models/User_model.dart';
+import 'package:foodwastage/modules/Register_Screen.dart';
 import 'package:foodwastage/shared/cubit/Register/foodRegisterState.dart';
+
 
 class FoodRegisterCubit extends Cubit<FoodRegisterStates>
 {
@@ -24,11 +26,11 @@ class FoodRegisterCubit extends Cubit<FoodRegisterStates>
   })
   {
     emit(FoodLoadingRegisterstate());
-
     FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password).then((value) {
-      createUser(name: name, email: email, phone: phone,uId: value.user!.uid);
+           createUser(name: name, email: email, phone: phone,uId: value.user!.uid);
+
     }).catchError((error){
       print(error.toString());
       emit(FoodErrorRegisterState());
@@ -58,6 +60,7 @@ class FoodRegisterCubit extends Cubit<FoodRegisterStates>
       emit(FoodSuccessCreateState(uId));
     }).catchError((error){
       print(error.toString()+'**************');
+      print(RegisterScreen().confirmPasswordController.text.toString()+"*************************************");
       emit(FoodErrorCreateState());
     });
 
