@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:foodwastage/styles/colors.dart';
 
 ThemeData lightTheme=ThemeData(
+
     primarySwatch: defaultColor,
     scaffoldBackgroundColor: Colors.white,
     appBarTheme: const AppBarTheme(
@@ -31,9 +32,11 @@ ThemeData lightTheme=ThemeData(
     ),
     textTheme: const TextTheme(
       bodyText1: TextStyle(
+        fontFamily: 'Montserrat',
           fontSize: 18.0,
           fontWeight: FontWeight.w600,
           color: Colors.black
+
       ),
       caption: TextStyle(
           fontSize: 12.0,

@@ -9,29 +9,24 @@ import 'package:foodwastage/network/local/Cach_helper.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/styles/thems.dart';
 
-
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
-
-
-
   await CacheHelper.init();
 
   Widget? widget;
 
-  uId=CacheHelper.getData(key: 'uId');
+  uId = CacheHelper.getData(key: 'uId');
 
-  if(uId != null)
-    widget=foodLayout();
+  if (uId != null)
+    widget = foodLayout();
   else
-    widget=LoginScreen();
+    widget = LoginScreen();
 
   BlocOverrides.runZoned(
-        () {
-      runApp( MyApp(widget));
+    () {
+      runApp(MyApp(widget));
     },
     blocObserver: MyBlocObserver(),
   );
@@ -40,21 +35,19 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   final Widget? startWidget;
-   MyApp(this.startWidget);
+  MyApp(this.startWidget);
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) =>FoodCubit(),
+      create: (BuildContext context) => FoodCubit(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: lightTheme,
         themeMode: ThemeMode.light,
-        home:startWidget,
+        home: startWidget,
       ),
     );
   }
 }
-
-
