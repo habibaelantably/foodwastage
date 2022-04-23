@@ -11,6 +11,7 @@ import 'package:foodwastage/styles/thems.dart';
 
 
 //test pull request
+//test2
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
