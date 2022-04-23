@@ -1,4 +1,4 @@
-# foodwastage
+# foodwastage project
 
 A new Flutter project.
 
