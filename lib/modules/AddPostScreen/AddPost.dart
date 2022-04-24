@@ -19,7 +19,7 @@ class AddPosts extends StatelessWidget
           ),
           body: Column(
             children: const [
-              Text('Donate')
+              Text('Donate   \n this is my work')
             ],
           ),
         );
