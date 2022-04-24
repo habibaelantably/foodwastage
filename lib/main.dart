@@ -10,9 +10,8 @@ import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/styles/thems.dart';
 
 
-//test pull request
-//test2
-//test 3
+//el sho8l el gded ely h3mlo
+//:elsho8l aho sklskmglfhdfhdf
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
