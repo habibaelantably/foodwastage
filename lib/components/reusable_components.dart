@@ -148,3 +148,42 @@ Color setToatColor(ToastStates states)
   return color;
 }
 
+Widget defaultText(
+    {required String text, required double fontSize, required Color color, required FontWeight fontWeight}){
+  return Text(text,style:TextStyle(fontSize: fontSize,color: color,fontWeight: fontWeight  ) ,) ;
+}
+
+
+Widget rowTextAndFormInput(
+    {required String rowText,
+    required double fontSize,
+    required Color color,
+    required FontWeight fontWeight,
+    required IconData icon,
+    required String hintTextForm}){
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          defaultText(
+              text: rowText,
+              fontSize: fontSize,
+              color: color,
+              fontWeight: fontWeight),
+           Icon(icon,
+              color: defaultColor),
+        ],
+      ),
+      TextFormField(
+        decoration:  InputDecoration(
+          hintText: hintTextForm,
+        ),
+        onSaved: (String? value) {
+        },
+        validator: (String? value) {},
+      )
+    ],
+  );
+}

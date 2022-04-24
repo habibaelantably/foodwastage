@@ -35,13 +35,15 @@ class FoodCubit extends Cubit<FoodStates>
 
   void changeBottomNav(int index)
   {
-    if(index==2) {
-      emit(DonateFoodState());
-    }else {
-      currentIndex = index;
-      emit(ChangeBottomNavState());
-    }
+    // if(index==2) {
+    //   emit(DonateFoodState());
+    // }else {
+    //   currentIndex = index;
+    //   emit(ChangeBottomNavState());
+    // }
 
+    currentIndex = index;
+    emit(ChangeBottomNavState());
 
   }
 }

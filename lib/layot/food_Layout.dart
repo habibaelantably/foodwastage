@@ -13,10 +13,10 @@ class foodLayout extends StatelessWidget
     return BlocConsumer<FoodCubit,FoodStates>(
       listener: (BuildContext context, state)
       {
-        if(state is DonateFoodState)
-        {
-          NavigateTo(context, AddPosts());
-        }
+        // if(state is DonateFoodState)
+        // {
+        //   NavigateTo(context, AddPosts());
+        // }
       },
       builder: (BuildContext context, Object? state)
       {

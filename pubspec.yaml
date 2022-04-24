@@ -45,6 +45,9 @@ dependencies:
 
   country_picker: ^2.0.14
   font_awesome_flutter: ^10.1.0
+  flutter_datetime_picker:
+  image_picker: ^0.8.5
+
 
 
 dev_dependencies:
