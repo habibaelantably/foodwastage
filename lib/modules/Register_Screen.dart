@@ -1,5 +1,6 @@
 
 import 'package:buildcondition/buildcondition.dart';
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -136,8 +137,37 @@ class RegisterScreen extends StatelessWidget
                               }
                               return null;
                             },
+
+
                             prefix: Icons.vpn_lock,
-                            label: 'Country'
+                            label: 'Country',
+                          OnTap:(){
+                            showCountryPicker(
+                              context: context,
+                              showPhoneCode: false,
+                              showWorldWide: false,
+                              onSelect: (Country country) {
+                                countryController.text=country.displayNameNoCountryCode.toString();
+                                print('Select country: ${country.displayName}');
+                              },
+                              countryListTheme: CountryListThemeData(
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(40.0),
+                                  topRight: Radius.circular(40.0),
+                                ),
+                                inputDecoration: InputDecoration(
+                                  labelText: 'Search',
+                                  hintText: 'Start typing to search',
+                                  prefixIcon: const Icon(Icons.search),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: const Color(0xFF8C98A8).withOpacity(0.2),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }
                         ),
                         const SizedBox(height: 40.0,),
                         BuildCondition(
@@ -154,6 +184,7 @@ class RegisterScreen extends StatelessWidget
                                     email: emailController.text,
                                     password: passwordController.text,
                                     phone: phoneController.text,
+                                    country: countryController.text
 
                                   );
                                 }

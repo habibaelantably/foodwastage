@@ -5,6 +5,7 @@ class UserModel
   String? email;
   String? phone;
   String? uId;
+  String? country;
   String? image;
 
 
@@ -13,6 +14,7 @@ class UserModel
     this.email,
     this.phone,
     this.uId,
+    this.country,
     this.image,
     });
 
@@ -22,6 +24,7 @@ class UserModel
     email=json['email'];
     phone=json['phone'];
     uId=json['uId'];
+    country=json['country'];
     image=json['image'];
   }
 
@@ -33,6 +36,7 @@ class UserModel
         'email':email,
         'phone':phone,
         'uId':uId,
+        'country':country,
         'image':image,
       };
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodwastage/components/reusable_components.dart';
+import 'package:foodwastage/widgets/my_drawer.dart';
 
 import '../modules/AddPostScreen/AddPost.dart';
 import '../shared/cubit/Food_Cubit/food_cubit.dart';
@@ -24,7 +25,9 @@ class foodLayout extends StatelessWidget
         return Scaffold(
           appBar: AppBar(
             title: Text(cubit.titles[cubit.currentIndex]),
+
           ),
+          drawer: CustomDrawer(),
           body:cubit.screens[cubit.currentIndex],
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: cubit.currentIndex,

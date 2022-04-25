@@ -22,14 +22,15 @@ class FoodRegisterCubit extends Cubit<FoodRegisterStates>
     required String name,
     required String email,
     required String password,
-    required String phone
+    required String phone,
+    required String country
   })
   {
     emit(FoodLoadingRegisterstate());
     FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password).then((value) {
-           createUser(name: name, email: email, phone: phone,uId: value.user!.uid);
+           createUser(name: name, email: email, phone: phone,uId: value.user!.uid,country: country);
 
     }).catchError((error){
       print(error.toString());
@@ -43,6 +44,7 @@ class FoodRegisterCubit extends Cubit<FoodRegisterStates>
     required String email,
     required String phone,
     required String uId,
+    required String country,
 
   })
   {
@@ -51,7 +53,8 @@ class FoodRegisterCubit extends Cubit<FoodRegisterStates>
         email:email,
         phone:phone,
         uId:uId,
-        image:'https://media.istockphoto.com/photos/blue-open-sea-environmenttravel-and-nature-concept-picture-id1147989465?k=20&m=1147989465&s=612x612&w=0&h=nVI1UKhyr2WPZ5-gnFB3Q7jjToru4lg_ubBFx-Jomq0=',
+        image: 'https://media.istockphoto.com/photos/blue-open-sea-environmenttravel-and-nature-concept-picture-id1147989465?k=20&m=1147989465&s=612x612&w=0&h=nVI1UKhyr2WPZ5-gnFB3Q7jjToru4lg_ubBFx-Jomq0=',
+       country:country,
     );
 
     FirebaseFirestore.instance.collection('users').

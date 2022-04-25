@@ -18,7 +18,8 @@ Widget   deafultFormField ({
   bool isPassword=false ,
   IconData ? suffix,
   Function ? suffixButton,
-  String? hint
+  String? hint,
+  OnTap
 
 })=>  TextFormField(
   controller: controller,
@@ -41,9 +42,9 @@ Widget   deafultFormField ({
             suffix
         ),
       ): null,
-      hintText: hint
-
+      hintText: hint,
   ),
+    onTap:OnTap
 );
 
 
