@@ -1,28 +1,25 @@
-
 import 'package:buildcondition/buildcondition.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodwastage/components/constants.dart';
 import 'package:foodwastage/components/reusable_components.dart';
-import 'package:foodwastage/layot/food_Layout.dart';
+import 'package:foodwastage/layout/food_Layout.dart';
 import 'package:foodwastage/modules/Register_Screen.dart';
 import 'package:foodwastage/network/local/Cach_helper.dart';
 import 'package:foodwastage/shared/cubit/Login/foodLoginCubit.dart';
 import 'package:foodwastage/shared/cubit/Login/foodLoginStates.dart';
 
+class LoginScreen extends StatelessWidget {
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
 
-class LoginScreen extends StatelessWidget
-{
-  var emailController=TextEditingController();
-  var passwordController=TextEditingController();
+  var formkey = GlobalKey<FormState>();
 
-  var formkey=GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    return  BlocProvider(
+    return BlocProvider(
       create: (BuildContext context) => FoodLoginCubit(),
-      child: BlocConsumer<FoodLoginCubit,FoodLoginStates>(
+      child: BlocConsumer<FoodLoginCubit, FoodLoginStates>(
         builder: (BuildContext context, state) {
           return Scaffold(
             body: Center(
@@ -32,44 +29,51 @@ class LoginScreen extends StatelessWidget
                   child: Form(
                     key: formkey,
                     child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Image.asset('assets/images/LoginIcon.png',width: 500,height: 300,),
-                        Text('WELCOME',
-                          style: Theme.of(context).textTheme.headline6!.copyWith(
-                              color: Colors.black
-                          ),
+                        Image.asset(
+                          'assets/images/LoginIcon.png',
+                          width: 500,
+                          height: 300,
                         ),
-                       // SizedBox(height: 3.0,),
+                        Text(
+                          'WELCOME',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline6!
+                              .copyWith(color: Colors.black),
+                        ),
+                        // SizedBox(height: 3.0,),
                         Text(
                           'LOGIN TO CONTINUE ',
-                          style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                            color: Colors.grey,
-                            fontSize: 15
-                          ),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1!
+                              .copyWith(color: Colors.grey, fontSize: 15),
                         ),
-                        SizedBox(height: 15.0,),
+                        SizedBox(
+                          height: 15.0,
+                        ),
                         deafultFormField(
                             controller: emailController,
                             type: TextInputType.emailAddress,
-                            validator: (value)
-                            {
-                              if(value!.isEmpty){
+                            validator: (value) {
+                              if (value!.isEmpty) {
                                 return 'please enter email address';
                               }
                               return null;
                             },
                             prefix: Icons.email,
-                            label: 'Email Address'
+                            label: 'Email Address'),
+                        SizedBox(
+                          height: 10,
                         ),
-                        SizedBox(height: 10,),
 
                         deafultFormField(
                             controller: passwordController,
                             type: TextInputType.visiblePassword,
-                            validator: (value)
-                            {
-                              if(value!.isEmpty){
+                            validator: (value) {
+                              if (value!.isEmpty) {
                                 return 'please enter password';
                               }
                               return null;
@@ -77,33 +81,33 @@ class LoginScreen extends StatelessWidget
                             isPassword: FoodLoginCubit.get(context).isPassword,
                             prefix: Icons.vpn_key,
                             suffix: FoodLoginCubit.get(context).suffix,
-                            suffixButton: ()
-                            {
-                              FoodLoginCubit.get(context).changePasswordVisibility();
+                            suffixButton: () {
+                              FoodLoginCubit.get(context)
+                                  .changePasswordVisibility();
                             },
-                            label: 'password'
+                            label: 'password'),
+                        const SizedBox(
+                          height: 17.0,
                         ),
-                        const SizedBox(height: 17.0,),
                         BuildCondition(
                           condition: state is! FoodLoginLoadingState,
-                          builder: (context)=>
-                              deafultbutton(
-                            width: 300,
-                              function:()
-                              {
-                                if(formkey.currentState != null && formkey.currentState!.validate())
-                                {
+                          builder: (context) => deafultbutton(
+                              width: 300,
+                              function: () {
+                                if (formkey.currentState != null &&
+                                    formkey.currentState!.validate()) {
                                   FoodLoginCubit.get(context).userLogin(
                                       email: emailController.text,
                                       password: passwordController.text);
                                 }
                               },
-                              text: 'login'.toUpperCase()
-                          ),
-                          fallback: (context)=>const Center(child: CircularProgressIndicator()),
-
+                              text: 'login'.toUpperCase()),
+                          fallback: (context) =>
+                              const Center(child: CircularProgressIndicator()),
                         ),
-                        const SizedBox(height: 13.0,),
+                        const SizedBox(
+                          height: 13.0,
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -112,48 +116,57 @@ class LoginScreen extends StatelessWidget
                               width: 150.0,
                               color: Colors.grey,
                             ),
-                            const SizedBox(width: 4.0,),
-                            const Text('or',
-                            style: TextStyle(
-                              fontSize: 15,
-                              color: Colors.grey
+                            const SizedBox(
+                              width: 4.0,
                             ),
-                            ),
-                            const SizedBox(width: 4.0,),
-                            Container(
-                              height: 1.0,
-                              width: 150.0,
-                              color: Colors.grey,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 13.0,),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset('assets/images/googleLogo.png',width: 50,height: 50,),
-                            const SizedBox(width: 40.0,),
-                            //Image.asset('assets/images/googleLogo.png',width: 50,height: 50,),
-                            const Icon(Icons.facebook_rounded,
-                            color: Colors.blue,
-                            size: 55,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 13.0,),
-                        Column(
-                          children:  [
                             const Text(
-                                'Don`t have an account?'
+                              'or',
+                              style:
+                                  TextStyle(fontSize: 15, color: Colors.grey),
                             ),
-
+                            const SizedBox(
+                              width: 4.0,
+                            ),
+                            Container(
+                              height: 1.0,
+                              width: 150.0,
+                              color: Colors.grey,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 13.0,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/images/googleLogo.png',
+                              width: 50,
+                              height: 50,
+                            ),
+                            const SizedBox(
+                              width: 40.0,
+                            ),
+                            //Image.asset('assets/images/googleLogo.png',width: 50,height: 50,),
+                            const Icon(
+                              Icons.facebook_rounded,
+                              color: Colors.blue,
+                              size: 55,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 13.0,
+                        ),
+                        Column(
+                          children: [
+                            const Text('Don`t have an account?'),
                             TextButton(
-                                onPressed: ()
-                                {
+                                onPressed: () {
                                   NavigateTo(context, RegisterScreen());
                                 },
                                 child: const Text('Register')),
-
                           ],
                         )
                       ],
@@ -162,20 +175,15 @@ class LoginScreen extends StatelessWidget
                 ),
               ),
             ),
-
           );
         },
-        listener: (BuildContext context, Object? state)
-        {
-          if(state is FoodLoginErrorState)
-            {showToast(text:state.error.toString(), states: ToastStates.ERROR);}
-          if(state is FoodLoginSuccessState) {
-            CacheHelper.saveData
-              (
-                key: 'uId',
-                value: state.uId)
-                .then((value) {
-              if(value){
+        listener: (BuildContext context, Object? state) {
+          if (state is FoodLoginErrorState) {
+            showToast(text: state.error.toString(), states: ToastStates.ERROR);
+          }
+          if (state is FoodLoginSuccessState) {
+            CacheHelper.saveData(key: 'uId', value: state.uId).then((value) {
+              if (value) {
                 uId = CacheHelper.getData(key: 'uId');
 
                 NavigateAndKill(context, foodLayout());
@@ -213,9 +221,7 @@ class LoginScreen extends StatelessWidget
           //
           // }
         },
-
       ),
     );
   }
-
 }

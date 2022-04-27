@@ -8,40 +8,28 @@ import '../../../modules/HomeScreen/Home.dart';
 import '../../../modules/MapsScreen/Maps.dart';
 import '../Food_States/foodStates.dart';
 
-class FoodCubit extends Cubit<FoodStates>
-{
+class FoodCubit extends Cubit<FoodStates> {
   FoodCubit() : super(InitialFoodStates());
 
-  static FoodCubit get(context)=>BlocProvider.of(context);
+  static FoodCubit get(context) => BlocProvider.of(context);
 
-  int currentIndex=0;
+  int currentIndex = 0;
 
-  List<Widget> screens=
-  [
-     HomeScreen(),
-    MapsScreen(),
+  List<Widget> screens = [
+    HomeScreen(),
+    const MapScreen(),
     AddPosts(),
-     FavoritesScreen(),
+    const FavoritesScreen(),
     ChatsScreen()
   ];
-  List<String> titles=
-  [
-    'Home',
-    'Maps',
-    'Donate',
-    'favorites',
-    'Chats'
-  ];
+  List<String> titles = ['Home', 'Maps', 'Donate', 'favorites', 'Chats'];
 
-  void changeBottomNav(int index)
-  {
-    if(index==2) {
+  void changeBottomNav(int index) {
+    if (index == 2) {
       emit(DonateFoodState());
-    }else {
+    } else {
       currentIndex = index;
       emit(ChangeBottomNavState());
     }
-
-
   }
 }
