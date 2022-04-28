@@ -5,29 +5,28 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 // ignore: must_be_immutable
-class MapsScreen extends StatefulWidget {
-  const MapsScreen({Key? key}) : super(key: key);
+class MapScreen extends StatefulWidget {
+  const MapScreen({Key? key}) : super(key: key);
 
   @override
-  State<MapsScreen> createState() => _MapsScreenState();
+  State<MapScreen> createState() => _MapScreenState();
 }
 
-class _MapsScreenState extends State<MapsScreen> {
+class _MapScreenState extends State<MapScreen> {
   static Position? position;
   final Completer<GoogleMapController> _mapController = Completer();
-
-  CameraPosition myCurrentLocationCameraPosition = CameraPosition(
-      target: LatLng(position!.latitude, position!.longitude),
-      bearing: 0.0,
-      zoom: 17,
-      tilt: 0.0);
 
   @override
   void initState() {
     super.initState();
     getMyCurrentLocation();
-    print(position);
   }
+
+  static final CameraPosition myCurrentLocationCameraPosition = CameraPosition(
+      target: LatLng(position!.latitude, position!.longitude),
+      bearing: 0.0,
+      zoom: 17,
+      tilt: 0.0);
 
   Future<void> getMyCurrentLocation() async {
     position = await LocationHelper.getMyCurrentPosition().whenComplete(() {
