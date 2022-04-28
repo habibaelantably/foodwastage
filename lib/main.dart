@@ -3,19 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodwastage/block_observer.dart';
 import 'package:foodwastage/components/constants.dart';
-import 'package:foodwastage/layot/food_Layout.dart';
+import 'package:foodwastage/layout/food_Layout.dart';
 import 'package:foodwastage/modules/login_Screen.dart';
 import 'package:foodwastage/network/local/Cach_helper.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/styles/thems.dart';
 
-
-//test pull request
-//test2
-//test 3
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await Firebase.initializeApp();
   await CacheHelper.init();
 
@@ -39,6 +34,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   final Widget? startWidget;
+
   MyApp(this.startWidget);
 
   // This widget is the root of your application.
