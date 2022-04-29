@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:foodwastage/styles/colors.dart';
 
@@ -149,3 +150,52 @@ Color setToatColor(ToastStates states)
   return color;
 }
 
+Widget defaultText(
+    {required String text,
+      required double fontSize,
+      required Color color,
+      required FontWeight fontWeight}) {
+  return Text(
+    text,
+    style: TextStyle(fontSize: fontSize, color: color, fontWeight: fontWeight),
+  );
+}
+
+Widget rowTextAndFormInput(
+    {required String rowText,
+      required double fontSize,
+      TextEditingController? textEditingController,
+      Function? validator,
+      TextInputType? textInputType,
+      List<TextInputFormatter>? inputFormatters,
+      required Color color,
+      required FontWeight fontWeight,
+      required IconData icon,
+
+      required String hintTextForm}) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          defaultText(
+              text: rowText,
+              fontSize: fontSize,
+              color: color,
+              fontWeight: fontWeight),
+          Icon(icon, color: defaultColor),
+        ],
+      ),
+      TextFormField(
+          keyboardType: textInputType,
+          controller: textEditingController,
+          decoration: InputDecoration(
+            hintText: hintTextForm,
+          ),
+          onSaved: (String? value) {},
+          validator: (value) => validator!(value),inputFormatters:inputFormatters
+      )
+    ],
+  );
+}
