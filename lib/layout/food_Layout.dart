@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:foodwastage/components/reusable_components.dart';
 import 'package:foodwastage/widgets/my_drawer.dart';
-import '../modules/AddPostScreen/AddPost.dart';
 import '../shared/cubit/Food_Cubit/food_cubit.dart';
 import '../shared/cubit/Food_States/foodStates.dart';
 

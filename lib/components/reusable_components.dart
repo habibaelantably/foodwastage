@@ -194,7 +194,8 @@ Widget rowTextAndFormInput(
             hintText: hintTextForm,
           ),
           onSaved: (String? value) {},
-          validator: (value) => validator!(value),inputFormatters:inputFormatters
+          validator: (value) => validator!(value),
+          inputFormatters:inputFormatters
       )
     ],
   );

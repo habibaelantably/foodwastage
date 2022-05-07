@@ -21,7 +21,8 @@ class PostModel {
     this.imageUrl1,
     this.imageUrl2,
     this.foodType,
-    this.foodDonor,this.donorId
+    this.foodDonor,
+    this.donorId
   });
 
   Map<String, dynamic> toMap() {

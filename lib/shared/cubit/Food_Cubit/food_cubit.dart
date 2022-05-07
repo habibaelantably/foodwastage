@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foodwastage/models/User_model.dart';
 
 import '../../../modules/AddPostScreen/AddPost.dart';
 import '../../../modules/ChatsScreen/Chats.dart';
@@ -11,10 +12,9 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
- import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:foodwastage/models/post_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -42,13 +42,26 @@ class FoodCubit extends Cubit<FoodStates> {
     // if (index == 2) {
     //   emit(DonateFoodState());
     // } else {
-      currentIndex = index;
-      emit(ChangeBottomNavState());
-   // }
+    currentIndex = index;
+    emit(ChangeBottomNavState());
+    // }
+  }
+
+  UserModel? model;
+
+  void getUserdata() {
+    FirebaseFirestore.instance.collection('users').doc(uId).get().then((value) {
+      print(value.data());
+      model = UserModel.fromJson(value.data()!);
+      emit(FoodSuccessState('uId'));
+    }).catchError((error) {
+      print(error.toString());
+      emit(FoodErrorState());
+    });
   }
 
   CollectionReference posts =
-  FirebaseFirestore.instance.collection(postsCollectionKey);
+      FirebaseFirestore.instance.collection(postsCollectionKey);
   firebase_storage.FirebaseStorage storage =
       firebase_storage.FirebaseStorage.instance;
 
@@ -90,8 +103,6 @@ class FoodCubit extends Cubit<FoodStates> {
 
     emit(CounterMinusState());
   }
-
-
 
   changDateTime(date) {
     this.date = "${date.year}-${date.month}-${date.day}";
@@ -219,7 +230,7 @@ class FoodCubit extends Cubit<FoodStates> {
     await storage
         .ref()
         .child(
-        "$postsCollectionKey/$postId/Images/${Uri.file(image.path).pathSegments.last}")
+            "$postsCollectionKey/$postId/Images/${Uri.file(image.path).pathSegments.last}")
         .putFile(image)
         .then((url) {
       url.ref.getDownloadURL().then((value) {
@@ -303,5 +314,31 @@ class FoodCubit extends Cubit<FoodStates> {
       emit(UpdatePostErrorState(onError.toString()));
     });
     return;
+  }
+
+//////////////////////////////////////////////////get posts at home
+  List<PostModel> postsList = [];
+  List<String> postId = [];
+  List<UserModel> userData = [];
+
+  void getPosts() {
+    posts.snapshots().listen((event) {
+      print("event is : $event");
+      postsList = [];
+      event.docs.forEach((element) {
+        FirebaseFirestore.instance
+            .collection('users')
+            .where(model!.uId == element.get('donorId'))
+            .get()
+            .then((value) {
+          value.docs.forEach((element) {
+            userData.add(UserModel.fromJson(element.data()));
+          });
+        });
+        postId.add(element.id);
+        postsList.add(PostModel.fromJson(element.data()));
+        emit(FoodGetPostsSuccessState());
+      });
+    });
   }
 }

@@ -7,6 +7,7 @@ import 'package:foodwastage/components/reusable_components.dart';
 import 'package:foodwastage/layout/food_Layout.dart';
 import 'package:foodwastage/modules/login_Screen.dart';
 import 'package:foodwastage/network/local/Cach_helper.dart';
+import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Register/foodRegisterCubit.dart';
 import 'package:foodwastage/shared/cubit/Register/foodRegisterState.dart';
 
@@ -228,6 +229,7 @@ class RegisterScreen extends StatelessWidget {
               //احنا عملنا save ل الuid في ال cache بس ممليناش بيه بقا ال variable بتاعنا
               if (value) {
                 uId = CacheHelper.getData(key: 'uId');
+                FoodCubit.get(context).getUserdata();
                 NavigateAndKill(context, foodLayout());
               }
             });
