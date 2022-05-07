@@ -10,6 +10,8 @@ class PostModel {
   String? foodType;
   String? foodDonor;
   String? donorId;
+  String? userName;
+  String? userImage;
 
   PostModel({
     this.itemCount,
@@ -22,7 +24,9 @@ class PostModel {
     this.imageUrl2,
     this.foodType,
     this.foodDonor,
-    this.donorId
+    this.donorId,
+    this.userName,
+    this.userImage
   });
 
   Map<String, dynamic> toMap() {
@@ -38,6 +42,9 @@ class PostModel {
       'foodType': foodType,
       'foodDonor': foodDonor,
       'donorId': donorId,
+      'userName':userName,
+      'userImage':userImage,
+
     };
   }
 
@@ -54,6 +61,8 @@ class PostModel {
       foodType: json['foodType'],
       foodDonor: json['foodDonor'],
       donorId: json['donorId'],
+      userName:json['userName'],
+      userImage:json['userImage']
     );
   }
 }

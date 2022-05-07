@@ -543,7 +543,8 @@ class AddPosts extends StatelessWidget {
                                             foodType:
                                                 FoodCubit.get(context).foodType,
                                             foodDonor: FoodCubit.get(context)
-                                                .foodDonor);
+                                                .foodDonor,
+                                        );
                                       }
                                     },
                                     child: state is CreatePostLoadingState

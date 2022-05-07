@@ -18,14 +18,26 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:foodwastage/models/post_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-
 import '../../../components/constants.dart';
-import '../../../network/local/Cach_helper.dart';
 
 class FoodCubit extends Cubit<FoodStates> {
   FoodCubit() : super(InitialFoodStates());
 
   static FoodCubit get(context) => BlocProvider.of(context);
+
+  UserModel? userModel;
+
+  void getUserdata() {
+    FirebaseFirestore.instance.collection('users').doc(uId).get().then((value) {
+      print(value.data());
+      userModel = UserModel.fromJson(value.data()!);
+      print(userModel.toString());
+      emit(FoodSuccessState('uId'));
+    }).catchError((error) {
+      print(error.toString());
+      emit(FoodErrorState());
+    });
+  }
 
   int currentIndex = 0;
 
@@ -47,18 +59,7 @@ class FoodCubit extends Cubit<FoodStates> {
     // }
   }
 
-  UserModel? model;
 
-  void getUserdata() {
-    FirebaseFirestore.instance.collection('users').doc(uId).get().then((value) {
-      print(value.data());
-      model = UserModel.fromJson(value.data()!);
-      emit(FoodSuccessState('uId'));
-    }).catchError((error) {
-      print(error.toString());
-      emit(FoodErrorState());
-    });
-  }
 
   CollectionReference posts =
       FirebaseFirestore.instance.collection(postsCollectionKey);
@@ -78,7 +79,7 @@ class FoodCubit extends Cubit<FoodStates> {
 
   bool isChecked = false;
 
-  var uId = CacheHelper.getData(key: 'uId');
+  //var SaveduId = CacheHelper.getData(key: 'uId');
 
   check() {
     isChecked = !isChecked;
@@ -182,8 +183,11 @@ class FoodCubit extends Cubit<FoodStates> {
         location: location,
         postDate: postDate,
         quantity: itemCount.toString(),
-        donorId: uId);
-    posts.add(postModel.toMap()).then((idValue) async {
+        donorId: uId,
+      userName:userModel!.name,
+      userImage: userModel!.image,
+    );
+     posts.add(postModel.toMap()).then((idValue) async {
       if (imageFile1 != null) {
         await uploadImage(imageFile1!, idValue.id, "imageUrl1").then((value) {
           if (imageFile2 != null) {
@@ -272,7 +276,8 @@ class FoodCubit extends Cubit<FoodStates> {
         location: location,
         postDate: postDate,
         quantity: quantity,
-        donorId: uId);
+        donorId: uId,
+    );
     posts.doc(postId).update(postModel.toMap()).then((idValue) async {
       if (imageFile1 != null) {
         await uploadImage(imageFile1!, postId, "imageUrl1").then((value) {
@@ -326,15 +331,16 @@ class FoodCubit extends Cubit<FoodStates> {
       print("event is : $event");
       postsList = [];
       event.docs.forEach((element) {
-        FirebaseFirestore.instance
-            .collection('users')
-            .where(model!.uId == element.get('donorId'))
-            .get()
-            .then((value) {
-          value.docs.forEach((element) {
-            userData.add(UserModel.fromJson(element.data()));
-          });
-        });
+        // FirebaseFirestore.instance
+        //     .collection('users')
+        //     .where(model!.uId.toString(),isEqualTo: '${PostModel().donorId}')
+        //     .get()
+        //     .then((value) {
+        //   value.docs.forEach((element) {
+        //
+        //     userData.add(UserModel.fromJson(element.data()));
+        //   });
+        // });
         postId.add(element.id);
         postsList.add(PostModel.fromJson(element.data()));
         emit(FoodGetPostsSuccessState());

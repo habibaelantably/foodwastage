@@ -4,8 +4,6 @@ import 'dart:ui';
 import 'package:buildcondition/buildcondition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:foodwastage/components/reusable_components.dart';
-import 'package:foodwastage/models/User_model.dart';
 import 'package:foodwastage/models/post_model.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Food_States/foodStates.dart';
@@ -18,14 +16,15 @@ class HomeScreen extends StatelessWidget {
     return BlocConsumer<FoodCubit, FoodStates>(
       builder: (BuildContext context, state) {
         return BuildCondition(
-          condition: FoodCubit.get(context).postsList.isNotEmpty && FoodCubit.get(context).model != null,
+          condition: FoodCubit.get(context).postsList.isNotEmpty && FoodCubit.get(context).userModel != null,
           builder:(context) =>SingleChildScrollView(
             child: ListView.separated(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemBuilder: (context,index)=>PostBuilder(
                     context,
-                    FoodCubit.get(context).postsList[index],),
+                    FoodCubit.get(context).postsList[index],
+                ),
                 separatorBuilder: (context,index)=>const SizedBox(height: 10.0,),
                 itemCount:FoodCubit.get(context).postsList.length),
           ),
@@ -79,12 +78,12 @@ class HomeScreen extends StatelessWidget {
                    Row(
                      children: [
                        CircleAvatar(
-                         backgroundImage: NetworkImage('شسبلسيليسل'),
+                         backgroundImage: NetworkImage('${postModel.userImage}'),
                        ),
                        const SizedBox(width: 5.0,),
                        Column(
                          children: [
-                           Text('شسبشلبيسل',
+                           Text('${postModel.userName}',
                                style:  Theme.of(context).textTheme.bodyText1!.copyWith(
                                    fontSize: 15,
                                    fontWeight: FontWeight.w800

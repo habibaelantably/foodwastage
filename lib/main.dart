@@ -18,10 +18,11 @@ void main() async {
 
   uId = CacheHelper.getData(key: 'uId');
 
-  if (uId != null)
+  if (uId != null) {
     widget = foodLayout();
-  else
+  } else {
     widget = LoginScreen();
+  }
 
   BlocOverrides.runZoned(
     () {
