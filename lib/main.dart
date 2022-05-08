@@ -18,10 +18,11 @@ void main() async {
 
   uId = CacheHelper.getData(key: 'uId');
 
-  if (uId != null)
+  if (uId != null) {
     widget = foodLayout();
-  else
+  } else {
     widget = LoginScreen();
+  }
 
   BlocOverrides.runZoned(
     () {
@@ -41,12 +42,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => FoodCubit(),
+      create: (BuildContext context) => FoodCubit()..getUserdata()..getPosts(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: lightTheme,
         themeMode: ThemeMode.light,
-        home: startWidget,
+        home:startWidget,
       ),
     );
   }
