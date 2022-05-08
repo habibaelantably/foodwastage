@@ -27,10 +27,10 @@ class FoodCubit extends Cubit<FoodStates> {
 
   UserModel? userModel;
 
-  void getUserdata() {
-    FirebaseFirestore.instance.collection('users').doc(uId).get().then((value) {
+  void getUserdata()async {
+    await FirebaseFirestore.instance.collection('users').doc(uId).get().then((value)  {
       print(value.data());
-      userModel = UserModel.fromJson(value.data()!);
+       userModel = UserModel.fromJson(value.data()!);
       print(userModel.toString());
       emit(FoodSuccessState('uId'));
     }).catchError((error) {
@@ -58,8 +58,6 @@ class FoodCubit extends Cubit<FoodStates> {
     emit(ChangeBottomNavState());
     // }
   }
-
-
 
   CollectionReference posts =
       FirebaseFirestore.instance.collection(postsCollectionKey);

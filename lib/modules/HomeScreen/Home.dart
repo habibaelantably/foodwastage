@@ -57,7 +57,7 @@ class HomeScreen extends StatelessWidget {
                  ),
                  image: DecorationImage(
                      image: NetworkImage('${postModel.imageUrl1}'),
-                     fit: BoxFit.cover
+                   fit: BoxFit.fill,
                  )
              ),
 
