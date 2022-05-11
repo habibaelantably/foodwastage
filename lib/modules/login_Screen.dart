@@ -4,17 +4,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodwastage/components/constants.dart';
 import 'package:foodwastage/components/reusable_components.dart';
 import 'package:foodwastage/layout/food_Layout.dart';
-import 'package:foodwastage/modules/Register_Screen.dart';
-import 'package:foodwastage/network/local/Cach_helper.dart';
+import 'package:foodwastage/modules/register_Screen.dart';
+import 'package:foodwastage/network/local/cache_helper.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
-import 'package:foodwastage/shared/cubit/Login/foodLoginCubit.dart';
-import 'package:foodwastage/shared/cubit/Login/foodLoginStates.dart';
+import 'package:foodwastage/shared/cubit/Login/food_login_cubit.dart';
+import 'package:foodwastage/shared/cubit/Login/food_login_states.dart';
 
+// ignore: must_be_immutable
 class LoginScreen extends StatelessWidget {
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
 
   var formkey = GlobalKey<FormState>();
+
+  LoginScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +55,7 @@ class LoginScreen extends StatelessWidget {
                               .bodyText1!
                               .copyWith(color: Colors.grey, fontSize: 15),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 15.0,
                         ),
                         deafultFormField(
@@ -66,7 +69,7 @@ class LoginScreen extends StatelessWidget {
                             },
                             prefix: Icons.email,
                             label: 'Email Address'),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
 
@@ -187,7 +190,7 @@ class LoginScreen extends StatelessWidget {
               if (value) {
                 uId = CacheHelper.getData(key: 'uId');
                 FoodCubit.get(context).getUserdata();
-                NavigateAndKill(context, foodLayout());
+                NavigateAndKill(context, const foodLayout());
               }
             });
           }
@@ -207,7 +210,7 @@ class LoginScreen extends StatelessWidget {
           //       if(value){
           //
           //         token=state.loginModel.data!.token;
-          //         NavigateAndKill(context, shoplayoutScreen());
+          //         NavigateAndKill(context, shopLayoutScreen());
           //       }
           //     });
           //

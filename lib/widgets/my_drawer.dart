@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:foodwastage/components/constants.dart';
+import 'package:foodwastage/components/reusable_components.dart';
+import 'package:foodwastage/modules/ProfileScreen/profile_screen.dart';
 
 class CustomDrawer extends StatefulWidget {
   const CustomDrawer({Key? key}) : super(key: key);
@@ -11,6 +14,7 @@ class CustomDrawer extends StatefulWidget {
 class _MyDrawerState extends State<CustomDrawer> {
   bool _darkModeSwitchValue = false;
   bool _languageSwitchValue = false;
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -32,7 +36,7 @@ class _MyDrawerState extends State<CustomDrawer> {
                     CircleAvatar(
                       radius: 50,
                       backgroundImage:
-                      const AssetImage('assets/images/profile.png'),
+                          const AssetImage('assets/images/profile.png'),
                       backgroundColor: Colors.amber[900],
                     ),
                     const SizedBox(
@@ -47,26 +51,30 @@ class _MyDrawerState extends State<CustomDrawer> {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children:  [
+                      children: [
                         Icon(
-
-                          Icons.star,size:20,
+                          Icons.star,
+                          size: 20,
                           color: Colors.amber[400],
                         ),
                         Icon(
-                          Icons.star,size:20,
+                          Icons.star,
+                          size: 20,
                           color: Colors.amber[400],
                         ),
                         Icon(
-                          Icons.star,size:20,
+                          Icons.star,
+                          size: 20,
                           color: Colors.amber[400],
                         ),
                         Icon(
-                          Icons.star,size:20,
+                          Icons.star,
+                          size: 20,
                           color: Colors.amber[400],
                         ),
                         Icon(
-                          Icons.star_border,size:20,
+                          Icons.star_border,
+                          size: 20,
                           color: Colors.amber[400],
                         ),
                       ],
@@ -85,7 +93,7 @@ class _MyDrawerState extends State<CustomDrawer> {
                         height: 30,
                         child: ListTile(
                           dense: true,
-                          horizontalTitleGap:1,
+                          horizontalTitleGap: 1,
                           contentPadding: const EdgeInsets.all(1),
                           minVerticalPadding: 0,
                           leading: const FaIcon(
@@ -95,7 +103,10 @@ class _MyDrawerState extends State<CustomDrawer> {
                           ),
                           title: const Text(
                             'Profile',
-                            style: TextStyle(color: Colors.black,fontSize: 15,),
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 15,
+                            ),
                           ),
                           // trailing: const Icon(
                           //   Icons.arrow_forward_ios_rounded,
@@ -103,7 +114,11 @@ class _MyDrawerState extends State<CustomDrawer> {
                           //   size: 15,
                           // ),
                           onTap: () {
-                            // Navigate to Profile Screen
+                            NavigateTo(
+                                context,
+                                ProfileScreen(
+                                  selectedUserId: uId!,
+                                ));
                           },
                         ),
                       ),
@@ -111,12 +126,13 @@ class _MyDrawerState extends State<CustomDrawer> {
                         height: 30,
                         child: ListTile(
                           dense: true,
-                          horizontalTitleGap:1,
+                          horizontalTitleGap: 1,
                           contentPadding: const EdgeInsets.all(1),
                           minVerticalPadding: 0,
                           leading: const FaIcon(
                             FontAwesomeIcons.clockRotateLeft,
-                            color: Colors.black, size: 18,
+                            color: Colors.black,
+                            size: 18,
                           ),
                           title: const Text('History'),
                           // trailing: const Icon(
@@ -128,18 +144,19 @@ class _MyDrawerState extends State<CustomDrawer> {
                           },
                         ),
                       ),
-                      const  SizedBox(
+                      const SizedBox(
                         height: 30,
                         child: ListTile(
                           dense: true,
-                          horizontalTitleGap:1,
-                          contentPadding: const EdgeInsets.all(1),
+                          horizontalTitleGap: 1,
+                          contentPadding: EdgeInsets.all(1),
                           minVerticalPadding: 0,
-                          leading:  FaIcon(
+                          leading: FaIcon(
                             FontAwesomeIcons.solidMoon,
-                            color: Colors.black, size: 18,
+                            color: Colors.black,
+                            size: 18,
                           ),
-                          title:  Text('Dark Mode:'),
+                          title: Text('Dark Mode:'),
                           // trailing: CupertinoSwitch(
                           //     value: _darkModeSwitchValue,
                           //     onChanged: (val) {
@@ -153,14 +170,15 @@ class _MyDrawerState extends State<CustomDrawer> {
                         height: 30,
                         child: ListTile(
                           dense: true,
-                          horizontalTitleGap:1,
-                          contentPadding:  EdgeInsets.all(1),
+                          horizontalTitleGap: 1,
+                          contentPadding: EdgeInsets.all(1),
                           minVerticalPadding: 0,
-                          leading:  FaIcon(
+                          leading: FaIcon(
                             FontAwesomeIcons.solidMessage,
-                            color: Colors.black, size: 18,
+                            color: Colors.black,
+                            size: 18,
                           ),
-                          title:  Text('Language:'),
+                          title: Text('Language:'),
                           // trailing: CupertinoSwitch(
                           //     value: _languageSwitchValue,
                           //     onChanged: (val) {
@@ -174,12 +192,13 @@ class _MyDrawerState extends State<CustomDrawer> {
                         height: 30,
                         child: ListTile(
                           dense: true,
-                          horizontalTitleGap:1,
+                          horizontalTitleGap: 1,
                           contentPadding: const EdgeInsets.all(1),
                           minVerticalPadding: 0,
                           leading: const FaIcon(
                             FontAwesomeIcons.circleInfo,
-                            color: Colors.black, size: 18,
+                            color: Colors.black,
+                            size: 18,
                           ),
                           title: const Text('About us'),
                           // trailing: const Icon(
@@ -195,12 +214,13 @@ class _MyDrawerState extends State<CustomDrawer> {
                         height: 30,
                         child: ListTile(
                           dense: true,
-                          horizontalTitleGap:1,
+                          horizontalTitleGap: 1,
                           contentPadding: const EdgeInsets.all(1),
                           minVerticalPadding: 0,
                           leading: const FaIcon(
                             FontAwesomeIcons.headset,
-                            color: Colors.black, size: 18,
+                            color: Colors.black,
+                            size: 18,
                           ),
                           title: const Text('Contact us'),
                           // trailing: const Icon(
@@ -216,12 +236,13 @@ class _MyDrawerState extends State<CustomDrawer> {
                         height: 30,
                         child: ListTile(
                           dense: true,
-                          horizontalTitleGap:1,
+                          horizontalTitleGap: 1,
                           contentPadding: const EdgeInsets.all(1),
                           minVerticalPadding: 0,
                           leading: const FaIcon(
                             FontAwesomeIcons.fileContract,
-                            color: Colors.black, size: 18,
+                            color: Colors.black,
+                            size: 18,
                           ),
                           title: const Text('Terms & Conditions'),
                           // trailing: const Icon(
@@ -237,12 +258,13 @@ class _MyDrawerState extends State<CustomDrawer> {
                         height: 30,
                         child: ListTile(
                           dense: true,
-                          horizontalTitleGap:1,
+                          horizontalTitleGap: 1,
                           contentPadding: const EdgeInsets.all(1),
                           minVerticalPadding: 0,
                           leading: const FaIcon(
                             FontAwesomeIcons.arrowRightFromBracket,
-                            color: Colors.black, size: 18,
+                            color: Colors.black,
+                            size: 18,
                           ),
                           title: const Text('Logout'),
                           // trailing: const Icon(

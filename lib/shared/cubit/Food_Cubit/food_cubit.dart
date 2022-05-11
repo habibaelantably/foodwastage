@@ -1,19 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodwastage/models/User_model.dart';
-
-import '../../../modules/AddPostScreen/AddPost.dart';
-import '../../../modules/ChatsScreen/Chats.dart';
-import '../../../modules/FavoritesScreen/Favorites.dart';
-import '../../../modules/HomeScreen/Home.dart';
-import '../../../modules/MapsScreen/Maps.dart';
-import '../Food_States/foodStates.dart';
+import '../../../modules/AddPostScreen/add_post_screen.dart';
+import '../../../modules/ChatsScreen/chats_screen.dart';
+import '../../../modules/FavoritesScreen/favorites_screen.dart';
+import '../../../modules/HomeScreen/home_screen.dart';
+import '../../../modules/MapsScreen/maps_screen.dart';
+import '../Food_States/food_states.dart';
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
-
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:foodwastage/models/post_model.dart';
 import 'package:image_picker/image_picker.dart';
@@ -26,13 +22,21 @@ class FoodCubit extends Cubit<FoodStates> {
   static FoodCubit get(context) => BlocProvider.of(context);
 
   UserModel? userModel;
+  UserModel? selectedUserModel;
 
-  void getUserdata()async {
-    await FirebaseFirestore.instance.collection('users').doc(uId).get().then((value)  {
-      print(value.data());
-       userModel = UserModel.fromJson(value.data()!);
-      print(userModel.toString());
-      emit(FoodSuccessState('uId'));
+  void getUserdata({String? selectedUserId}) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(selectedUserId ?? uId)
+        .get()
+        .then((value) {
+      if (selectedUserId != null && selectedUserId != uId) {
+        selectedUserModel = UserModel.fromJson(value.data()!);
+        emit(FoodGetSelectedUserSuccessState());
+      } else {
+        userModel = UserModel.fromJson(value.data()!);
+        emit(FoodSuccessState('uId'));
+      }
     }).catchError((error) {
       print(error.toString());
       emit(FoodErrorState());
@@ -42,11 +46,11 @@ class FoodCubit extends Cubit<FoodStates> {
   int currentIndex = 0;
 
   List<Widget> screens = [
-    HomeScreen(),
+    const HomeScreen(),
     const MapScreen(),
     AddPosts(),
     const FavoritesScreen(),
-    ChatsScreen()
+    const ChatsScreen()
   ];
   List<String> titles = ['Home', 'Maps', 'Donate', 'favorites', 'Chats'];
 
@@ -76,8 +80,6 @@ class FoodCubit extends Cubit<FoodStates> {
   List<String> status2 = ["User", "Restaurant", "Charity"];
 
   bool isChecked = false;
-
-  //var SaveduId = CacheHelper.getData(key: 'uId');
 
   check() {
     isChecked = !isChecked;
@@ -171,21 +173,21 @@ class FoodCubit extends Cubit<FoodStates> {
     emit(CreatePostLoadingState());
 
     PostModel postModel = PostModel(
-        description: description,
-        foodDonor: foodDonor,
-        foodType: foodType,
-        imageUrl1: imageUrl1,
-        imageUrl2: imageUrl2,
-        itemCount: itemCount,
-        itemName: itemName,
-        location: location,
-        postDate: postDate,
-        quantity: itemCount.toString(),
-        donorId: uId,
-      userName:userModel!.name,
+      description: description,
+      foodDonor: foodDonor,
+      foodType: foodType,
+      imageUrl1: imageUrl1,
+      imageUrl2: imageUrl2,
+      itemCount: itemCount,
+      itemName: itemName,
+      location: location,
+      postDate: postDate,
+      quantity: itemCount.toString(),
+      donorId: uId,
+      userName: userModel!.name,
       userImage: userModel!.image,
     );
-     posts.add(postModel.toMap()).then((idValue) async {
+    posts.add(postModel.toMap()).then((idValue) async {
       if (imageFile1 != null) {
         await uploadImage(imageFile1!, idValue.id, "imageUrl1").then((value) {
           if (imageFile2 != null) {
@@ -236,7 +238,7 @@ class FoodCubit extends Cubit<FoodStates> {
         .putFile(image)
         .then((url) {
       url.ref.getDownloadURL().then((value) {
-        updateImage(postId, {"$imageNum": value.toString()});
+        updateImage(postId, {imageNum: value.toString()});
       });
     });
   }
@@ -247,7 +249,7 @@ class FoodCubit extends Cubit<FoodStates> {
 
   /////////////////////////////////////updatePost
 
-  //لازم تمرر الid بتاع البوست علسان تupdate بيه
+  //لازم تمرر id بتاع البوست علسان تعمل update بيه
   Future<void> updatePost({
     required String postId, //<<<<<
     required int itemCount,
@@ -264,17 +266,17 @@ class FoodCubit extends Cubit<FoodStates> {
     emit(UpdatePostLoadingState());
 
     PostModel postModel = PostModel(
-        description: description,
-        foodDonor: foodDonor,
-        foodType: foodType,
-        imageUrl1: imageUrl1,
-        imageUrl2: imageUrl2,
-        itemCount: itemCount,
-        itemName: itemName,
-        location: location,
-        postDate: postDate,
-        quantity: quantity,
-        donorId: uId,
+      description: description,
+      foodDonor: foodDonor,
+      foodType: foodType,
+      imageUrl1: imageUrl1,
+      imageUrl2: imageUrl2,
+      itemCount: itemCount,
+      itemName: itemName,
+      location: location,
+      postDate: postDate,
+      quantity: quantity,
+      donorId: uId,
     );
     posts.doc(postId).update(postModel.toMap()).then((idValue) async {
       if (imageFile1 != null) {
@@ -319,30 +321,62 @@ class FoodCubit extends Cubit<FoodStates> {
     return;
   }
 
-//////////////////////////////////////////////////get posts at home
+//////////////////////////////////////////////////get posts at home and profile
   List<PostModel> postsList = [];
+  List<PostModel> currentUserPostsList = [];
+  List<PostModel> selectedUserPostsList = [];
   List<String> postId = [];
+  List<String> myPostsId = [];
   List<UserModel> userData = [];
 
   void getPosts() {
     posts.snapshots().listen((event) {
-      print("event is : $event");
       postsList = [];
-      event.docs.forEach((element) {
-        // FirebaseFirestore.instance
-        //     .collection('users')
-        //     .where(model!.uId.toString(),isEqualTo: '${PostModel().donorId}')
-        //     .get()
-        //     .then((value) {
-        //   value.docs.forEach((element) {
-        //
-        //     userData.add(UserModel.fromJson(element.data()));
-        //   });
-        // });
+      currentUserPostsList = [];
+      for (var element in event.docs) {
+        //this condition is for getting current user's posts.
+        if (element.get('donorId') == uId) {
+          currentUserPostsList.add(PostModel.fromJson(element.data()));
+          myPostsId.add(element.id);
+        }
         postId.add(element.id);
         postsList.add(PostModel.fromJson(element.data()));
-        emit(FoodGetPostsSuccessState());
-      });
+      }
+      emit(FoodGetPostsSuccessState());
     });
+  }
+
+  void getSelectedUserPosts({required String selectedUserId}) async {
+    selectedUserPostsList = [];
+    await FirebaseFirestore.instance.collection('posts').get().then((value) {
+      for (var element in value.docs) {
+        if (element.get('donorId') == selectedUserId) {
+          selectedUserPostsList.add(PostModel.fromJson(element.data()));
+        }
+      }
+      emit(FoodGetPostsSuccessState());
+    });
+  }
+
+  void deletePost(String postId) async {
+    await FirebaseFirestore.instance.collection('posts').doc(postId).delete();
+    emit(FoodDeletePostSuccessState());
+  }
+
+  void updateUserRating({required double rating}) async {
+    UserModel updatedUserModel = UserModel(
+      country: selectedUserModel!.country,
+      name: selectedUserModel!.name,
+      email: selectedUserModel!.email,
+      phone: selectedUserModel!.phone,
+      uId: selectedUserModel!.uId,
+      image: selectedUserModel!.image,
+      rating: rating,
+    );
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(selectedUserModel!.uId)
+        .update(updatedUserModel.toMap());
+    emit(FoodRatingUpdateSuccessState());
   }
 }
