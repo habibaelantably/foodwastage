@@ -3,7 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:foodwastage/shared/cubit/Login/foodLoginStates.dart';
+import 'package:foodwastage/shared/cubit/Login/food_login_states.dart';
 
 class FoodLoginCubit extends Cubit<FoodLoginStates>
 {

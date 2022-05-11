@@ -1,25 +1,25 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
-import 'package:foodwastage/shared/cubit/Food_States/foodStates.dart';
+import 'package:foodwastage/models/post_model.dart';
+import 'package:foodwastage/shared/cubit/Food_States/food_states.dart';
 import 'package:group_radio_button/group_radio_button.dart';
-
 import '../../components/reusable_components.dart';
-
+import '../../shared/cubit/Food_Cubit/food_cubit.dart';
 import '../../styles/colors.dart';
 
-// import 'dart:io';
+//بتستدعي الصفحه من الليست اللي فيها البوست علشان تقدر تمرر فيها Post Id
 
-class AddPosts extends StatelessWidget {
+// ignore: must_be_immutable
+class UpdatePost extends StatelessWidget {
   final TextEditingController locationController = TextEditingController();
   final TextEditingController foodNameController = TextEditingController();
   final TextEditingController quantityController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
-
   final formKey = GlobalKey<FormState>();
+  String postId;
+  PostModel postModel;
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +28,21 @@ class AddPosts extends StatelessWidget {
     return BlocConsumer<FoodCubit, FoodStates>(
       listener: (context, state) {},
       builder: (context, state) {
+        //هنا بنخزن القيم اللي جايه علشان نظهرها ونعدل عليها
+        locationController.text = postModel.location!;
+        foodNameController.text = postModel.itemName!;
+        quantityController.text = postModel.itemCount!.toString();
+        descriptionController.text = postModel.description!;
+        FoodCubit.get(context).itemCount = postModel.itemCount!;
+        FoodCubit.get(context).itemCount = postModel.itemCount!;
+        FoodCubit.get(context).foodDonor = postModel.foodDonor!;
+        FoodCubit.get(context).foodType = postModel.foodType!;
+
         return Scaffold(
           body: Padding(
             padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
             child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -51,8 +61,7 @@ class AddPosts extends StatelessWidget {
                           children: [
                             IconButton(
                                 onPressed: () {
-                                  FoodCubit.get(context)
-                                      .minusItemCount(quantityController);
+                                  FoodCubit.get(context).minusItemCount(quantityController);
                                 },
                                 icon: const Icon(
                                   Icons.remove,
@@ -66,8 +75,7 @@ class AddPosts extends StatelessWidget {
                                 fontWeight: FontWeight.normal),
                             IconButton(
                                 onPressed: () {
-                                  FoodCubit.get(context)
-                                      .incrementItemCount(quantityController);
+                                  FoodCubit.get(context).incrementItemCount(quantityController);
                                 },
                                 icon: const Icon(
                                   Icons.add,
@@ -86,11 +94,9 @@ class AddPosts extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        /////////////////////////////////////Location/////////////////////////////////////
-
                         rowTextAndFormInput(
                             validator: (value) {
-                              if (value.toString().length == 0) {
+                              if (value.toString().isEmpty) {
                                 return "enter the location";
                               } else {
                                 return null;
@@ -106,12 +112,10 @@ class AddPosts extends StatelessWidget {
                         SizedBox(
                           height: size.height / 60,
                         ),
-                        /////////////////////////////////////FOODNAME/////////////////////////////////////
-
                         rowTextAndFormInput(
                             textEditingController: foodNameController,
                             validator: (value) {
-                              if (value.toString().length == 0) {
+                              if (value.toString().isEmpty) {
                                 return "enter the food name";
                               } else {
                                 return null;
@@ -126,7 +130,7 @@ class AddPosts extends StatelessWidget {
                         SizedBox(
                           height: size.height / 60,
                         ),
-                        /////////////////////////////////////Date/////////////////////////////////////
+                        //Date
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -176,7 +180,7 @@ class AddPosts extends StatelessWidget {
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 10, horizontal: 6),
                                 child: Text(
-                                  "${FoodCubit.get(context).date}",
+                                  FoodCubit.get(context).date,
                                   style: const TextStyle(
                                       color: KBlack, fontSize: 20),
                                 ),
@@ -187,7 +191,7 @@ class AddPosts extends StatelessWidget {
                         SizedBox(
                           height: size.height / 120,
                         ),
-                        /////////////////////////////////////Quantity/////////////////////////////////////
+                        //Quantity
                         rowTextAndFormInput(
                             validator: (value) {
                               if (value == 0 ||
@@ -197,11 +201,8 @@ class AddPosts extends StatelessWidget {
                                 return null;
                               }
                             },
-                             textEditingController: quantityController,
+                            textEditingController: quantityController,
                             textInputType: TextInputType.number,
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.digitsOnly
-                            ],
                             rowText: "Quantity",
                             fontSize: 19,
                             color: KBlack,
@@ -211,12 +212,11 @@ class AddPosts extends StatelessWidget {
                         SizedBox(
                           height: size.height / 65,
                         ),
-                        /////////////////////////////////////Description/////////////////////////////////////
-
+                        /////////////////////////////////////Description
                         rowTextAndFormInput(
                             textEditingController: descriptionController,
                             validator: (value) {
-                              if (value.toString().length == 0) {
+                              if (value.toString().isEmpty) {
                                 return "enter the description";
                               } else if (value.toString().length <= 50) {
                                 return "enter the more about item";
@@ -233,7 +233,7 @@ class AddPosts extends StatelessWidget {
                         SizedBox(
                           height: size.height / 60,
                         ),
-                        /////////////////////////////////////Images/////////////////////////////////////
+                        //Photo
                         const Text(
                           "Photos",
                           style: TextStyle(fontSize: 19),
@@ -241,10 +241,12 @@ class AddPosts extends StatelessWidget {
                         SizedBox(
                           height: size.height / 90,
                         ),
+
+                        //هنا لو ضفت صور هيتعملها update لو مضفتش هتفضل زي مهي عادي
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               width: 5,
                             ),
                             if (FoodCubit.get(context).imageFile1 == null)
@@ -283,7 +285,7 @@ class AddPosts extends StatelessWidget {
                                         ),
                                       ),
                                     )
-                                  : SizedBox()
+                                  : const SizedBox()
                             else if (FoodCubit.get(context).imageFile1 !=
                                 null)
                               Stack(
@@ -334,7 +336,7 @@ class AddPosts extends StatelessWidget {
                                   )
                                 ],
                               ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
                             if (FoodCubit.get(context).imageFile2 == null)
@@ -425,7 +427,6 @@ class AddPosts extends StatelessWidget {
                         SizedBox(
                           height: size.height / 60,
                         ),
-                        /////////////////////////////////////FoodDonor And FoodType/////////////////////////////////////
                         RadioGroup<String>.builder(
                           activeColor: KBlack,
                           direction: Axis.horizontal,
@@ -459,8 +460,7 @@ class AddPosts extends StatelessWidget {
                           ),
                         ),
 
-                        /////////////////////////////////////Assure Quality/////////////////////////////////////
-
+                        //row text
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -488,7 +488,7 @@ class AddPosts extends StatelessWidget {
                           children: [
                             Container(
                               width: size.width / 2,
-                              decoration: BoxDecoration(),
+                              decoration: const BoxDecoration(),
                               child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                     shape: RoundedRectangleBorder(
@@ -502,8 +502,8 @@ class AddPosts extends StatelessWidget {
                                       showDialog(
                                           context: context,
                                           builder: (_) => AlertDialog(
-                                                title: Text('Confirm Rules'),
-                                                content: Text(
+                                                title: const Text('Confirm Rules'),
+                                                content: const Text(
                                                     'Please Assure the food quality'),
                                                 actions: [
                                                   TextButton(
@@ -524,37 +524,35 @@ class AddPosts extends StatelessWidget {
                                     if (formKey.currentState!.validate() &&
                                         FoodCubit.get(context).isChecked ==
                                             true) {
-                                      FoodCubit.get(context).addPost(
+                                      FoodCubit.get(context).updatePost(
                                           itemCount: FoodCubit.get(context)
                                               .itemCount,
                                           location: locationController.text,
                                           itemName: foodNameController.text,
                                           postDate:
                                               FoodCubit.get(context).date,
-                                          quantity: FoodCubit.get(context)
-                                              .itemCount
-                                              .toString(),
+                                          quantity: quantityController.text,
                                           description:
                                               descriptionController.text,
-                                          imageUrl1: "imageUrl1",
-                                          imageUrl2: "imageUrl2",
+                                          imageUrl1: postModel.imageUrl1!,
+                                          imageUrl2: postModel.imageUrl2!,
                                           foodType:
                                               FoodCubit.get(context).foodType,
                                           foodDonor: FoodCubit.get(context)
                                               .foodDonor,
-                                      );
+                                          postId: postId);
                                     }
                                   },
-                                  child: state is CreatePostLoadingState
+                                  child: state is UpdatePostLoadingState
                                       ? SizedBox(
                                           height: size.width * .05,
                                           width: size.width * .05,
-                                          child: CircularProgressIndicator(
+                                          child: const CircularProgressIndicator(
                                             color: Colors.white,
                                           ),
                                         )
                                       : defaultText(
-                                          text: "SUBMIT",
+                                          text: "Update",
                                           fontSize: 26,
                                           color: Colors.white,
                                           fontWeight: FontWeight.w400)),
@@ -572,4 +570,6 @@ class AddPosts extends StatelessWidget {
       },
     );
   }
+
+  UpdatePost({Key? key, required this.postId, required this.postModel}) : super(key: key);
 }

@@ -5,9 +5,9 @@ import 'package:foodwastage/block_observer.dart';
 import 'package:foodwastage/components/constants.dart';
 import 'package:foodwastage/layout/food_Layout.dart';
 import 'package:foodwastage/modules/login_Screen.dart';
-import 'package:foodwastage/network/local/Cach_helper.dart';
+import 'package:foodwastage/network/local/cache_helper.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
-import 'package:foodwastage/styles/thems.dart';
+import 'package:foodwastage/styles/themes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +19,7 @@ void main() async {
   uId = CacheHelper.getData(key: 'uId');
 
   if (uId != null) {
-    widget = foodLayout();
+    widget = const foodLayout();
   } else {
     widget = LoginScreen();
   }
@@ -36,7 +36,8 @@ void main() async {
 class MyApp extends StatelessWidget {
   final Widget? startWidget;
 
-  MyApp(this.startWidget);
+  // ignore: use_key_in_widget_constructors
+  const MyApp(this.startWidget);
 
   // This widget is the root of your application.
   @override

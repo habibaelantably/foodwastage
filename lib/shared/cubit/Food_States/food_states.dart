@@ -3,6 +3,10 @@ abstract class FoodStates {}
 
 class InitialFoodStates extends FoodStates{}
 
+class FoodLoadingState extends FoodStates{}
+
+class FoodGetSelectedUserSuccessState extends FoodStates{}
+
 class FoodSuccessState extends FoodStates{
 
   final String uId;
@@ -10,6 +14,7 @@ class FoodSuccessState extends FoodStates{
 }
 
 class FoodErrorState extends FoodStates{}
+
 
 class ChangeBottomNavState extends FoodStates{}
 
@@ -58,3 +63,16 @@ class PostImagePickedErrorState extends FoodStates {}
 class FoodGetPostsSuccessState extends FoodStates {}
 
 class FoodGetPostsErrorState extends FoodStates {}
+
+class FoodGetMyPostsLoadingState extends FoodStates {}
+
+class FoodGetMyPostsSuccessState extends FoodStates {}
+
+
+class FoodGetMyPostsErrorState extends FoodStates {
+  final String error;
+  FoodGetMyPostsErrorState(this.error);}
+
+class FoodDeletePostSuccessState extends FoodStates {}
+
+class FoodRatingUpdateSuccessState extends FoodStates {}

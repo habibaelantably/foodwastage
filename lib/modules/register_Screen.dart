@@ -6,11 +6,12 @@ import 'package:foodwastage/components/constants.dart';
 import 'package:foodwastage/components/reusable_components.dart';
 import 'package:foodwastage/layout/food_Layout.dart';
 import 'package:foodwastage/modules/login_Screen.dart';
-import 'package:foodwastage/network/local/Cach_helper.dart';
+import 'package:foodwastage/network/local/cache_helper.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
-import 'package:foodwastage/shared/cubit/Register/foodRegisterCubit.dart';
-import 'package:foodwastage/shared/cubit/Register/foodRegisterState.dart';
+import 'package:foodwastage/shared/cubit/Register/food_register_cubit.dart';
+import 'package:foodwastage/shared/cubit/Register/food_register_state.dart';
 
+// ignore: must_be_immutable
 class RegisterScreen extends StatelessWidget {
   var nameController = TextEditingController();
   var emailController = TextEditingController();
@@ -20,6 +21,8 @@ class RegisterScreen extends StatelessWidget {
   var countryController = TextEditingController();
 
   var formkey = GlobalKey<FormState>();
+
+  RegisterScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +52,7 @@ class RegisterScreen extends StatelessWidget {
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 30.0,
                         ),
                         deafultFormField(
@@ -63,7 +66,7 @@ class RegisterScreen extends StatelessWidget {
                             },
                             prefix: Icons.person,
                             label: 'name'),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                         deafultFormField(
@@ -226,11 +229,11 @@ class RegisterScreen extends StatelessWidget {
         listener: (BuildContext context, Object? state) {
           if (state is FoodSuccessCreateState) {
             CacheHelper.saveData(key: 'uId', value: state.uId).then((value) {
-              //احنا عملنا save ل الuid في ال cache بس ممليناش بيه بقا ال variable بتاعنا
+              //احنا عملنا save ل uid في ال cache بس ممليناش بيه بقا ال variable بتاعنا
               if (value) {
                 uId = CacheHelper.getData(key: 'uId');
                 FoodCubit.get(context).getUserdata();
-                NavigateAndKill(context, foodLayout());
+                NavigateAndKill(context, const foodLayout());
               }
             });
           }
