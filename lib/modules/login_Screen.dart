@@ -5,7 +5,7 @@ import 'package:foodwastage/components/constants.dart';
 import 'package:foodwastage/components/reusable_components.dart';
 import 'package:foodwastage/layout/food_Layout.dart';
 import 'package:foodwastage/modules/Register_Screen.dart';
-import 'package:foodwastage/network/local/Cach_helper.dart';
+import 'package:foodwastage/network/local/CacheHelper.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Login/foodLoginCubit.dart';
 import 'package:foodwastage/shared/cubit/Login/foodLoginStates.dart';

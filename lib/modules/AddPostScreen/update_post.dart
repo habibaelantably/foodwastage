@@ -63,7 +63,8 @@ class UpdatePost extends StatelessWidget {
                             children: [
                               IconButton(
                                   onPressed: () {
-                                    FoodCubit.get(context).minusItemCount(quantityController);
+                                    FoodCubit.get(context)
+                                        .minusItemCount(quantityController);
                                   },
                                   icon: const Icon(
                                     Icons.remove,
@@ -77,7 +78,8 @@ class UpdatePost extends StatelessWidget {
                                   fontWeight: FontWeight.normal),
                               IconButton(
                                   onPressed: () {
-                                    FoodCubit.get(context).incrementItemCount(quantityController);
+                                    FoodCubit.get(context)
+                                        .incrementItemCount(quantityController);
                                   },
                                   icon: const Icon(
                                     Icons.add,
@@ -480,7 +482,7 @@ class UpdatePost extends StatelessWidget {
                               defaultText(
                                   text:
                                       "I assure that food quality and hygiene has maintained",
-                                  fontSize: size.width*0.03,
+                                  fontSize: size.width * 0.03,
                                   color: KBlack,
                                   fontWeight: FontWeight.normal)
                             ],

@@ -1,19 +1,17 @@
-
 abstract class FoodStates {}
 
-class InitialFoodStates extends FoodStates{}
+class InitialFoodStates extends FoodStates {}
 
-class FoodSuccessState extends FoodStates{
-
+class FoodSuccessState extends FoodStates {
   final String uId;
   FoodSuccessState(this.uId);
 }
 
-class FoodErrorState extends FoodStates{}
+class FoodErrorState extends FoodStates {}
 
-class ChangeBottomNavState extends FoodStates{}
+class ChangeBottomNavState extends FoodStates {}
 
-class DonateFoodState extends FoodStates{}
+class DonateFoodState extends FoodStates {}
 
 class IsCheckedState extends FoodStates {}
 
@@ -58,3 +56,5 @@ class PostImagePickedErrorState extends FoodStates {}
 class FoodGetPostsSuccessState extends FoodStates {}
 
 class FoodGetPostsErrorState extends FoodStates {}
+
+class FoodFavoriteState extends FoodStates {}

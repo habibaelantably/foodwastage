@@ -1,11 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:foodwastage/models/User_model.dart';
+import '/models/User_model.dart';
 
 import '../../../modules/AddPostScreen/AddPost.dart';
 import '../../../modules/ChatsScreen/Chats.dart';
 import '../../../modules/FavoritesScreen/Favorites.dart';
-import '../../../modules/HomeScreen/Home.dart';
+import '../../../modules/HomeScreen/home.dart';
 import '../../../modules/MapsScreen/Maps.dart';
 import '../Food_States/foodStates.dart';
 import 'dart:io';
@@ -15,7 +14,7 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:foodwastage/models/post_model.dart';
+import '/models/post_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import '../../../components/constants.dart';
@@ -27,14 +26,15 @@ class FoodCubit extends Cubit<FoodStates> {
 
   UserModel? userModel;
 
-  void getUserdata()async {
-    await FirebaseFirestore.instance.collection('users').doc(uId).get().then((value)  {
-      print(value.data());
-       userModel = UserModel.fromJson(value.data()!);
-      print(userModel.toString());
+  void getUserdata() async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uId)
+        .get()
+        .then((value) {
+      userModel = UserModel.fromJson(value.data()!);
       emit(FoodSuccessState('uId'));
     }).catchError((error) {
-      print(error.toString());
       emit(FoodErrorState());
     });
   }
@@ -42,7 +42,7 @@ class FoodCubit extends Cubit<FoodStates> {
   int currentIndex = 0;
 
   List<Widget> screens = [
-    HomeScreen(),
+    const HomeScreen(),
     const MapScreen(),
     AddPosts(),
     const FavoritesScreen(),
@@ -167,25 +167,27 @@ class FoodCubit extends Cubit<FoodStates> {
     required String imageUrl2,
     required String foodType,
     required String foodDonor,
+    bool? isFavorite,
   }) async {
     emit(CreatePostLoadingState());
 
     PostModel postModel = PostModel(
-        description: description,
-        foodDonor: foodDonor,
-        foodType: foodType,
-        imageUrl1: imageUrl1,
-        imageUrl2: imageUrl2,
-        itemCount: itemCount,
-        itemName: itemName,
-        location: location,
-        postDate: postDate,
-        quantity: itemCount.toString(),
-        donorId: uId,
-      userName:userModel!.name,
+      description: description,
+      foodDonor: foodDonor,
+      foodType: foodType,
+      imageUrl1: imageUrl1,
+      imageUrl2: imageUrl2,
+      itemCount: itemCount,
+      itemName: itemName,
+      location: location,
+      postDate: postDate,
+      quantity: itemCount.toString(),
+      donorId: uId,
+      userName: userModel!.name,
       userImage: userModel!.image,
+      isFavorite: isFavorite ??= false,
     );
-     posts.add(postModel.toMap()).then((idValue) async {
+    posts.add(postModel.toMap()).then((idValue) async {
       if (imageFile1 != null) {
         await uploadImage(imageFile1!, idValue.id, "imageUrl1").then((value) {
           if (imageFile2 != null) {
@@ -260,21 +262,23 @@ class FoodCubit extends Cubit<FoodStates> {
     required String imageUrl2,
     required String foodType,
     required String foodDonor,
+    bool? isFavorite,
   }) async {
     emit(UpdatePostLoadingState());
 
     PostModel postModel = PostModel(
-        description: description,
-        foodDonor: foodDonor,
-        foodType: foodType,
-        imageUrl1: imageUrl1,
-        imageUrl2: imageUrl2,
-        itemCount: itemCount,
-        itemName: itemName,
-        location: location,
-        postDate: postDate,
-        quantity: quantity,
-        donorId: uId,
+      description: description,
+      foodDonor: foodDonor,
+      foodType: foodType,
+      imageUrl1: imageUrl1,
+      imageUrl2: imageUrl2,
+      itemCount: itemCount,
+      itemName: itemName,
+      location: location,
+      postDate: postDate,
+      quantity: quantity,
+      donorId: uId,
+      isFavorite: isFavorite ??= false,
     );
     posts.doc(postId).update(postModel.toMap()).then((idValue) async {
       if (imageFile1 != null) {
@@ -323,26 +327,35 @@ class FoodCubit extends Cubit<FoodStates> {
   List<PostModel> postsList = [];
   List<String> postId = [];
   List<UserModel> userData = [];
+  List<PostModel> favPosts = [];
+  bool? isItFav(String postID) {
+    final selectedOne =
+        postsList.firstWhere((element) => element.postId == postID);
+    return selectedOne.isFavorite;
+  }
+
+  void getFavPosts(String postID) {
+    final selectedOne =
+        postsList.firstWhere((element) => element.postId == postID);
+    selectedOne.isFavorite ??= false;
+    selectedOne.isFavorite = !selectedOne.isFavorite!;
+    if (selectedOne.isFavorite == true) {
+      favPosts.add(selectedOne);
+    } else {
+      favPosts.remove(selectedOne);
+    }
+    emit(FoodFavoriteState());
+    emit(UpdatePostSuccessState());
+  }
 
   void getPosts() {
     posts.snapshots().listen((event) {
-      print("event is : $event");
       postsList = [];
-      event.docs.forEach((element) {
-        // FirebaseFirestore.instance
-        //     .collection('users')
-        //     .where(model!.uId.toString(),isEqualTo: '${PostModel().donorId}')
-        //     .get()
-        //     .then((value) {
-        //   value.docs.forEach((element) {
-        //
-        //     userData.add(UserModel.fromJson(element.data()));
-        //   });
-        // });
+      for (var element in event.docs) {
         postId.add(element.id);
-        postsList.add(PostModel.fromJson(element.data()));
+        postsList.add(PostModel.fromJson(element.data(), element.id));
         emit(FoodGetPostsSuccessState());
-      });
+      }
     });
   }
 }

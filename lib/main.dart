@@ -5,7 +5,7 @@ import 'package:foodwastage/block_observer.dart';
 import 'package:foodwastage/components/constants.dart';
 import 'package:foodwastage/layout/food_Layout.dart';
 import 'package:foodwastage/modules/login_Screen.dart';
-import 'package:foodwastage/network/local/Cach_helper.dart';
+import 'package:foodwastage/network/local/CacheHelper.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/styles/thems.dart';
 
@@ -42,12 +42,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => FoodCubit()..getUserdata()..getPosts(),
+      create: (BuildContext context) => FoodCubit()
+        ..getUserdata()
+        ..getPosts(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: lightTheme,
         themeMode: ThemeMode.light,
-        home:startWidget,
+        home: startWidget,
       ),
     );
   }

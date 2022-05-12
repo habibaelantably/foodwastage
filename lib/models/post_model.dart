@@ -1,4 +1,5 @@
 class PostModel {
+  String? postId;
   int? itemCount;
   String? location;
   String? itemName;
@@ -12,8 +13,10 @@ class PostModel {
   String? donorId;
   String? userName;
   String? userImage;
+  bool? isFavorite;
 
   PostModel({
+    this.postId,
     this.itemCount,
     this.location,
     this.itemName,
@@ -26,11 +29,13 @@ class PostModel {
     this.foodDonor,
     this.donorId,
     this.userName,
-    this.userImage
+    this.userImage,
+    this.isFavorite = false,
   });
 
   Map<String, dynamic> toMap() {
     return {
+      'postId': postId,
       'itemCount': itemCount,
       'location': location,
       'itemName': itemName,
@@ -42,14 +47,15 @@ class PostModel {
       'foodType': foodType,
       'foodDonor': foodDonor,
       'donorId': donorId,
-      'userName':userName,
-      'userImage':userImage,
-
+      'userName': userName,
+      'userImage': userImage,
+      'isFavorite': isFavorite,
     };
   }
 
-  factory PostModel.fromJson(json) {
+  factory PostModel.fromJson(json, id) {
     return PostModel(
+      postId: id,
       itemCount: json['itemCount'],
       location: json['location'],
       itemName: json['itemName'],
@@ -61,8 +67,9 @@ class PostModel {
       foodType: json['foodType'],
       foodDonor: json['foodDonor'],
       donorId: json['donorId'],
-      userName:json['userName'],
-      userImage:json['userImage']
+      userName: json['userName'],
+      userImage: json['userImage'],
+      isFavorite: json['isFavorite'] ??= false,
     );
   }
 }
