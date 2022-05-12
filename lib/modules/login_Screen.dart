@@ -6,7 +6,6 @@ import 'package:foodwastage/components/reusable_components.dart';
 import 'package:foodwastage/layout/food_Layout.dart';
 import 'package:foodwastage/modules/register_Screen.dart';
 import 'package:foodwastage/network/local/cache_helper.dart';
-import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Login/food_login_cubit.dart';
 import 'package:foodwastage/shared/cubit/Login/food_login_states.dart';
 
@@ -189,7 +188,6 @@ class LoginScreen extends StatelessWidget {
             CacheHelper.saveData(key: 'uId', value: state.uId).then((value) {
               if (value) {
                 uId = CacheHelper.getData(key: 'uId');
-                FoodCubit.get(context).getUserdata();
                 NavigateAndKill(context, const foodLayout());
               }
             });

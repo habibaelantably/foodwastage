@@ -232,7 +232,7 @@ class RegisterScreen extends StatelessWidget {
               //احنا عملنا save ل uid في ال cache بس ممليناش بيه بقا ال variable بتاعنا
               if (value) {
                 uId = CacheHelper.getData(key: 'uId');
-                FoodCubit.get(context).getUserdata();
+                FoodCubit.get(context).getUserdata(context: context);
                 NavigateAndKill(context, const foodLayout());
               }
             });
