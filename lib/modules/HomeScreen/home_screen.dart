@@ -87,18 +87,18 @@ Widget postBuilder(context, PostModel postModel, state) => Column(
                           onTap: () {
                             //to get selected user data to display it in his profile
                             FoodCubit.get(context)
-                                .getUserdata(selectedUserId: postModel.donorId);
+                                .getUserdata(selectedUserId: postModel.donorId,context: context);
                             //to get selected user posts if select different user from current user
                             if (postModel.donorId != uId) {
                               FoodCubit.get(context).getSelectedUserPosts(
                                   selectedUserId: postModel.donorId!);
                             }
                             //to be sure that the method has finished to avoid null check operator
-                            if (state is FoodGetSelectedUserSuccessState) {
+                            if (postModel.donorId == uId) {
                               NavigateTo(
                                   context,
                                   ProfileScreen(
-                                    selectedUserId: postModel.donorId!,
+                                    selectedUserId: uId!,
                                   ));
                             }
                           },
@@ -113,19 +113,18 @@ Widget postBuilder(context, PostModel postModel, state) => Column(
                                 onTap: () {
                                   //to get selected user data to display it in his profile
                                   FoodCubit.get(context).getUserdata(
-                                      selectedUserId: postModel.donorId);
+                                      selectedUserId: postModel.donorId,context: context);
                                   //to get selected user posts if select different user from current user
                                   if (postModel.donorId != uId) {
                                     FoodCubit.get(context).getSelectedUserPosts(
                                         selectedUserId: postModel.donorId!);
                                   }
                                   //to be sure that the method has finished to avoid null check operator
-                                  if (state
-                                      is FoodGetSelectedUserSuccessState) {
+                                  if (postModel.donorId == uId) {
                                     NavigateTo(
                                         context,
                                         ProfileScreen(
-                                          selectedUserId: postModel.donorId!,
+                                          selectedUserId: uId!,
                                         ));
                                   }
                                 },

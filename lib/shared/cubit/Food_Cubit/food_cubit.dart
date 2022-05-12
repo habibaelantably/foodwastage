@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foodwastage/components/reusable_components.dart';
 import 'package:foodwastage/models/User_model.dart';
+import 'package:foodwastage/modules/ProfileScreen/profile_screen.dart';
 import '../../../modules/AddPostScreen/add_post_screen.dart';
 import '../../../modules/ChatsScreen/chats_screen.dart';
 import '../../../modules/FavoritesScreen/favorites_screen.dart';
@@ -24,16 +26,19 @@ class FoodCubit extends Cubit<FoodStates> {
   UserModel? userModel;
   UserModel? selectedUserModel;
 
-  void getUserdata({String? selectedUserId}) async {
-    await FirebaseFirestore.instance
+  void getUserdata({String? selectedUserId, required BuildContext context}) async {
+    //this condition to not do the method again if i clicked on current user because we already got his data at starting of application
+    if (selectedUserId == null|| selectedUserId!=uId) {
+      await FirebaseFirestore.instance
         .collection('users')
         .doc(selectedUserId ?? uId)
         .get()
         .then((value) {
-      if (selectedUserId != null && selectedUserId != uId) {
+      if (selectedUserId != uId && selectedUserId!=null) {
         selectedUserModel = UserModel.fromJson(value.data()!);
+        NavigateTo(context, ProfileScreen(selectedUserId: selectedUserId));
         emit(FoodGetSelectedUserSuccessState());
-      } else {
+      } else if(selectedUserId == null){
         userModel = UserModel.fromJson(value.data()!);
         emit(FoodSuccessState('uId'));
       }
@@ -41,6 +46,8 @@ class FoodCubit extends Cubit<FoodStates> {
       print(error.toString());
       emit(FoodErrorState());
     });
+    }
+
   }
 
   int currentIndex = 0;
@@ -364,19 +371,10 @@ class FoodCubit extends Cubit<FoodStates> {
   }
 
   void updateUserRating({required double rating}) async {
-    UserModel updatedUserModel = UserModel(
-      country: selectedUserModel!.country,
-      name: selectedUserModel!.name,
-      email: selectedUserModel!.email,
-      phone: selectedUserModel!.phone,
-      uId: selectedUserModel!.uId,
-      image: selectedUserModel!.image,
-      rating: rating,
-    );
     await FirebaseFirestore.instance
         .collection('users')
         .doc(selectedUserModel!.uId)
-        .update(updatedUserModel.toMap());
+        .update({'rating': rating});
     emit(FoodRatingUpdateSuccessState());
   }
 }
