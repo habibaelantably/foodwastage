@@ -12,22 +12,26 @@ class PostModel {
   String? donorId;
   String? userName;
   String? userImage;
+  String? postId;
+  String? receiverId;
 
-  PostModel({
-    this.itemCount,
-    this.location,
-    this.itemName,
-    this.postDate,
-    this.quantity,
-    this.description,
-    this.imageUrl1,
-    this.imageUrl2,
-    this.foodType,
-    this.foodDonor,
-    this.donorId,
-    this.userName,
-    this.userImage
-  });
+  PostModel(
+      {this.itemCount,
+      this.location,
+      this.itemName,
+      this.postDate,
+      this.quantity,
+      this.description,
+      this.imageUrl1,
+      this.imageUrl2,
+      this.foodType,
+      this.foodDonor,
+      this.donorId,
+      this.userName,
+      this.userImage,
+      this.postId,
+      this.receiverId,
+      });
 
   Map<String, dynamic> toMap() {
     return {
@@ -42,27 +46,30 @@ class PostModel {
       'foodType': foodType,
       'foodDonor': foodDonor,
       'donorId': donorId,
-      'userName':userName,
-      'userImage':userImage,
-
+      'userName': userName,
+      'userImage': userImage,
+      'postId': postId,
+      'receiverId': receiverId,
     };
   }
 
   factory PostModel.fromJson(json) {
     return PostModel(
-      itemCount: json['itemCount'],
-      location: json['location'],
-      itemName: json['itemName'],
-      postDate: json['postDate'],
-      quantity: json['quantity'],
-      description: json['description'],
-      imageUrl1: json['imageUrl1'],
-      imageUrl2: json['imageUrl2'],
-      foodType: json['foodType'],
-      foodDonor: json['foodDonor'],
-      donorId: json['donorId'],
-      userName:json['userName'],
-      userImage:json['userImage']
-    );
+        itemCount: json['itemCount'],
+        location: json['location'],
+        itemName: json['itemName'],
+        postDate: json['postDate'],
+        quantity: json['quantity'],
+        description: json['description'],
+        imageUrl1: json['imageUrl1'],
+        imageUrl2: json['imageUrl2'],
+        foodType: json['foodType'],
+        foodDonor: json['foodDonor'],
+        donorId: json['donorId'],
+        userName: json['userName'],
+        userImage: json['userImage'],
+        postId: json['postId'],
+        receiverId: json['receiverId']);
+
   }
 }

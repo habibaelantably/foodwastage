@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:foodwastage/components/constants.dart';
 import 'package:foodwastage/components/reusable_components.dart';
-import 'package:foodwastage/modules/ProfileScreen/profile_screen.dart';
+import 'package:foodwastage/modules/History%20Screen/history_screen.dart';
+import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
+
+import '../modules/Profile Screen/profile_screen.dart';
 
 class CustomDrawer extends StatefulWidget {
   const CustomDrawer({Key? key}) : super(key: key);
@@ -114,7 +117,7 @@ class _MyDrawerState extends State<CustomDrawer> {
                           //   size: 15,
                           // ),
                           onTap: () {
-                            NavigateTo(
+                            navigateTo(
                                 context,
                                 ProfileScreen(
                                   selectedUserId: uId!,
@@ -140,7 +143,7 @@ class _MyDrawerState extends State<CustomDrawer> {
                           //   color: Colors.black, size: 15,
                           // ),
                           onTap: () {
-                            // Navigate to History Screen
+                            FoodCubit.get(context).getMyReceivedFood();
                           },
                         ),
                       ),

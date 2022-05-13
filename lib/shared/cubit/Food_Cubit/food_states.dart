@@ -5,7 +5,10 @@ class InitialFoodStates extends FoodStates{}
 
 class FoodLoadingState extends FoodStates{}
 
-class FoodGetSelectedUserSuccessState extends FoodStates{}
+class FoodGetSelectedUserSuccessState extends FoodStates{
+  final String selectedUserId;
+  FoodGetSelectedUserSuccessState(this.selectedUserId);
+}
 
 class FoodSuccessState extends FoodStates{
 
@@ -76,3 +79,16 @@ class FoodGetMyPostsErrorState extends FoodStates {
 class FoodDeletePostSuccessState extends FoodStates {}
 
 class FoodRatingUpdateSuccessState extends FoodStates {}
+
+class FoodReceiveFoodLoadingState extends FoodStates {}
+
+class FoodReceiveFoodSuccessState extends FoodStates {}
+
+class FoodReceiveFoodErrorState extends FoodStates {}
+
+class FoodGetMyReceiveFoodLoadingState extends FoodStates {}
+
+class FoodGetMyReceiveFoodSuccessState extends FoodStates {}
+
+class FoodGetMyReceiveFoodErrorState extends FoodStates {}
+

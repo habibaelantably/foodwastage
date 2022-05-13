@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:foodwastage/components/constants.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
-import 'package:foodwastage/shared/cubit/Food_States/food_states.dart';
+import 'package:foodwastage/shared/cubit/Food_Cubit/food_states.dart';
 import 'package:foodwastage/styles/colors.dart';
 import '../../models/User_model.dart';
 import '../../models/post_model.dart';
