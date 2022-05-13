@@ -17,7 +17,7 @@ class ProfileScreen extends StatelessWidget {
   final String selectedUserId;
   late UserModel profileUserModel;
   double? ratingValue;
-
+//
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<FoodCubit, FoodStates>(

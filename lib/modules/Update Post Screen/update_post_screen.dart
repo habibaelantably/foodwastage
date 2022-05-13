@@ -10,7 +10,7 @@ import '../../shared/cubit/Food_Cubit/food_cubit.dart';
 import '../../styles/colors.dart';
 
 //بتستدعي الصفحه من الليست اللي فيها البوست علشان تقدر تمرر فيها Post Id
-
+//
 // ignore: must_be_immutable
 class UpdatePost extends StatelessWidget {
   final TextEditingController locationController = TextEditingController();

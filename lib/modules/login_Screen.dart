@@ -192,7 +192,7 @@ class LoginScreen extends StatelessWidget {
               }
             });
           }
-
+//
           // if(state is AppSuccessState)
           // {
           //   if(state.loginModel.status==true)

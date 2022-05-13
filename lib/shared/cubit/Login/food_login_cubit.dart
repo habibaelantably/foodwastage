@@ -27,7 +27,7 @@ class FoodLoginCubit extends Cubit<FoodLoginStates>
     });
 
   }
-
+//
   IconData suffix= Icons.visibility_outlined;
   bool isPassword=true;
 
