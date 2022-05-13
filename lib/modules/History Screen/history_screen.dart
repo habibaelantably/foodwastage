@@ -1,7 +1,9 @@
+import 'package:buildcondition/buildcondition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_states.dart';
+import 'package:foodwastage/styles/colors.dart';
 
 import '../../components/constants.dart';
 import '../../models/post_model.dart';
@@ -12,31 +14,36 @@ class HistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<FoodCubit, FoodStates>(
-      listener: (context, state){},
-      builder: (context, state){
+      listener: (context, state) {},
+      builder: (context, state) {
         return Scaffold(
             appBar: AppBar(
               title: const Text('HISTORY'),
             ),
-            body: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: ListView.separated(
-                        itemBuilder: (context, index) => buildHistoryPosts(
-                            context: context,
-                            index: index,
-                            myReceivedPost:
-                            FoodCubit.get(context).myReceivedFoodList[index],
-                            selectedUserId: uId),
-                        separatorBuilder: (context, index) => const SizedBox(
-                          height: 20.0,
-                        ),
-                        itemCount: FoodCubit.get(context).myReceivedFoodList.length),
-                  )
-                ],
+            body: BuildCondition(
+              builder: (context)=> Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ListView.separated(
+                          itemBuilder: (context, index) => buildHistoryPosts(
+                              context: context,
+                              index: index,
+                              historyPost: FoodCubit.get(context)
+                                  .myReceivedFoodList[index],
+                              selectedUserId: uId),
+                          separatorBuilder: (context, index) => const SizedBox(
+                            height: 20.0,
+                          ),
+                          itemCount:
+                          FoodCubit.get(context).myReceivedFoodList.length),
+                    )
+                  ],
+                ),
               ),
+              condition: FoodCubit.get(context).myReceivedFoodList.isNotEmpty,
+              fallback: (context)=> const Center(child: CircularProgressIndicator(),),
             ));
       },
     );
@@ -44,7 +51,7 @@ class HistoryScreen extends StatelessWidget {
 
   Widget buildHistoryPosts(
       {required BuildContext context,
-      required PostModel myReceivedPost,
+      required PostModel historyPost,
       required int index,
       required selectedUserId}) {
     return Card(
@@ -57,14 +64,14 @@ class HistoryScreen extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            height: 155,
+            height: 135,
             width: 155,
             decoration: BoxDecoration(
                 borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(10.0),
                     bottomLeft: Radius.circular(10.0)),
                 image: DecorationImage(
-                  image: NetworkImage(myReceivedPost.imageUrl1!),
+                  image: NetworkImage(historyPost.imageUrl1!),
                   fit: BoxFit.fill,
                 )),
           ),
@@ -76,7 +83,7 @@ class HistoryScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  myReceivedPost.itemName!,
+                  historyPost.itemName!,
                   style: Theme.of(context).textTheme.bodyText1,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
@@ -87,7 +94,7 @@ class HistoryScreen extends StatelessWidget {
                 Row(
                   children: [
                     CircleAvatar(
-                      backgroundImage: NetworkImage(myReceivedPost.userImage!),
+                      backgroundImage: NetworkImage(historyPost.userImage!),
                     ),
                     const SizedBox(
                       width: 5.0,
@@ -95,7 +102,7 @@ class HistoryScreen extends StatelessWidget {
                     Expanded(
                       child: Column(
                         children: [
-                          Text(myReceivedPost.userName!,
+                          Text(historyPost.userName!,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: Theme.of(context)
@@ -104,7 +111,7 @@ class HistoryScreen extends StatelessWidget {
                                   .copyWith(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w800)),
-                          Text(myReceivedPost.foodDonor!,
+                          Text(historyPost.foodDonor!,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText1!
@@ -117,27 +124,37 @@ class HistoryScreen extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
-            height: 155,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                const Spacer(),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  textBaseline: TextBaseline.alphabetic,
-                  children: const [
-                    Text(
-                      "13",
-                      style: TextStyle(color: Colors.orange),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 5.0, right: 5.0),
-                      child: Icon(Icons.comment_outlined),
-                    ),
-                  ],
-                ),
-              ],
+          Padding(
+            padding: const EdgeInsets.only(top: 5.0,right: 5.0),
+            child: SizedBox(
+              height: 135,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    historyPost.donorId == uId ? 'donated' : 'received',
+                    style: const TextStyle(
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.bold,
+                        color: defaultColor),
+                  ),
+                  const Spacer(),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: const [
+                      Text(
+                        "13",
+                        style: TextStyle(color: Colors.orange),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 5.0, right: 5.0),
+                        child: Icon(Icons.comment_outlined),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           )
         ],
