@@ -8,6 +8,7 @@ import 'package:foodwastage/modules/History%20Screen/history_screen.dart';
 import 'package:foodwastage/modules/Profile%20Screen/profile_screen.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_states.dart';
+import 'package:foodwastage/styles/colors.dart';
 
 import '../Post Overview Screen/post_overview.dart';
 
@@ -36,15 +37,7 @@ class HomeScreen extends StatelessWidget {
               const Center(child: CircularProgressIndicator()),
         );
       },
-      listener: (BuildContext context, Object? state) {
-        if (state is FoodGetSelectedUserSuccessState) {
-          navigateTo(
-              context, ProfileScreen(selectedUserId: state.selectedUserId));
-        }
-        if (state is FoodGetMyReceiveFoodLoadingState) {
-          navigateTo(context, const HistoryScreen());
-        }
-      },
+      listener: (BuildContext context, Object? state) {},
     );
   }
 }
@@ -100,23 +93,19 @@ Widget postBuilder(context, PostModel postModel, state) => Column(
                                   NetworkImage('${postModel.userImage}'),
                             ),
                             onTap: () {
-                              //to get selected user data to display it in his profile
-                              FoodCubit.get(context).getUserdata(
-                                  selectedUserId: postModel.donorId,
-                                  context: context);
-                              //to get selected user posts if select different user from current user
                               if (postModel.donorId != uId) {
+                                FoodCubit.get(context).getUserdata(
+                                    selectedUserId: postModel.donorId,
+                                    context: context);
                                 FoodCubit.get(context).getSelectedUserPosts(
                                     selectedUserId: postModel.donorId!);
                               }
-                              //to be sure that the method has finished to avoid null check operator
-                              if (postModel.donorId == uId) {
                                 navigateTo(
                                     context,
                                     ProfileScreen(
-                                      selectedUserId: uId!,
+                                      selectedUserId: postModel.donorId!,
                                     ));
-                              }
+
                             },
                           ),
                           const SizedBox(
@@ -127,25 +116,21 @@ Widget postBuilder(context, PostModel postModel, state) => Column(
                               children: [
                                 InkWell(
                                   onTap: () {
-                                    //to get selected user data to display it in his profile
-                                    FoodCubit.get(context).getUserdata(
-                                        selectedUserId: postModel.donorId,
-                                        context: context);
-                                    //to get selected user posts if select different user from current user
                                     if (postModel.donorId != uId) {
+                                      FoodCubit.get(context).getUserdata(
+                                          selectedUserId: postModel.donorId,
+                                          context: context);
                                       FoodCubit.get(context)
                                           .getSelectedUserPosts(
-                                              selectedUserId:
-                                                  postModel.donorId!);
+                                          selectedUserId:
+                                          postModel.donorId!);
                                     }
-                                    //to be sure that the method has finished to avoid null check operator
-                                    if (postModel.donorId == uId) {
                                       navigateTo(
                                           context,
                                           ProfileScreen(
-                                            selectedUserId: uId!,
+                                            selectedUserId: postModel.donorId!,
                                           ));
-                                    }
+
                                   },
                                   child: Text(postModel.userName!,
                                       maxLines: 1,
@@ -171,31 +156,54 @@ Widget postBuilder(context, PostModel postModel, state) => Column(
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 155,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.only(top: 5.0, right: 5.0),
-                        child: Icon(Icons.favorite),
-                      ),
-                      const Spacer(),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        textBaseline: TextBaseline.alphabetic,
-                        children: const [
-                          Text(
-                            '13',
-                            style: TextStyle(color: Colors.orange),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(bottom: 5.0, right: 5.0),
-                            child: Icon(Icons.comment_outlined),
-                          ),
-                        ],
-                      ),
-                    ],
+                Padding(
+                  padding: const EdgeInsets.only(top: 5.0,right: 5.0),
+                  child: SizedBox(
+                    height: 135,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        postModel.donorId != uId
+                            ? const Padding(
+                                padding: EdgeInsets.only(top: 5.0, right: 5.0),
+                                child: Icon(Icons.favorite_border,color: defaultColor,),
+                              )
+                            : Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 5.0, right: 5.0),
+                                child: PopupMenuButton<String>(
+                                    icon: const Icon(Icons.more_horiz),
+                                    onSelected: (value) {
+                                      if (value == "Delete") {
+                                        FoodCubit.get(context)
+                                            .deletePost(postModel.postId!);
+                                      }
+                                    },
+                                    itemBuilder: (BuildContext context) {
+                                      return <PopupMenuItem<String>>[
+                                        const PopupMenuItem(
+                                          child: Text("Delete"),
+                                          value: "Delete",
+                                        )
+                                      ];
+                                    })),
+                        const Spacer(),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          textBaseline: TextBaseline.alphabetic,
+                          children: const [
+                            Text(
+                              '13',
+                              style: TextStyle(color: Colors.orange),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 5.0, right: 5.0),
+                              child: Icon(Icons.comment_outlined),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 )
               ],

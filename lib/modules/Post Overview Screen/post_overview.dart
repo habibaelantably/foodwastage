@@ -124,51 +124,55 @@ class PostOverview extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: defaultButton(
-                            function: () {}, text: 'CHAT NOW', height: 30.0),
-                      ),
-                      const SizedBox(
-                        width: 12.0,
-                      ),
-                      Expanded(
-                        child: Container(
-                          height: 30.0,
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          decoration: BoxDecoration(
-                            color: postModel.receiverId != uId
-                                ? defaultColor
-                                : Colors.grey[300],
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          child: MaterialButton(
-                            onPressed: postModel.receiverId != uId
-                                ? () {
-                                    FoodCubit.get(context)
-                                        .receiveFood(postModel: postModel);
-                                  }
-                                : () {},
-                            child: state is FoodReceiveFoodLoadingState
-                                ? const CircularProgressIndicator(
-                                    color: Colors.white,
-                                  )
-                                : const Text(
-                                    "GET",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w900,
-                                        fontSize: 20),
-                                  ),
-                          ),
+                postModel.donorId != uId
+                    ? Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: defaultButton(
+                                  function: () {},
+                                  text: 'CHAT NOW',
+                                  height: 30.0),
+                            ),
+                            const SizedBox(
+                              width: 12.0,
+                            ),
+                            Expanded(
+                              child: Container(
+                                height: 30.0,
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                decoration: BoxDecoration(
+                                  color: postModel.receiverId != uId
+                                      ? defaultColor
+                                      : Colors.grey[300],
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                child: MaterialButton(
+                                  onPressed: postModel.receiverId != uId
+                                      ? () {
+                                          FoodCubit.get(context).receiveFood(
+                                              postModel: postModel);
+                                        }
+                                      : () {},
+                                  child: state is FoodReceiveFoodLoadingState
+                                      ? const CircularProgressIndicator(
+                                          color: Colors.white,
+                                        )
+                                      : const Text(
+                                          "GET",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w900,
+                                              fontSize: 20),
+                                        ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
-                ),
+                      )
+                    : const SizedBox(),
               ],
             ),
           ),

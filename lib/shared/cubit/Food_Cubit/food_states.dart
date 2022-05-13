@@ -76,6 +76,10 @@ class FoodGetMyPostsErrorState extends FoodStates {
   final String error;
   FoodGetMyPostsErrorState(this.error);}
 
+class FoodGetSelectedUserPostsLoadingState extends FoodStates {}
+
+class FoodGetSelectedUserPostsSuccessState extends FoodStates {}
+
 class FoodDeletePostSuccessState extends FoodStates {}
 
 class FoodRatingUpdateSuccessState extends FoodStates {}
