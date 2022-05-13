@@ -55,7 +55,7 @@ class RegisterScreen extends StatelessWidget {
                         const SizedBox(
                           height: 30.0,
                         ),
-                        deafultFormField(
+                        defaultFormField(
                             controller: nameController,
                             type: TextInputType.name,
                             validator: (value) {
@@ -69,7 +69,7 @@ class RegisterScreen extends StatelessWidget {
                         const SizedBox(
                           height: 15,
                         ),
-                        deafultFormField(
+                        defaultFormField(
                             controller: phoneController,
                             type: TextInputType.phone,
                             validator: (value) {
@@ -80,7 +80,7 @@ class RegisterScreen extends StatelessWidget {
                             },
                             prefix: Icons.phone,
                             label: 'phone'),
-                        deafultFormField(
+                        defaultFormField(
                             controller: emailController,
                             type: TextInputType.emailAddress,
                             validator: (value) {
@@ -94,7 +94,7 @@ class RegisterScreen extends StatelessWidget {
                         const SizedBox(
                           height: 15,
                         ),
-                        deafultFormField(
+                        defaultFormField(
                             controller: passwordController,
                             type: TextInputType.visiblePassword,
                             validator: (value) {
@@ -115,7 +115,7 @@ class RegisterScreen extends StatelessWidget {
                         const SizedBox(
                           height: 15,
                         ),
-                        deafultFormField(
+                        defaultFormField(
                             controller: confirmPasswordController,
                             type: TextInputType.visiblePassword,
                             validator: (value) {
@@ -130,7 +130,7 @@ class RegisterScreen extends StatelessWidget {
                             },
                             prefix: Icons.vpn_key_sharp,
                             label: 'Confirm Password'),
-                        deafultFormField(
+                        defaultFormField(
                             controller: countryController,
                             type: TextInputType.text,
                             validator: (value) {
@@ -141,7 +141,7 @@ class RegisterScreen extends StatelessWidget {
                             },
                             prefix: Icons.vpn_lock,
                             label: 'Country',
-                            OnTap: () {
+                            onTap: () {
                               showCountryPicker(
                                 context: context,
                                 showPhoneCode: false,
@@ -177,7 +177,7 @@ class RegisterScreen extends StatelessWidget {
                         ),
                         BuildCondition(
                           condition: state is! FoodLoadingRegisterstate,
-                          builder: (context) => deafultbutton(
+                          builder: (context) => defaultButton(
                             width: 250,
                             radius: 40.0,
                             function: () {
@@ -210,7 +210,7 @@ class RegisterScreen extends StatelessWidget {
                             ),
                             TextButton(
                                 onPressed: () {
-                                  NavigateTo(context, LoginScreen());
+                                  navigateTo(context, LoginScreen());
                                 },
                                 child: const Text(
                                   'login',
@@ -233,7 +233,7 @@ class RegisterScreen extends StatelessWidget {
               if (value) {
                 uId = CacheHelper.getData(key: 'uId');
                 FoodCubit.get(context).getUserdata(context: context);
-                NavigateAndKill(context, const foodLayout());
+                navigateAndKill(context, const foodLayout());
               }
             });
           }

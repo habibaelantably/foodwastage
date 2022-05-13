@@ -57,7 +57,7 @@ class LoginScreen extends StatelessWidget {
                         const SizedBox(
                           height: 15.0,
                         ),
-                        deafultFormField(
+                        defaultFormField(
                             controller: emailController,
                             type: TextInputType.emailAddress,
                             validator: (value) {
@@ -72,7 +72,7 @@ class LoginScreen extends StatelessWidget {
                           height: 10,
                         ),
 
-                        deafultFormField(
+                        defaultFormField(
                             controller: passwordController,
                             type: TextInputType.visiblePassword,
                             validator: (value) {
@@ -94,7 +94,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                         BuildCondition(
                           condition: state is! FoodLoginLoadingState,
-                          builder: (context) => deafultbutton(
+                          builder: (context) => defaultButton(
                               width: 300,
                               function: () {
                                 if (formkey.currentState != null &&
@@ -167,7 +167,7 @@ class LoginScreen extends StatelessWidget {
                             const Text('Don`t have an account?'),
                             TextButton(
                                 onPressed: () {
-                                  NavigateTo(context, RegisterScreen());
+                                  navigateTo(context, RegisterScreen());
                                 },
                                 child: const Text('Register')),
                           ],
@@ -188,7 +188,7 @@ class LoginScreen extends StatelessWidget {
             CacheHelper.saveData(key: 'uId', value: state.uId).then((value) {
               if (value) {
                 uId = CacheHelper.getData(key: 'uId');
-                NavigateAndKill(context, const foodLayout());
+                navigateAndKill(context, const foodLayout());
               }
             });
           }

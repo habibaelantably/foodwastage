@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodwastage/widgets/my_drawer.dart';
 import '../shared/cubit/Food_Cubit/food_cubit.dart';
-import '../shared/cubit/Food_States/food_states.dart';
+import '../shared/cubit/Food_Cubit/food_states.dart';
 
 // ignore: camel_case_types
 class foodLayout extends StatelessWidget

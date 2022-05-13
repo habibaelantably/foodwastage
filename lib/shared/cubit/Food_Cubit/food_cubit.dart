@@ -1,13 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:foodwastage/components/reusable_components.dart';
 import 'package:foodwastage/models/User_model.dart';
-import 'package:foodwastage/modules/ProfileScreen/profile_screen.dart';
-import '../../../modules/AddPostScreen/add_post_screen.dart';
-import '../../../modules/ChatsScreen/chats_screen.dart';
-import '../../../modules/FavoritesScreen/favorites_screen.dart';
-import '../../../modules/HomeScreen/home_screen.dart';
-import '../../../modules/MapsScreen/maps_screen.dart';
-import '../Food_States/food_states.dart';
+import '../../../components/reusable_components.dart';
+import '../../../modules/Add Post Screen/add_post_screen.dart';
+import '../../../modules/Chats Screen/chats_screen.dart';
+import '../../../modules/Favorites Screen/favorites_screen.dart';
+import '../../../modules/Home Screen/home_screen.dart';
+import '../../../modules/Maps Screen/maps_screen.dart';
+import 'food_states.dart';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -36,8 +35,7 @@ class FoodCubit extends Cubit<FoodStates> {
         .then((value) {
       if (selectedUserId != uId && selectedUserId!=null) {
         selectedUserModel = UserModel.fromJson(value.data()!);
-        NavigateTo(context, ProfileScreen(selectedUserId: selectedUserId));
-        emit(FoodGetSelectedUserSuccessState());
+        emit(FoodGetSelectedUserSuccessState(selectedUserId));
       } else if(selectedUserId == null){
         userModel = UserModel.fromJson(value.data()!);
         emit(FoodSuccessState('uId'));
@@ -332,6 +330,7 @@ class FoodCubit extends Cubit<FoodStates> {
   List<PostModel> postsList = [];
   List<PostModel> currentUserPostsList = [];
   List<PostModel> selectedUserPostsList = [];
+  List<PostModel> myReceivedFoodList = [];
   List<String> postId = [];
   List<String> myPostsId = [];
   List<UserModel> userData = [];
@@ -365,6 +364,36 @@ class FoodCubit extends Cubit<FoodStates> {
     });
   }
 
+  void receiveFood({required PostModel postModel}) async {
+    emit(FoodReceiveFoodLoadingState());
+    await FirebaseFirestore.instance
+        .collection('posts')
+        .doc(postModel.postId)
+        .update({'receiverId': uId}).then((value) {
+      postModel.receiverId = uId!;
+      showToast(text: 'you got this item', states: ToastStates.SUCCESS);
+      emit(FoodReceiveFoodSuccessState());
+    }).catchError((error){
+      emit(FoodReceiveFoodErrorState());
+    });
+  }
+
+  void getMyReceivedFood() async {
+    emit(FoodGetMyReceiveFoodLoadingState());
+    myReceivedFoodList = [];
+    await FirebaseFirestore.instance.collection('posts').get().then((value) {
+      for (var element in value.docs) {
+        if (element.get('receiverId') == uId) {
+          myReceivedFoodList.add(PostModel.fromJson(element.data()));
+        }
+      }
+      emit(FoodGetMyReceiveFoodSuccessState());
+    }).catchError((error){
+      print(error.toString());
+      emit(FoodGetMyReceiveFoodErrorState());
+    });
+  }
+
   void deletePost(String postId) async {
     await FirebaseFirestore.instance.collection('posts').doc(postId).delete();
     emit(FoodDeletePostSuccessState());
@@ -377,4 +406,9 @@ class FoodCubit extends Cubit<FoodStates> {
         .update({'rating': rating});
     emit(FoodRatingUpdateSuccessState());
   }
+
+
+
+
+
 }

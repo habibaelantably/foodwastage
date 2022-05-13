@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
-import 'package:foodwastage/shared/cubit/Food_States/food_states.dart';
+import 'package:foodwastage/shared/cubit/Food_Cubit/food_states.dart';
 
 class ChatsScreen extends StatelessWidget
 {

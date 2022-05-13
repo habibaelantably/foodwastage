@@ -4,14 +4,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
-import 'package:foodwastage/shared/cubit/Food_States/food_states.dart';
+import 'package:foodwastage/shared/cubit/Food_Cubit/food_states.dart';
 import 'package:group_radio_button/group_radio_button.dart';
-
 import '../../components/reusable_components.dart';
-
 import '../../styles/colors.dart';
-
-// import 'dart:io';
 
 class AddPosts extends StatelessWidget {
   final TextEditingController locationController = TextEditingController();
@@ -111,6 +107,7 @@ class AddPosts extends StatelessWidget {
                         /////////////////////////////////////Food Name/////////////////////////////////////
 
                         rowTextAndFormInput(
+
                             textEditingController: foodNameController,
                             validator: (value) {
                               if (value.toString().isEmpty) {
@@ -199,7 +196,7 @@ class AddPosts extends StatelessWidget {
                                 return null;
                               }
                             },
-                             textEditingController: quantityController,
+                            textEditingController: quantityController,
                             textInputType: TextInputType.number,
                             inputFormatters: <TextInputFormatter>[
                               FilteringTextInputFormatter.digitsOnly
@@ -263,13 +260,11 @@ class AddPosts extends StatelessWidget {
                                           if (FoodCubit.get(context)
                                                   .imageFile1 ==
                                               null) {
-                                            FoodCubit.get(context)
-                                                .getImage1();
+                                            FoodCubit.get(context).getImage1();
                                           } else if (FoodCubit.get(context)
                                                   .imageFile2 ==
                                               null) {
-                                            FoodCubit.get(context)
-                                                .getImage2();
+                                            FoodCubit.get(context).getImage2();
                                           }
                                         },
                                         child: Container(
@@ -286,8 +281,7 @@ class AddPosts extends StatelessWidget {
                                       ),
                                     )
                                   : const SizedBox()
-                            else if (FoodCubit.get(context).imageFile1 !=
-                                null)
+                            else if (FoodCubit.get(context).imageFile1 != null)
                               Stack(
                                 children: [
                                   Container(
@@ -480,7 +474,7 @@ class AddPosts extends StatelessWidget {
                             defaultText(
                                 text:
                                     "I assure that food quality and hygiene has maintained",
-                                fontSize: size.width*0.03,
+                                fontSize: size.width * 0.03,
                                 color: KBlack,
                                 fontWeight: FontWeight.normal)
                           ],
@@ -504,22 +498,21 @@ class AddPosts extends StatelessWidget {
                                       showDialog(
                                           context: context,
                                           builder: (_) => AlertDialog(
-                                                title: const Text('Confirm Rules'),
+                                                title:
+                                                    const Text('Confirm Rules'),
                                                 content: const Text(
                                                     'Please Assure the food quality'),
                                                 actions: [
                                                   TextButton(
                                                       onPressed: () {
-                                                        Navigator.pop(
-                                                            context);
+                                                        Navigator.pop(context);
                                                       },
                                                       child: defaultText(
                                                           text: "Ok",
                                                           fontSize: 20,
                                                           color: KBlack,
                                                           fontWeight:
-                                                              FontWeight
-                                                                  .bold))
+                                                              FontWeight.bold))
                                                 ],
                                               ));
                                     }
@@ -527,23 +520,21 @@ class AddPosts extends StatelessWidget {
                                         FoodCubit.get(context).isChecked ==
                                             true) {
                                       FoodCubit.get(context).addPost(
-                                          itemCount: FoodCubit.get(context)
-                                              .itemCount,
-                                          location: locationController.text,
-                                          itemName: foodNameController.text,
-                                          postDate:
-                                              FoodCubit.get(context).date,
-                                          quantity: FoodCubit.get(context)
-                                              .itemCount
-                                              .toString(),
-                                          description:
-                                              descriptionController.text,
-                                          imageUrl1: "imageUrl1",
-                                          imageUrl2: "imageUrl2",
-                                          foodType:
-                                              FoodCubit.get(context).foodType,
-                                          foodDonor: FoodCubit.get(context)
-                                              .foodDonor,
+                                        itemCount:
+                                            FoodCubit.get(context).itemCount,
+                                        location: locationController.text,
+                                        itemName: foodNameController.text,
+                                        postDate: FoodCubit.get(context).date,
+                                        quantity: FoodCubit.get(context)
+                                            .itemCount
+                                            .toString(),
+                                        description: descriptionController.text,
+                                        imageUrl1: "imageUrl1",
+                                        imageUrl2: "imageUrl2",
+                                        foodType:
+                                            FoodCubit.get(context).foodType,
+                                        foodDonor:
+                                            FoodCubit.get(context).foodDonor,
                                       );
                                     }
                                   },
@@ -551,7 +542,8 @@ class AddPosts extends StatelessWidget {
                                       ? SizedBox(
                                           height: size.width * .05,
                                           width: size.width * .05,
-                                          child: const CircularProgressIndicator(
+                                          child:
+                                              const CircularProgressIndicator(
                                             color: Colors.white,
                                           ),
                                         )
