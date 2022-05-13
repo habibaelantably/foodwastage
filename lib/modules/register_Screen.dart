@@ -2,14 +2,14 @@ import 'package:buildcondition/buildcondition.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:foodwastage/components/constants.dart';
-import 'package:foodwastage/components/reusable_components.dart';
-import 'package:foodwastage/layout/food_Layout.dart';
-import 'package:foodwastage/modules/login_Screen.dart';
-import 'package:foodwastage/network/local/cache_helper.dart';
-import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
-import 'package:foodwastage/shared/cubit/Register/food_register_cubit.dart';
-import 'package:foodwastage/shared/cubit/Register/food_register_state.dart';
+import '/components/constants.dart';
+import '/components/reusable_components.dart';
+import '/layout/food_Layout.dart';
+import '/modules/login_Screen.dart';
+import '../network/local/CacheHelper.dart';
+import '/shared/cubit/Food_Cubit/food_cubit.dart';
+import '/shared/cubit/Register/foodRegisterCubit.dart';
+import '/shared/cubit/Register/foodRegisterState.dart';
 
 // ignore: must_be_immutable
 class RegisterScreen extends StatelessWidget {
@@ -20,9 +20,7 @@ class RegisterScreen extends StatelessWidget {
   var confirmPasswordController = TextEditingController();
   var countryController = TextEditingController();
 
-  var formkey = GlobalKey<FormState>();
-
-  RegisterScreen({Key? key}) : super(key: key);
+  var formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +34,7 @@ class RegisterScreen extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Form(
-                    key: formkey,
+                    key: formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -52,10 +50,10 @@ class RegisterScreen extends StatelessWidget {
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold),
                         ),
-                        const SizedBox(
+                        SizedBox(
                           height: 30.0,
                         ),
-                        defaultFormField(
+                        deafultFormField(
                             controller: nameController,
                             type: TextInputType.name,
                             validator: (value) {
@@ -66,10 +64,10 @@ class RegisterScreen extends StatelessWidget {
                             },
                             prefix: Icons.person,
                             label: 'name'),
-                        const SizedBox(
+                        SizedBox(
                           height: 15,
                         ),
-                        defaultFormField(
+                        deafultFormField(
                             controller: phoneController,
                             type: TextInputType.phone,
                             validator: (value) {
@@ -80,7 +78,7 @@ class RegisterScreen extends StatelessWidget {
                             },
                             prefix: Icons.phone,
                             label: 'phone'),
-                        defaultFormField(
+                        deafultFormField(
                             controller: emailController,
                             type: TextInputType.emailAddress,
                             validator: (value) {
@@ -94,7 +92,7 @@ class RegisterScreen extends StatelessWidget {
                         const SizedBox(
                           height: 15,
                         ),
-                        defaultFormField(
+                        deafultFormField(
                             controller: passwordController,
                             type: TextInputType.visiblePassword,
                             validator: (value) {
@@ -115,7 +113,7 @@ class RegisterScreen extends StatelessWidget {
                         const SizedBox(
                           height: 15,
                         ),
-                        defaultFormField(
+                        deafultFormField(
                             controller: confirmPasswordController,
                             type: TextInputType.visiblePassword,
                             validator: (value) {
@@ -130,7 +128,7 @@ class RegisterScreen extends StatelessWidget {
                             },
                             prefix: Icons.vpn_key_sharp,
                             label: 'Confirm Password'),
-                        defaultFormField(
+                        deafultFormField(
                             controller: countryController,
                             type: TextInputType.text,
                             validator: (value) {
@@ -141,7 +139,7 @@ class RegisterScreen extends StatelessWidget {
                             },
                             prefix: Icons.vpn_lock,
                             label: 'Country',
-                            onTap: () {
+                            OnTap: () {
                               showCountryPicker(
                                 context: context,
                                 showPhoneCode: false,
@@ -177,12 +175,12 @@ class RegisterScreen extends StatelessWidget {
                         ),
                         BuildCondition(
                           condition: state is! FoodLoadingRegisterstate,
-                          builder: (context) => defaultButton(
+                          builder: (context) => deafultbutton(
                             width: 250,
                             radius: 40.0,
                             function: () {
-                              if (formkey.currentState != null &&
-                                  formkey.currentState!.validate()) {
+                              if (formKey.currentState != null &&
+                                  formKey.currentState!.validate()) {
                                 FoodRegisterCubit.get(context).userRegister(
                                     name: nameController.text,
                                     email: emailController.text,
@@ -210,7 +208,7 @@ class RegisterScreen extends StatelessWidget {
                             ),
                             TextButton(
                                 onPressed: () {
-                                  navigateTo(context, LoginScreen());
+                                  NavigateTo(context, LoginScreen());
                                 },
                                 child: const Text(
                                   'login',
@@ -229,11 +227,11 @@ class RegisterScreen extends StatelessWidget {
         listener: (BuildContext context, Object? state) {
           if (state is FoodSuccessCreateState) {
             CacheHelper.saveData(key: 'uId', value: state.uId).then((value) {
-              //احنا عملنا save ل uid في ال cache بس ممليناش بيه بقا ال variable بتاعنا
+              //احنا عملنا save ل الuid في ال cache بس ممليناش بيه بقا ال variable بتاعنا
               if (value) {
                 uId = CacheHelper.getData(key: 'uId');
-                FoodCubit.get(context).getUserdata(context: context);
-                navigateAndKill(context, const foodLayout());
+                FoodCubit.get(context).getUserdata();
+                NavigateAndKill(context, foodLayout());
               }
             });
           }

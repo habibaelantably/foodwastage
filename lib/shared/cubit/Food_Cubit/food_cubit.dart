@@ -1,18 +1,20 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:foodwastage/models/User_model.dart';
-import '../../../components/reusable_components.dart';
-import '../../../modules/Add Post Screen/add_post_screen.dart';
-import '../../../modules/Chats Screen/chats_screen.dart';
-import '../../../modules/Favorites Screen/favorites_screen.dart';
-import '../../../modules/Home Screen/home_screen.dart';
-import '../../../modules/Maps Screen/maps_screen.dart';
-import 'food_states.dart';
+import '/models/User_model.dart';
+
+import '../../../modules/AddPostScreen/AddPost.dart';
+import '../../../modules/ChatsScreen/Chats.dart';
+import '../../../modules/FavoritesScreen/Favorites.dart';
+import '../../../modules/HomeScreen/home.dart';
+import '../../../modules/MapsScreen/Maps.dart';
+import '../Food_States/foodStates.dart';
 import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
+
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:foodwastage/models/post_model.dart';
+import '/models/post_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import '../../../components/constants.dart';
@@ -23,29 +25,18 @@ class FoodCubit extends Cubit<FoodStates> {
   static FoodCubit get(context) => BlocProvider.of(context);
 
   UserModel? userModel;
-  UserModel? selectedUserModel;
 
-  void getUserdata(
-      {String? selectedUserId, required BuildContext context}) async {
-    //this condition to not do the method again if i clicked on current user because we already got his data at starting of application
-    if (selectedUserId == null || selectedUserId != uId) {
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(selectedUserId ?? uId)
-          .get()
-          .then((value) {
-        if (selectedUserId != uId && selectedUserId != null) {
-          selectedUserModel = UserModel.fromJson(value.data()!);
-          emit(FoodGetSelectedUserSuccessState(selectedUserId));
-        } else if (selectedUserId == null) {
-          userModel = UserModel.fromJson(value.data()!);
-          emit(FoodSuccessState('uId'));
-        }
-      }).catchError((error) {
-        print(error.toString());
-        emit(FoodErrorState());
-      });
-    }
+  void getUserdata() async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uId)
+        .get()
+        .then((value) {
+      userModel = UserModel.fromJson(value.data()!);
+      emit(FoodSuccessState('uId'));
+    }).catchError((error) {
+      emit(FoodErrorState());
+    });
   }
 
   int currentIndex = 0;
@@ -55,7 +46,7 @@ class FoodCubit extends Cubit<FoodStates> {
     const MapScreen(),
     AddPosts(),
     const FavoritesScreen(),
-    const ChatsScreen()
+    ChatsScreen()
   ];
   List<String> titles = ['Home', 'Maps', 'Donate', 'favorites', 'Chats'];
 
@@ -85,6 +76,8 @@ class FoodCubit extends Cubit<FoodStates> {
   List<String> status2 = ["User", "Restaurant", "Charity"];
 
   bool isChecked = false;
+
+  //var SaveduId = CacheHelper.getData(key: 'uId');
 
   check() {
     isChecked = !isChecked;
@@ -174,6 +167,7 @@ class FoodCubit extends Cubit<FoodStates> {
     required String imageUrl2,
     required String foodType,
     required String foodDonor,
+    bool? isFavorite,
   }) async {
     emit(CreatePostLoadingState());
 
@@ -191,6 +185,7 @@ class FoodCubit extends Cubit<FoodStates> {
       donorId: uId,
       userName: userModel!.name,
       userImage: userModel!.image,
+      isFavorite: isFavorite ??= false,
     );
     posts.add(postModel.toMap()).then((idValue) async {
       if (imageFile1 != null) {
@@ -243,7 +238,7 @@ class FoodCubit extends Cubit<FoodStates> {
         .putFile(image)
         .then((url) {
       url.ref.getDownloadURL().then((value) {
-        updateImage(postId, {imageNum: value.toString()});
+        updateImage(postId, {"$imageNum": value.toString()});
       });
     });
   }
@@ -254,7 +249,7 @@ class FoodCubit extends Cubit<FoodStates> {
 
   /////////////////////////////////////updatePost
 
-  //لازم تمرر id بتاع البوست علسان تعمل update بيه
+  //لازم تمرر الid بتاع البوست علسان تupdate بيه
   Future<void> updatePost({
     required String postId, //<<<<<
     required int itemCount,
@@ -267,6 +262,7 @@ class FoodCubit extends Cubit<FoodStates> {
     required String imageUrl2,
     required String foodType,
     required String foodDonor,
+    bool? isFavorite,
   }) async {
     emit(UpdatePostLoadingState());
 
@@ -282,6 +278,7 @@ class FoodCubit extends Cubit<FoodStates> {
       postDate: postDate,
       quantity: quantity,
       donorId: uId,
+      isFavorite: isFavorite ??= false,
     );
     posts.doc(postId).update(postModel.toMap()).then((idValue) async {
       if (imageFile1 != null) {
@@ -326,77 +323,39 @@ class FoodCubit extends Cubit<FoodStates> {
     return;
   }
 
-//////////////////////////////////////////////////get posts at home and profile
+//////////////////////////////////////////////////get posts at home
   List<PostModel> postsList = [];
-  List<PostModel> currentUserPostsList = [];
-  List<PostModel> selectedUserPostsList = [];
-  List<PostModel> myReceivedFoodList = [];
   List<String> postId = [];
   List<UserModel> userData = [];
+  List<PostModel> favPosts = [];
+  bool? isItFav(String postID) {
+    final selectedOne =
+        postsList.firstWhere((element) => element.postId == postID);
+    return selectedOne.isFavorite;
+  }
+
+  void getFavPosts(String postID) {
+    final selectedOne =
+        postsList.firstWhere((element) => element.postId == postID);
+    selectedOne.isFavorite ??= false;
+    selectedOne.isFavorite = !selectedOne.isFavorite!;
+    if (selectedOne.isFavorite == true) {
+      favPosts.add(selectedOne);
+    } else {
+      favPosts.remove(selectedOne);
+    }
+    emit(FoodFavoriteState());
+    emit(UpdatePostSuccessState());
+  }
 
   void getPosts() {
     posts.snapshots().listen((event) {
       postsList = [];
-      currentUserPostsList = [];
       for (var element in event.docs) {
-        //this condition is for getting current user's posts.
-        if (element.get('donorId') == uId) {
-          currentUserPostsList.add(PostModel.fromJson(element.data()));
-        }
         postId.add(element.id);
-        postsList.add(PostModel.fromJson(element.data()));
+        postsList.add(PostModel.fromJson(element.data(), element.id));
+        emit(FoodGetPostsSuccessState());
       }
-      emit(FoodGetPostsSuccessState());
     });
-  }
-
-  void getSelectedUserPosts({required String selectedUserId}) async {
-    selectedUserPostsList=[];
-    if (selectedUserPostsList.isEmpty) {
-      for (PostModel postModel in postsList) {
-        if (postModel.donorId! == selectedUserId) {
-          selectedUserPostsList.add(postModel);
-        }
-      }
-      emit(FoodGetSelectedUserPostsSuccessState());
-    }
-  }
-
-  void receiveFood({required PostModel postModel}) async {
-    emit(FoodReceiveFoodLoadingState());
-    await FirebaseFirestore.instance
-        .collection('posts')
-        .doc(postModel.postId)
-        .update({'receiverId': uId}).then((value) {
-      postModel.receiverId = uId!;
-      showToast(text: 'you got this item', states: ToastStates.SUCCESS);
-      emit(FoodReceiveFoodSuccessState());
-    }).catchError((error) {
-      emit(FoodReceiveFoodErrorState());
-    });
-  }
-
-  void getMyReceivedFood() async {
-    if (myReceivedFoodList.isEmpty) {
-      for (PostModel postModel in postsList) {
-        if (postModel.donorId! == uId || postModel.receiverId == uId) {
-          myReceivedFoodList.add(postModel);
-        }
-      }
-      emit(FoodGetMyReceiveFoodSuccessState());
-    }
-  }
-
-  void deletePost(String postId) async {
-    await FirebaseFirestore.instance.collection('posts').doc(postId).delete();
-    emit(FoodDeletePostSuccessState());
-  }
-
-  void updateUserRating({required double rating}) async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(selectedUserModel!.uId)
-        .update({'rating': rating});
-    emit(FoodRatingUpdateSuccessState());
   }
 }

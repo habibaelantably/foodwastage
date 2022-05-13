@@ -7,7 +7,6 @@ class UserModel
   String? uId;
   String? country;
   String? image;
-  double? rating;
 
 
   UserModel({
@@ -17,7 +16,6 @@ class UserModel
     this.uId,
     this.country,
     this.image,
-    this.rating,
     });
 
   UserModel.fromJson(Map<String,dynamic>json)
@@ -28,7 +26,6 @@ class UserModel
     uId=json['uId'];
     country=json['country'];
     image=json['image'];
-    rating=json['rating'];
   }
 
   Map<String,dynamic> toMap()
@@ -41,7 +38,6 @@ class UserModel
         'uId':uId,
         'country':country,
         'image':image,
-        'rating':rating,
       };
   }
 }

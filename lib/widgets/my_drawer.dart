@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:foodwastage/components/constants.dart';
-import 'package:foodwastage/components/reusable_components.dart';
-import 'package:foodwastage/modules/History%20Screen/history_screen.dart';
-import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 
-import '../modules/Profile Screen/profile_screen.dart';
+import '../shared/cubit/Food_Cubit/food_cubit.dart';
 
 class CustomDrawer extends StatefulWidget {
   const CustomDrawer({Key? key}) : super(key: key);
@@ -15,11 +11,9 @@ class CustomDrawer extends StatefulWidget {
 }
 
 class _MyDrawerState extends State<CustomDrawer> {
-  bool _darkModeSwitchValue = false;
-  bool _languageSwitchValue = false;
-
   @override
   Widget build(BuildContext context) {
+    final _userModel = FoodCubit.get(context).userModel;
     final size = MediaQuery.of(context).size;
     return SafeArea(
       child: Container(
@@ -36,12 +30,19 @@ class _MyDrawerState extends State<CustomDrawer> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    CircleAvatar(
-                      radius: 50,
-                      backgroundImage:
-                          const AssetImage('assets/images/profile.png'),
-                      backgroundColor: Colors.amber[900],
-                    ),
+                    if (_userModel!.image != null && _userModel.image != '')
+                      CircleAvatar(
+                        radius: 50,
+                        backgroundImage: NetworkImage(_userModel.image!),
+                        backgroundColor: Colors.amber[900],
+                      ),
+                    if (_userModel.image == null || _userModel.image == '')
+                      CircleAvatar(
+                        radius: 50,
+                        backgroundImage:
+                            const AssetImage('assets/images/profile.png'),
+                        backgroundColor: Colors.amber[900],
+                      ),
                     const SizedBox(
                       height: 10,
                     ),
@@ -117,11 +118,7 @@ class _MyDrawerState extends State<CustomDrawer> {
                           //   size: 15,
                           // ),
                           onTap: () {
-                            navigateTo(
-                                context,
-                                ProfileScreen(
-                                  selectedUserId: uId!,
-                                ));
+                            // Navigate to Profile Screen
                           },
                         ),
                       ),
@@ -143,8 +140,7 @@ class _MyDrawerState extends State<CustomDrawer> {
                           //   color: Colors.black, size: 15,
                           // ),
                           onTap: () {
-                            FoodCubit.get(context).getMyReceivedFood();
-                            navigateTo(context, const HistoryScreen());
+                            // Navigate to History Screen
                           },
                         ),
                       ),
@@ -153,7 +149,7 @@ class _MyDrawerState extends State<CustomDrawer> {
                         child: ListTile(
                           dense: true,
                           horizontalTitleGap: 1,
-                          contentPadding: EdgeInsets.all(1),
+                          contentPadding: const EdgeInsets.all(1),
                           minVerticalPadding: 0,
                           leading: FaIcon(
                             FontAwesomeIcons.solidMoon,

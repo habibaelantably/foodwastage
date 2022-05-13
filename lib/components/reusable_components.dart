@@ -8,11 +8,11 @@ import 'package:foodwastage/styles/colors.dart';
 
 
 
-Widget   defaultFormField ({
+Widget   deafultFormField ({
   required TextEditingController controller,
   required TextInputType type,
-  Function? onSubmit,
-  Function ? onChanged,
+  Function? Onsubmite,
+  Function ? Onchanged,
   required Function validator,
   String ? label,
   IconData ? prefix,
@@ -20,7 +20,7 @@ Widget   defaultFormField ({
   IconData ? suffix,
   Function ? suffixButton,
   String? hint,
-  onTap
+  OnTap
 
 })=>  TextFormField(
   controller: controller,
@@ -31,7 +31,7 @@ Widget   defaultFormField ({
   obscureText: isPassword,
   decoration: InputDecoration(
       labelText: label,
-      border: const UnderlineInputBorder(),
+      border: UnderlineInputBorder(),
       prefixIcon: Icon(
           prefix
       ),
@@ -45,29 +45,28 @@ Widget   defaultFormField ({
       ): null,
       hintText: hint,
   ),
-    onTap:onTap
+    onTap:OnTap
 );
 
 
 
-Widget defaultButton({
+Widget deafultbutton({
   double? width,
   double height=30.0,
   Color background = defaultColor,
-  bool isUpperCase=true,
+  bool IsUpperCase=true,
   double radius=0.0,
   required Function function,
   required String text,
 
 })=>Container(
-  height: height,
   width: width,
   child: MaterialButton(
     onPressed:(){
       function();
     },
     child: Text(
-      isUpperCase?text.toUpperCase():text,
+      IsUpperCase?text.toUpperCase():text,
       style:const TextStyle(
         color: Colors.white,
         fontWeight: FontWeight.w900,
@@ -81,7 +80,7 @@ Widget defaultButton({
   ),
 );
 
-PreferredSizeWidget defaultAppBar({
+PreferredSizeWidget deafultAppBar({
   required BuildContext context,
   String? title,
   List<Widget>?actions,
@@ -105,12 +104,12 @@ Widget myDivider() => Padding(
   ),
 );
 
-void navigateTo(context,widget) => Navigator.push(context,
+void NavigateTo(context,widget) => Navigator.push(context,
     MaterialPageRoute(
         builder: (context)=> widget
     ));
 
-void navigateAndKill(context,widget) => Navigator.pushAndRemoveUntil(context,
+void NavigateAndKill(context,widget) => Navigator.pushAndRemoveUntil(context,
     MaterialPageRoute(
         builder: (context)=> widget
     ),(Route <dynamic> route){return false;});
@@ -123,14 +122,14 @@ void showToast({
     toastLength: Toast.LENGTH_LONG,
     gravity: ToastGravity.BOTTOM,
     timeInSecForIosWeb: 5,
-    backgroundColor: setToastColor(states),
+    backgroundColor: setToatColor(states),
     textColor: Colors.white,
     fontSize: 16.0
 );
 
 enum ToastStates{SUCCESS,ERROR,WARNING}
 
-Color setToastColor(ToastStates states)
+Color setToatColor(ToastStates states)
 {
   Color ?color;
 
@@ -172,8 +171,7 @@ Widget rowTextAndFormInput(
       required Color color,
       required FontWeight fontWeight,
       required IconData icon,
-      bool isReadonly = false,
-      String? initialValue ,
+
       required String hintTextForm}) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -197,9 +195,7 @@ Widget rowTextAndFormInput(
           ),
           onSaved: (String? value) {},
           validator: (value) => validator!(value),
-          inputFormatters:inputFormatters,
-        initialValue: initialValue!,
-        readOnly: isReadonly,
+          inputFormatters:inputFormatters
       )
     ],
   );

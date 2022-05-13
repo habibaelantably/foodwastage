@@ -4,19 +4,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodwastage/components/constants.dart';
 import 'package:foodwastage/components/reusable_components.dart';
 import 'package:foodwastage/layout/food_Layout.dart';
-import 'package:foodwastage/modules/register_Screen.dart';
-import 'package:foodwastage/network/local/cache_helper.dart';
-import 'package:foodwastage/shared/cubit/Login/food_login_cubit.dart';
-import 'package:foodwastage/shared/cubit/Login/food_login_states.dart';
+import 'package:foodwastage/modules/Register_Screen.dart';
+import 'package:foodwastage/network/local/CacheHelper.dart';
+import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
+import 'package:foodwastage/shared/cubit/Login/foodLoginCubit.dart';
+import 'package:foodwastage/shared/cubit/Login/foodLoginStates.dart';
 
-// ignore: must_be_immutable
 class LoginScreen extends StatelessWidget {
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
 
   var formkey = GlobalKey<FormState>();
-
-  LoginScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -54,10 +52,10 @@ class LoginScreen extends StatelessWidget {
                               .bodyText1!
                               .copyWith(color: Colors.grey, fontSize: 15),
                         ),
-                        const SizedBox(
+                        SizedBox(
                           height: 15.0,
                         ),
-                        defaultFormField(
+                        deafultFormField(
                             controller: emailController,
                             type: TextInputType.emailAddress,
                             validator: (value) {
@@ -68,11 +66,11 @@ class LoginScreen extends StatelessWidget {
                             },
                             prefix: Icons.email,
                             label: 'Email Address'),
-                        const SizedBox(
+                        SizedBox(
                           height: 10,
                         ),
 
-                        defaultFormField(
+                        deafultFormField(
                             controller: passwordController,
                             type: TextInputType.visiblePassword,
                             validator: (value) {
@@ -94,7 +92,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                         BuildCondition(
                           condition: state is! FoodLoginLoadingState,
-                          builder: (context) => defaultButton(
+                          builder: (context) => deafultbutton(
                               width: 300,
                               function: () {
                                 if (formkey.currentState != null &&
@@ -167,7 +165,7 @@ class LoginScreen extends StatelessWidget {
                             const Text('Don`t have an account?'),
                             TextButton(
                                 onPressed: () {
-                                  navigateTo(context, RegisterScreen());
+                                  NavigateTo(context, RegisterScreen());
                                 },
                                 child: const Text('Register')),
                           ],
@@ -188,7 +186,8 @@ class LoginScreen extends StatelessWidget {
             CacheHelper.saveData(key: 'uId', value: state.uId).then((value) {
               if (value) {
                 uId = CacheHelper.getData(key: 'uId');
-                navigateAndKill(context, const foodLayout());
+                FoodCubit.get(context).getUserdata();
+                NavigateAndKill(context, foodLayout());
               }
             });
           }
@@ -208,7 +207,7 @@ class LoginScreen extends StatelessWidget {
           //       if(value){
           //
           //         token=state.loginModel.data!.token;
-          //         NavigateAndKill(context, shopLayoutScreen());
+          //         NavigateAndKill(context, shoplayoutScreen());
           //       }
           //     });
           //

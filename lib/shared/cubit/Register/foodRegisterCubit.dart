@@ -5,8 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodwastage/models/User_model.dart';
-import 'package:foodwastage/modules/register_Screen.dart';
-import 'package:foodwastage/shared/cubit/Register/food_register_state.dart';
+import 'package:foodwastage/modules/Register_Screen.dart';
+import 'package:foodwastage/shared/cubit/Register/foodRegisterState.dart';
 
 
 class FoodRegisterCubit extends Cubit<FoodRegisterStates>

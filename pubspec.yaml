@@ -51,7 +51,6 @@ dependencies:
   group_radio_button:
   image_picker: ^0.8.5
   firebase_storage: ^10.2.9
-  flutter_rating_bar: ^4.0.0
 
 dev_dependencies:
   flutter_test:
