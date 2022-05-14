@@ -15,7 +15,7 @@ class FoodSuccessState extends FoodStates{
   final String uId;
   FoodSuccessState(this.uId);
 }
-
+//
 class FoodErrorState extends FoodStates{}
 
 

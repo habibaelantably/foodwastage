@@ -361,7 +361,7 @@ class FoodCubit extends Cubit<FoodStates> {
       emit(FoodGetSelectedUserPostsSuccessState());
     }
   }
-
+//
   void receiveFood({required PostModel postModel}) async {
     emit(FoodReceiveFoodLoadingState());
     await FirebaseFirestore.instance

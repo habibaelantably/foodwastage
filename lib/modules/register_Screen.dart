@@ -219,6 +219,7 @@ class RegisterScreen extends StatelessWidget {
                           ],
                         )
                       ],
+                      //
                     ),
                   ),
                 ),

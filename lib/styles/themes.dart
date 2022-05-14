@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:foodwastage/styles/colors.dart';
+import 'package:foodwastage/styles/colors.dart';//
 
 ThemeData lightTheme=ThemeData(
 

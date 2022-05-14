@@ -8,7 +8,7 @@ import 'package:foodwastage/modules/login_Screen.dart';
 import 'package:foodwastage/network/local/cache_helper.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/styles/themes.dart';
-
+//
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
