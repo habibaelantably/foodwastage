@@ -10,6 +10,7 @@ import '../../models/post_model.dart';
 
 class HistoryScreen extends StatelessWidget {
   const HistoryScreen({Key? key}) : super(key: key);
+
 //
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class HistoryScreen extends StatelessWidget {
               title: const Text('HISTORY'),
             ),
             body: BuildCondition(
-              builder: (context)=> Padding(
+              builder: (context) => Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Column(
                   children: [
@@ -34,16 +35,18 @@ class HistoryScreen extends StatelessWidget {
                                   .myReceivedFoodList[index],
                               selectedUserId: uId),
                           separatorBuilder: (context, index) => const SizedBox(
-                            height: 20.0,
-                          ),
+                                height: 20.0,
+                              ),
                           itemCount:
-                          FoodCubit.get(context).myReceivedFoodList.length),
+                              FoodCubit.get(context).myReceivedFoodList.length),
                     )
                   ],
                 ),
               ),
               condition: FoodCubit.get(context).myReceivedFoodList.isNotEmpty,
-              fallback: (context)=> const Center(child: CircularProgressIndicator(),),
+              fallback: (context) => const Center(
+                child: CircularProgressIndicator(),
+              ),
             ));
       },
     );
@@ -125,7 +128,7 @@ class HistoryScreen extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 5.0,right: 5.0),
+            padding: const EdgeInsets.only(top: 5.0, right: 5.0),
             child: SizedBox(
               height: 135,
               child: Column(

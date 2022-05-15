@@ -4,16 +4,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodwastage/components/constants.dart';
 import 'package:foodwastage/components/reusable_components.dart';
 import 'package:foodwastage/models/post_model.dart';
-import 'package:foodwastage/modules/History%20Screen/history_screen.dart';
 import 'package:foodwastage/modules/Profile%20Screen/profile_screen.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_states.dart';
-import 'package:foodwastage/styles/colors.dart';
 
 import '../Post Overview Screen/post_overview.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
 //
   @override
   Widget build(BuildContext context) {
@@ -62,8 +61,9 @@ Widget postBuilder(context, PostModel postModel, state) => Column(
                   width: 155,
                   decoration: BoxDecoration(
                       borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(10.0),
-                          bottomLeft: Radius.circular(10.0)),
+                        topLeft: Radius.circular(10.0),
+                        bottomLeft: Radius.circular(10.0),
+                      ),
                       image: DecorationImage(
                         image: NetworkImage('${postModel.imageUrl1}'),
                         fit: BoxFit.fill,
@@ -98,14 +98,15 @@ Widget postBuilder(context, PostModel postModel, state) => Column(
                                     selectedUserId: postModel.donorId,
                                     context: context);
                                 FoodCubit.get(context).getSelectedUserPosts(
-                                    selectedUserId: postModel.donorId!);
+                                  selectedUserId: postModel.donorId!,
+                                );
                               }
-                                navigateTo(
-                                    context,
-                                    ProfileScreen(
-                                      selectedUserId: postModel.donorId!,
-                                    ));
-
+                              navigateTo(
+                                context,
+                                ProfileScreen(
+                                  selectedUserId: postModel.donorId!,
+                                ),
+                              );
                             },
                           ),
                           const SizedBox(
@@ -122,15 +123,14 @@ Widget postBuilder(context, PostModel postModel, state) => Column(
                                           context: context);
                                       FoodCubit.get(context)
                                           .getSelectedUserPosts(
-                                          selectedUserId:
-                                          postModel.donorId!);
+                                        selectedUserId: postModel.donorId!,
+                                      );
                                     }
-                                      navigateTo(
-                                          context,
-                                          ProfileScreen(
-                                            selectedUserId: postModel.donorId!,
-                                          ));
-
+                                    navigateTo(
+                                        context,
+                                        ProfileScreen(
+                                          selectedUserId: postModel.donorId!,
+                                        ));
                                   },
                                   child: Text(postModel.userName!,
                                       maxLines: 1,
@@ -157,22 +157,38 @@ Widget postBuilder(context, PostModel postModel, state) => Column(
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 5.0,right: 5.0),
+                  padding: const EdgeInsets.only(top: 5.0, right: 5.0),
                   child: SizedBox(
                     height: 135,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         postModel.donorId != uId
-                            ? const Padding(
-                                padding: EdgeInsets.only(top: 5.0, right: 5.0),
-                                child: Icon(Icons.favorite_border,color: defaultColor,),
+                            ? Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 5.0, right: 5.0),
+                                child: IconButton(
+                                  onPressed: () {
+                                    FoodCubit.get(context)
+                                        .getFavPosts(postModel.postId!);
+                                  },
+                                  icon: Icon(
+                                    FoodCubit.get(context)
+                                                .isItFav(postModel.postId!) ??
+                                            false
+                                        ? Icons.favorite
+                                        : Icons.favorite_border,
+                                    color: Colors.orange,
+                                  ),
+                                ),
                               )
                             : Padding(
                                 padding:
                                     const EdgeInsets.only(top: 5.0, right: 5.0),
                                 child: PopupMenuButton<String>(
-                                    icon: const Icon(Icons.more_horiz),
+                                    icon: const Icon(
+                                      Icons.more_horiz,
+                                    ),
                                     onSelected: (value) {
                                       if (value == "Delete") {
                                         FoodCubit.get(context)

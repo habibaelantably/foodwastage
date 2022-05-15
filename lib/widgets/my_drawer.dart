@@ -13,6 +13,7 @@ class CustomDrawer extends StatefulWidget {
   @override
   State<CustomDrawer> createState() => _MyDrawerState();
 }
+
 //
 class _MyDrawerState extends State<CustomDrawer> {
   bool _darkModeSwitchValue = false;
@@ -20,10 +21,11 @@ class _MyDrawerState extends State<CustomDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    final _userModel = FoodCubit.get(context).userModel;
+    final _size = MediaQuery.of(context).size;
     return SafeArea(
       child: Container(
-        width: size.width * 0.7,
+        width: _size.width * 0.7,
         color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(15),
@@ -31,17 +33,24 @@ class _MyDrawerState extends State<CustomDrawer> {
             children: [
               /// Profile image and Rating
               SizedBox(
-                height: size.height * 0.25,
+                height: _size.height * 0.25,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    CircleAvatar(
-                      radius: 50,
-                      backgroundImage:
-                          const AssetImage('assets/images/profile.png'),
-                      backgroundColor: Colors.amber[900],
-                    ),
+                    if (_userModel!.image != null && _userModel.image != '')
+                      CircleAvatar(
+                        radius: 50,
+                        backgroundImage: NetworkImage(_userModel.image!),
+                        backgroundColor: Colors.amber[900],
+                      ),
+                    if (_userModel.image == null || _userModel.image == '')
+                      CircleAvatar(
+                        radius: 50,
+                        backgroundImage:
+                            const AssetImage('assets/images/profile.png'),
+                        backgroundColor: Colors.amber[900],
+                      ),
                     const SizedBox(
                       height: 10,
                     ),

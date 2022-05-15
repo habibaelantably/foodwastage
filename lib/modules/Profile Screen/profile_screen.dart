@@ -6,6 +6,7 @@ import 'package:foodwastage/components/constants.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_states.dart';
 import 'package:foodwastage/styles/colors.dart';
+
 import '../../components/reusable_components.dart';
 import '../../models/User_model.dart';
 import '../../models/post_model.dart';
@@ -17,6 +18,7 @@ class ProfileScreen extends StatelessWidget {
   final String selectedUserId;
   late UserModel profileUserModel;
   double? ratingValue;
+
 //
   @override
   Widget build(BuildContext context) {
@@ -44,13 +46,16 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ],
             ),
-            actions: [selectedUserId!= uId?IconButton(
-                icon: const Icon(
-                  Icons.edit,
-                  color: Colors.orange,
-                ),
-                onPressed: () {},
-              ):const SizedBox(),
+            actions: [
+              selectedUserId != uId
+                  ? IconButton(
+                      icon: const Icon(
+                        Icons.edit,
+                        color: Colors.orange,
+                      ),
+                      onPressed: () {},
+                    )
+                  : const SizedBox(),
             ],
           ),
           body: BuildCondition(
@@ -230,134 +235,137 @@ class ProfileScreen extends StatelessWidget {
       required int index,
       required selectedUserId}) {
     return InkWell(
-        onTap: () {
-      navigateTo(context, PostOverview(postModel: currentUserPost));
-    },child: Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
-      ),
-      elevation: 5.0,
-      color: Colors.grey[100],
-      margin: const EdgeInsets.symmetric(horizontal: 15.0),
-      child: Row(
-        children: [
-          Container(
-            height: 135,
-            width: 155,
-            decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(10.0),
-                    bottomLeft: Radius.circular(10.0)),
-                image: DecorationImage(
-                  image: NetworkImage(currentUserPost.imageUrl1!),
-                  fit: BoxFit.fill,
-                )),
-          ),
-          const SizedBox(
-            width: 10.0,
-          ),
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  currentUserPost.itemName!,
-                  style: Theme.of(context).textTheme.bodyText1,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                ),
-                const SizedBox(
-                  height: 7.0,
-                ),
-                Row(
-                  children: [
-                    CircleAvatar(
-                      backgroundImage: NetworkImage(currentUserPost.userImage!),
-                    ),
-                    const SizedBox(
-                      width: 5.0,
-                    ),
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Text(currentUserPost.userName!,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .copyWith(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w800)),
-                          Text(currentUserPost.foodDonor!,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .copyWith(color: Colors.grey, fontSize: 10))
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 5.0,right: 5.0),
-            child: SizedBox(
+      onTap: () {
+        navigateTo(context, PostOverview(postModel: currentUserPost));
+      },
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        elevation: 5.0,
+        color: Colors.grey[100],
+        margin: const EdgeInsets.symmetric(horizontal: 15.0),
+        child: Row(
+          children: [
+            Container(
               height: 135,
+              width: 155,
+              decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(10.0),
+                      bottomLeft: Radius.circular(10.0)),
+                  image: DecorationImage(
+                    image: NetworkImage(currentUserPost.imageUrl1!),
+                    fit: BoxFit.fill,
+                  )),
+            ),
+            const SizedBox(
+              width: 10.0,
+            ),
+            Expanded(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  //the condition is for display delete button if i'm in my profile and favorite button if i'm in another user profile
-                  currentUserPost.donorId != uId
-                      ? const Padding(
-                          padding: EdgeInsets.only(top: 5.0, right: 5.0),
-                          child: Icon(
-                            Icons.favorite_border,
-                            color: defaultColor,
-                          ),
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.only(top: 5.0, right: 5.0),
-                          child: PopupMenuButton<String>(
-                              icon: const Icon(Icons.more_horiz),
-                              onSelected: (value) {
-                                if (value == "Delete") {
-                                  FoodCubit.get(context)
-                                      .deletePost(currentUserPost.postId!);
-                                }
-                              },
-                              itemBuilder: (BuildContext context) {
-                                return <PopupMenuItem<String>>[
-                                  const PopupMenuItem(
-                                    child: Text("Delete"),
-                                    value: "Delete",
-                                  )
-                                ];
-                              })),
-                  const Spacer(),
+                  Text(
+                    currentUserPost.itemName!,
+                    style: Theme.of(context).textTheme.bodyText1,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                  const SizedBox(
+                    height: 7.0,
+                  ),
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    textBaseline: TextBaseline.alphabetic,
-                    children: const [
-                      Text(
-                        "13",
-                        style: TextStyle(color: Colors.orange),
+                    children: [
+                      CircleAvatar(
+                        backgroundImage:
+                            NetworkImage(currentUserPost.userImage!),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 5.0, right: 5.0),
-                        child: Icon(Icons.comment_outlined),
+                      const SizedBox(
+                        width: 5.0,
                       ),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Text(currentUserPost.userName!,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .copyWith(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w800)),
+                            Text(currentUserPost.foodDonor!,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .copyWith(color: Colors.grey, fontSize: 10))
+                          ],
+                        ),
+                      )
                     ],
                   ),
                 ],
               ),
             ),
-          )
-        ],
+            Padding(
+              padding: const EdgeInsets.only(top: 5.0, right: 5.0),
+              child: SizedBox(
+                height: 135,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    //the condition is for display delete button if i'm in my profile and favorite button if i'm in another user profile
+                    currentUserPost.donorId != uId
+                        ? const Padding(
+                            padding: EdgeInsets.only(top: 5.0, right: 5.0),
+                            child: Icon(
+                              Icons.favorite_border,
+                              color: defaultColor,
+                            ),
+                          )
+                        : Padding(
+                            padding:
+                                const EdgeInsets.only(top: 5.0, right: 5.0),
+                            child: PopupMenuButton<String>(
+                                icon: const Icon(Icons.more_horiz),
+                                onSelected: (value) {
+                                  if (value == "Delete") {
+                                    FoodCubit.get(context)
+                                        .deletePost(currentUserPost.postId!);
+                                  }
+                                },
+                                itemBuilder: (BuildContext context) {
+                                  return <PopupMenuItem<String>>[
+                                    const PopupMenuItem(
+                                      child: Text("Delete"),
+                                      value: "Delete",
+                                    )
+                                  ];
+                                })),
+                    const Spacer(),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      textBaseline: TextBaseline.alphabetic,
+                      children: const [
+                        Text(
+                          "13",
+                          style: TextStyle(color: Colors.orange),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 5.0, right: 5.0),
+                          child: Icon(Icons.comment_outlined),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
       ),
-    ),
     );
   }
 }

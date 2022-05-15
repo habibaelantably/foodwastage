@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodwastage/models/post_model.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
+
 import '../../components/constants.dart';
 import '../../components/reusable_components.dart';
 import '../../shared/cubit/Food_Cubit/food_states.dart';
@@ -10,6 +11,7 @@ import '../../styles/colors.dart';
 class PostOverview extends StatelessWidget {
   const PostOverview({Key? key, required this.postModel}) : super(key: key);
   final PostModel postModel;
+
 //
   @override
   Widget build(BuildContext context) {

@@ -6,6 +6,7 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_states.dart';
 import 'package:group_radio_button/group_radio_button.dart';
+
 import '../../components/reusable_components.dart';
 import '../../styles/colors.dart';
 
@@ -14,6 +15,7 @@ class AddPosts extends StatelessWidget {
   final TextEditingController foodNameController = TextEditingController();
   final TextEditingController quantityController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
+
 //
   final formKey = GlobalKey<FormState>();
 
@@ -107,7 +109,6 @@ class AddPosts extends StatelessWidget {
                         /////////////////////////////////////Food Name/////////////////////////////////////
 
                         rowTextAndFormInput(
-
                             textEditingController: foodNameController,
                             validator: (value) {
                               if (value.toString().isEmpty) {
