@@ -1,4 +1,3 @@
-
 import 'package:bloc/bloc.dart';
 
 class MyBlocObserver extends BlocObserver {
@@ -7,6 +6,7 @@ class MyBlocObserver extends BlocObserver {
     super.onCreate(bloc);
     print('onCreate -- ${bloc.runtimeType}');
   }
+
 //
   @override
   void onChange(BlocBase bloc, Change change) {

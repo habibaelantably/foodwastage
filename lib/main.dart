@@ -8,6 +8,7 @@ import 'package:foodwastage/modules/login_Screen.dart';
 import 'package:foodwastage/network/local/cache_helper.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/styles/themes.dart';
+
 //
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,12 +44,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context)=> FoodCubit()..getUserdata(context: context)..getPosts(),
+      create: (BuildContext context) => FoodCubit()
+        ..getUserdata(context: context)
+        ..getPosts(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: lightTheme,
         themeMode: ThemeMode.light,
-        home:startWidget,
+        home: startWidget,
       ),
     );
   }

@@ -1,4 +1,4 @@
 import 'package:flutter/material.dart';
 
-const defaultColor= Colors.orange ;
-const KBlack= Colors.black ;//
+const defaultColor = Colors.orange;
+const KBlack = Colors.black; //

@@ -1,27 +1,27 @@
-
 abstract class FoodStates {}
 
-class InitialFoodStates extends FoodStates{}
+class InitialFoodStates extends FoodStates {}
 
-class FoodLoadingState extends FoodStates{}
+class FoodLoadingState extends FoodStates {}
 
-class FoodGetSelectedUserSuccessState extends FoodStates{
+class FoodGetSelectedUserSuccessState extends FoodStates {
   final String selectedUserId;
+
   FoodGetSelectedUserSuccessState(this.selectedUserId);
 }
 
-class FoodSuccessState extends FoodStates{
-
+class FoodSuccessState extends FoodStates {
   final String uId;
+
   FoodSuccessState(this.uId);
 }
+
 //
-class FoodErrorState extends FoodStates{}
+class FoodErrorState extends FoodStates {}
 
+class ChangeBottomNavState extends FoodStates {}
 
-class ChangeBottomNavState extends FoodStates{}
-
-class DonateFoodState extends FoodStates{}
+class DonateFoodState extends FoodStates {}
 
 class IsCheckedState extends FoodStates {}
 
@@ -71,10 +71,11 @@ class FoodGetMyPostsLoadingState extends FoodStates {}
 
 class FoodGetMyPostsSuccessState extends FoodStates {}
 
-
 class FoodGetMyPostsErrorState extends FoodStates {
   final String error;
-  FoodGetMyPostsErrorState(this.error);}
+
+  FoodGetMyPostsErrorState(this.error);
+}
 
 class FoodGetSelectedUserPostsLoadingState extends FoodStates {}
 
@@ -96,3 +97,4 @@ class FoodGetMyReceiveFoodSuccessState extends FoodStates {}
 
 class FoodGetMyReceiveFoodErrorState extends FoodStates {}
 
+class FoodFavoriteState extends FoodStates {}
