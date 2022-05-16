@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:foodwastage/components/constants.dart';
 import 'package:foodwastage/components/reusable_components.dart';
@@ -6,6 +7,7 @@ import 'package:foodwastage/modules/History%20Screen/history_screen.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 
 import '../modules/Profile Screen/profile_screen.dart';
+import '../styles/colors.dart';
 
 class CustomDrawer extends StatefulWidget {
   const CustomDrawer({Key? key}) : super(key: key);
@@ -54,43 +56,39 @@ class _MyDrawerState extends State<CustomDrawer> {
                     const SizedBox(
                       height: 10,
                     ),
-                    const Text(
-                      'USER A. USER',
-                      style: TextStyle(
+                    Text(
+                      _userModel.name!,
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
+                    RatingBar(
+                      initialRating: _userModel.rating!,
+                      itemSize: 25.0,
+                      ignoreGestures:
+                      _userModel.uId == uId ? true : false,
+                      itemCount: 5,
+                      direction: Axis.horizontal,
+                      ratingWidget: RatingWidget(
+                        full: const Icon(
                           Icons.star,
-                          size: 20,
-                          color: Colors.amber[400],
+                          color: defaultColor,
                         ),
-                        Icon(
-                          Icons.star,
-                          size: 20,
-                          color: Colors.amber[400],
+                        half: const Icon(
+                          Icons.star_half,
+                          color: defaultColor,
                         ),
-                        Icon(
-                          Icons.star,
-                          size: 20,
-                          color: Colors.amber[400],
-                        ),
-                        Icon(
-                          Icons.star,
-                          size: 20,
-                          color: Colors.amber[400],
-                        ),
-                        Icon(
+                        empty: const Icon(
                           Icons.star_border,
-                          size: 20,
-                          color: Colors.amber[400],
+                          color: defaultColor,
                         ),
-                      ],
-                    )
+                      ),
+                      minRating: 1,
+                      maxRating: 5,
+                      onRatingUpdate: (double value) {
+                      },
+                    ),
                   ],
                 ),
               ),

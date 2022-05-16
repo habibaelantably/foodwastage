@@ -177,7 +177,7 @@ Widget rowTextAndFormInput(
         onSaved: (String? value) {},
         validator: (value) => validator!(value),
         inputFormatters: inputFormatters,
-        initialValue: initialValue!,
+        initialValue: initialValue,
         readOnly: isReadonly,
       )
     ],

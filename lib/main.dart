@@ -40,8 +40,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   final Widget? startWidget;
 
-  // ignore: use_key_in_widget_constructors
-  const MyApp(this.startWidget);
+  const MyApp(this.startWidget, {Key? key}): super(key: key);
 
   // This widget is the root of your application.
   @override
