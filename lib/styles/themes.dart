@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:foodwastage/styles/colors.dart'; //
 
 ThemeData lightTheme = ThemeData(
-    primarySwatch: defaultColor,
+    primarySwatch: Colors.deepOrange,
     scaffoldBackgroundColor: Colors.white,
     appBarTheme: const AppBarTheme(
         systemOverlayStyle: SystemUiOverlayStyle(
@@ -21,6 +21,7 @@ ThemeData lightTheme = ThemeData(
         const FloatingActionButtonThemeData(backgroundColor: defaultColor),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         type: BottomNavigationBarType.fixed,
+        elevation: 20.0,
         selectedItemColor: defaultColor,
         backgroundColor: Colors.white),
     textTheme: const TextTheme(
@@ -38,3 +39,4 @@ ThemeData lightTheme = ThemeData(
         height: 1.3,
       ),
     ));
+
