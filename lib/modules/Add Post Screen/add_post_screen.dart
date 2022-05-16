@@ -96,6 +96,7 @@ class AddPosts extends StatelessWidget {
                                 return null;
                               }
                             },
+                            initialValue: null,
                             textEditingController: locationController,
                             rowText: "Pickup where ?",
                             fontSize: 19,
@@ -109,6 +110,7 @@ class AddPosts extends StatelessWidget {
                         /////////////////////////////////////Food Name/////////////////////////////////////
 
                         rowTextAndFormInput(
+                            initialValue: null,
                             textEditingController: foodNameController,
                             validator: (value) {
                               if (value.toString().isEmpty) {
@@ -189,6 +191,7 @@ class AddPosts extends StatelessWidget {
                         ),
                         /////////////////////////////////////Quantity/////////////////////////////////////
                         rowTextAndFormInput(
+                            initialValue: null,
                             validator: (value) {
                               if (value == 0 ||
                                   quantityController.text.isEmpty) {
@@ -214,6 +217,7 @@ class AddPosts extends StatelessWidget {
                         /////////////////////////////////////Description/////////////////////////////////////
 
                         rowTextAndFormInput(
+                            initialValue: null,
                             textEditingController: descriptionController,
                             validator: (value) {
                               if (value.toString().isEmpty) {

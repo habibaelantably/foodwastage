@@ -7,7 +7,6 @@ import 'package:foodwastage/components/reusable_components.dart';
 import 'package:foodwastage/layout/food_Layout.dart';
 import 'package:foodwastage/modules/login_Screen.dart';
 import 'package:foodwastage/network/local/cache_helper.dart';
-import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Register/food_register_cubit.dart';
 import 'package:foodwastage/shared/cubit/Register/food_register_state.dart';
 
@@ -80,6 +79,9 @@ class RegisterScreen extends StatelessWidget {
                             },
                             prefix: Icons.phone,
                             label: 'phone'),
+                        const SizedBox(
+                          height: 15,
+                        ),
                         defaultFormField(
                             controller: emailController,
                             type: TextInputType.emailAddress,
@@ -118,6 +120,7 @@ class RegisterScreen extends StatelessWidget {
                         defaultFormField(
                             controller: confirmPasswordController,
                             type: TextInputType.visiblePassword,
+                            isPassword: true,
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return 'please confirm your password';
@@ -130,6 +133,9 @@ class RegisterScreen extends StatelessWidget {
                             },
                             prefix: Icons.vpn_key_sharp,
                             label: 'Confirm Password'),
+                        const SizedBox(
+                          height: 15,
+                        ),
                         defaultFormField(
                             controller: countryController,
                             type: TextInputType.text,
@@ -233,7 +239,6 @@ class RegisterScreen extends StatelessWidget {
               //احنا عملنا save ل uid في ال cache بس ممليناش بيه بقا ال variable بتاعنا
               if (value) {
                 uId = CacheHelper.getData(key: 'uId');
-                FoodCubit.get(context).getUserdata(context: context);
                 navigateAndKill(context, const foodLayout());
               }
             });

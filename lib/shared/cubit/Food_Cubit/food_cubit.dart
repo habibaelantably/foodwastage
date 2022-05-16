@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
@@ -9,7 +8,6 @@ import 'package:foodwastage/models/User_model.dart';
 import 'package:foodwastage/models/post_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-
 import '../../../components/constants.dart';
 import '../../../components/reusable_components.dart';
 import '../../../modules/Add Post Screen/add_post_screen.dart';
@@ -373,6 +371,7 @@ class FoodCubit extends Cubit<FoodStates> {
         postId.add(element.id);
         postsList.add(PostModel.fromJson(element.data()));
       }
+      print(currentUserPostsList.length);
       emit(FoodGetPostsSuccessState());
     });
   }
@@ -427,4 +426,5 @@ class FoodCubit extends Cubit<FoodStates> {
         .update({'rating': rating});
     emit(FoodRatingUpdateSuccessState());
   }
+
 }

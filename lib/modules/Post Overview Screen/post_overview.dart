@@ -52,7 +52,7 @@ class PostOverview extends StatelessWidget {
                           rowTextAndFormInput(
                               /////////////////////////////////////Location/////////////////////////////////////
                               rowText: "Pickup where ?",
-                              initialValue: postModel.location,
+                              initialValue: postModel.location!,
                               isReadonly: true,
                               fontSize: 19,
                               color: KBlack,
@@ -65,7 +65,7 @@ class PostOverview extends StatelessWidget {
                           /////////////////////////////////////Name/////////////////////////////////////
                           rowTextAndFormInput(
                               rowText: "Food Item(s)",
-                              initialValue: postModel.itemName,
+                              initialValue: postModel.itemName!,
                               fontSize: 19,
                               color: KBlack,
                               isReadonly: true,
@@ -101,7 +101,7 @@ class PostOverview extends StatelessWidget {
                           rowTextAndFormInput(
                               isReadonly: true,
                               rowText: "Quantity",
-                              initialValue: postModel.quantity,
+                              initialValue: postModel.quantity!,
                               fontSize: 19,
                               color: KBlack,
                               fontWeight: FontWeight.normal,
@@ -115,7 +115,7 @@ class PostOverview extends StatelessWidget {
                           rowTextAndFormInput(
                               isReadonly: true,
                               rowText: "Description",
-                              initialValue: postModel.description,
+                              initialValue: postModel.description!,
                               fontSize: 19,
                               color: KBlack,
                               fontWeight: FontWeight.normal,
