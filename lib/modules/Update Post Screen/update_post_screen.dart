@@ -36,7 +36,7 @@ class UpdatePost extends StatelessWidget {
         descriptionController.text = postModel.description!;
         FoodCubit.get(context).itemCount = postModel.itemCount!;
         FoodCubit.get(context).itemCount = postModel.itemCount!;
-        FoodCubit.get(context).foodDonor = postModel.foodDonor!;
+        FoodCubit.get(context).foodDonor = postModel.donorType!;
         FoodCubit.get(context).foodType = postModel.foodType!;
 
         return Scaffold(

@@ -5,6 +5,7 @@ import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_states.dart';
 import 'package:foodwastage/styles/colors.dart';
 import '../../components/constants.dart';
+
 import '../../models/post_model.dart';
 
 class HistoryScreen extends StatelessWidget {
@@ -18,6 +19,16 @@ class HistoryScreen extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
             appBar: AppBar(
+              leading: IconButton(
+                onPressed: (){
+                  //to back to home directly
+                  FoodCubit.get(context).currentIndex != 0 ? FoodCubit.get(context).changeBottomNav(0):null;
+
+                  Navigator.pop(context);
+                },
+                icon: const Icon(Icons.arrow_back),
+              ),
+
               title: const Text('HISTORY'),
             ),
             body: BuildCondition(
@@ -113,11 +124,13 @@ class HistoryScreen extends StatelessWidget {
                                   .copyWith(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w800)),
-                          Text(historyPost.foodDonor!,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .copyWith(color: Colors.grey, fontSize: 10))
+                          Text(historyPost.donorType!,
+                              style: const TextStyle(
+                                  color: Colors.black54,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w900
+                              ),
+                          ),
                         ],
                       ),
                     )

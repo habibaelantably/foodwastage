@@ -2,13 +2,14 @@ class PostModel {
   int? itemCount;
   String? location;
   String? itemName;
+  String? pickupDate;
   String? postDate;
   String? quantity;
   String? description;
   String? imageUrl1;
   String? imageUrl2;
   String? foodType;
-  String? foodDonor;
+  String? donorType;
   String? donorId;
   String? userName;
   String? userImage;
@@ -20,13 +21,14 @@ class PostModel {
     this.itemCount,
     this.location,
     this.itemName,
+    this.pickupDate,
     this.postDate,
     this.quantity,
     this.description,
     this.imageUrl1,
     this.imageUrl2,
     this.foodType,
-    this.foodDonor,
+    this.donorType,
     this.donorId,
     this.userName,
     this.userImage,
@@ -40,13 +42,14 @@ class PostModel {
       'itemCount': itemCount,
       'location': location,
       'itemName': itemName,
+      'pickupDate': pickupDate,
       'postDate': postDate,
       'quantity': quantity,
       'description': description,
       'imageUrl1': imageUrl1,
       'imageUrl2': imageUrl2,
       'foodType': foodType,
-      'foodDonor': foodDonor,
+      'foodDonor': donorType,
       'donorId': donorId,
       'userName': userName,
       'userImage': userImage,
@@ -61,13 +64,14 @@ class PostModel {
       itemCount: json['itemCount'],
       location: json['location'],
       itemName: json['itemName'],
+      pickupDate: json['pickupDate'],
       postDate: json['postDate'],
       quantity: json['quantity'],
       description: json['description'],
       imageUrl1: json['imageUrl1'],
       imageUrl2: json['imageUrl2'],
       foodType: json['foodType'],
-      foodDonor: json['foodDonor'],
+      donorType: json['foodDonor'],
       donorId: json['donorId'],
       userName: json['userName'],
       userImage: json['userImage'],

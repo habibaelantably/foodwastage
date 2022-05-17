@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,7 +40,7 @@ class FoodCubit extends Cubit<FoodStates> {
           emit(FoodGetSelectedUserSuccessState(selectedUserId));
         } else if (selectedUserId == null) {
           userModel = UserModel.fromJson(value.data()!);
-          emit(FoodSuccessState('uId'));
+          emit(FoodSuccessState());
         }
       }).catchError((error) {
         print(error.toString());
@@ -180,14 +181,14 @@ class FoodCubit extends Cubit<FoodStates> {
 
     PostModel postModel = PostModel(
       description: description,
-      foodDonor: foodDonor,
+      donorType: foodDonor,
       foodType: foodType,
       imageUrl1: imageUrl1,
       imageUrl2: imageUrl2,
       itemCount: itemCount,
       itemName: itemName,
       location: location,
-      postDate: postDate,
+      pickupDate: postDate,
       quantity: itemCount.toString(),
       donorId: uId,
       userName: userModel!.name,
@@ -275,14 +276,14 @@ class FoodCubit extends Cubit<FoodStates> {
 
     PostModel postModel = PostModel(
       description: description,
-      foodDonor: foodDonor,
+      donorType: foodDonor,
       foodType: foodType,
       imageUrl1: imageUrl1,
       imageUrl2: imageUrl2,
       itemCount: itemCount,
       itemName: itemName,
       location: location,
-      postDate: postDate,
+      pickupDate: postDate,
       quantity: quantity,
       donorId: uId,
       isFavorite: isFavorite,
@@ -371,7 +372,6 @@ class FoodCubit extends Cubit<FoodStates> {
         postId.add(element.id);
         postsList.add(PostModel.fromJson(element.data()));
       }
-      print(currentUserPostsList.length);
       emit(FoodGetPostsSuccessState());
     });
   }
@@ -388,7 +388,7 @@ class FoodCubit extends Cubit<FoodStates> {
     }
   }
 
-//
+
   void receiveFood({required PostModel postModel}) async {
     emit(FoodReceiveFoodLoadingState());
     await FirebaseFirestore.instance
@@ -425,6 +425,16 @@ class FoodCubit extends Cubit<FoodStates> {
         .doc(selectedUserModel!.uId)
         .update({'rating': rating});
     emit(FoodRatingUpdateSuccessState());
+  }
+
+  void logout()async{
+    await FirebaseAuth.instance.signOut();
+  }
+
+  static String? getLoggedInUser(){
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    currentUser !=null ? uId = currentUser.uid:uId =null;
+    return uId;
   }
 
 }

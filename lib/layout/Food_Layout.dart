@@ -5,9 +5,8 @@ import 'package:foodwastage/widgets/my_drawer.dart';
 import '../shared/cubit/Food_Cubit/food_cubit.dart';
 import '../shared/cubit/Food_Cubit/food_states.dart';
 
-// ignore: camel_case_types
-class foodLayout extends StatelessWidget {
-  const foodLayout({Key? key}) : super(key: key);
+class FoodLayout extends StatelessWidget {
+  const FoodLayout({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -100,7 +100,7 @@ Widget PostBuilder(context, PostModel postModel) => Column(
                                   ),
                             ),
                             Text(
-                              '${postModel.foodDonor}',
+                              '${postModel.donorType}',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText1!

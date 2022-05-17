@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:foodwastage/block_observer.dart';
-import 'package:foodwastage/components/constants.dart';
-import 'package:foodwastage/layout/food_Layout.dart';
+import 'package:foodwastage/layout/Food_Layout.dart';
 import 'package:foodwastage/modules/login_Screen.dart';
 import 'package:foodwastage/network/local/cache_helper.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
@@ -19,25 +18,21 @@ void main() async {
   await CacheHelper.init();
 
   Widget? widget;
-
-  uId = CacheHelper.getData(key: 'uId');
   bool? isDark = CacheHelper.getData(key:'theme',);
   bool? isArabic = CacheHelper.getData(key:'lang',);
 
-
-  if (uId != null) {
-    widget = const foodLayout();
-  } else {
+  if(FoodCubit.getLoggedInUser()==null){
     widget = LoginScreen();
+  }else{
+    widget = const FoodLayout();
   }
 
   BlocOverrides.runZoned(
-    () {
+        () {
       runApp(MyApp(widget!,isDark ?? false, isArabic??false));
     },
     blocObserver: MyBlocObserver(),
   );
-  // runApp( MyApp(widget));
 }
 
 class MyApp extends StatelessWidget {

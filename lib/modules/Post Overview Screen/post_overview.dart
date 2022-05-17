@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodwastage/models/post_model.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
-
 import '../../components/constants.dart';
 import '../../components/reusable_components.dart';
 import '../../shared/cubit/Food_Cubit/food_states.dart';
@@ -12,7 +11,7 @@ class PostOverview extends StatelessWidget {
   const PostOverview({Key? key, required this.postModel}) : super(key: key);
   final PostModel postModel;
 
-//
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<FoodCubit, FoodStates>(
@@ -49,29 +48,29 @@ class PostOverview extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          /////////////////////////////////////Name/////////////////////////////////////
+                          rowTextAndFormInput(
+                              rowText: "Item Name",
+                              initialValue: postModel.itemName!,
+                              fontSize: 19,
+                              color: KBlack,
+                              isEnabled: false,
+                              fontWeight: FontWeight.normal,
+                              icon: Icons.fastfood_outlined,
+                              hintTextForm: "Name"),
+
+                          const SizedBox(height: 20),
+
                           rowTextAndFormInput(
                               /////////////////////////////////////Location/////////////////////////////////////
                               rowText: "Pickup where ?",
                               initialValue: postModel.location!,
-                              isReadonly: true,
+                              isEnabled: false,
                               fontSize: 19,
                               color: KBlack,
                               fontWeight: FontWeight.normal,
                               icon: Icons.add_location_alt_outlined,
                               hintTextForm: "Location!"),
-
-                          const SizedBox(height: 20),
-
-                          /////////////////////////////////////Name/////////////////////////////////////
-                          rowTextAndFormInput(
-                              rowText: "Food Item(s)",
-                              initialValue: postModel.itemName!,
-                              fontSize: 19,
-                              color: KBlack,
-                              isReadonly: true,
-                              fontWeight: FontWeight.normal,
-                              icon: Icons.fastfood_outlined,
-                              hintTextForm: "Item(s)!"),
 
                           const SizedBox(height: 20),
 
@@ -88,18 +87,17 @@ class PostOverview extends StatelessWidget {
                                   color: defaultColor),
                             ],
                           ),
-
                           TextFormField(
                             decoration: const InputDecoration(),
-                            initialValue: postModel.postDate!,
-                            readOnly: true,
+                            initialValue: postModel.pickupDate!,
+                            enabled: false,
                           ),
                           const SizedBox(height: 20),
 
                           /////////////////////////////////////Quantity/////////////////////////////////////
 
                           rowTextAndFormInput(
-                              isReadonly: true,
+                              isEnabled: false,
                               rowText: "Quantity",
                               initialValue: postModel.quantity!,
                               fontSize: 19,
@@ -113,7 +111,8 @@ class PostOverview extends StatelessWidget {
                           /////////////////////////////////////Description/////////////////////////////////////
 
                           rowTextAndFormInput(
-                              isReadonly: true,
+                              isEnabled: false,
+                              linesNumber: 5,
                               rowText: "Description",
                               initialValue: postModel.description!,
                               fontSize: 19,

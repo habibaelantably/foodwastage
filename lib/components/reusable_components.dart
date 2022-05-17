@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -152,9 +151,10 @@ Widget rowTextAndFormInput(
     required Color color,
     required FontWeight fontWeight,
     required IconData icon,
-    bool isReadonly = false,
+    bool isEnabled = true,
     String? initialValue,
-    required String hintTextForm}) {
+    required String hintTextForm,
+    int linesNumber = 1}) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -170,6 +170,8 @@ Widget rowTextAndFormInput(
         ],
       ),
       TextFormField(
+        minLines: 1,
+        maxLines: linesNumber,
         keyboardType: textInputType,
         controller: textEditingController,
         decoration: InputDecoration(
@@ -179,7 +181,7 @@ Widget rowTextAndFormInput(
         validator: (value) => validator!(value),
         inputFormatters: inputFormatters,
         initialValue: initialValue,
-        readOnly: isReadonly,
+        enabled: isEnabled,
       )
     ],
   );

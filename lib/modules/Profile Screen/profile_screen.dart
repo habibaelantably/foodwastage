@@ -22,30 +22,28 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<FoodCubit, FoodStates>(
-      listener: (BuildContext context, state) {
-
-      },
+      listener: (BuildContext context, state) {},
       builder: (BuildContext context, Object? state) {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
             backgroundColor: Colors.white,
             elevation: 0.0,
-            titleSpacing: 20.0,
-            title: Row(
-              children: const [
-                SizedBox(
-                  width: 30.0,
-                ),
-                Text(
-                  '',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 26,
-                  ),
-                ),
-              ],
+            leading: IconButton(
+              onPressed: (){
+                //to back to home directly
+                FoodCubit.get(context).currentIndex != 0 ? FoodCubit.get(context).changeBottomNav(0):null;
+
+                Navigator.pop(context);
+              },
+              icon: const Icon(Icons.arrow_back),
+            ),
+            title: const Text(
+              'Profile',
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             actions: [
               selectedUserId != uId
@@ -62,10 +60,9 @@ class ProfileScreen extends StatelessWidget {
           body: BuildCondition(
               builder: (context) {
                 if (uId == selectedUserId) {
-                  profileUserModel = FoodCubit.get(context).userModel!;}
-                else{
+                  profileUserModel = FoodCubit.get(context).userModel!;
+                } else {
                   profileUserModel = FoodCubit.get(context).selectedUserModel!;
-
                 }
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -86,14 +83,24 @@ class ProfileScreen extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                profileUserModel.name!,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1!
-                                    .copyWith(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w800),
+                              RichText(
+                                text: TextSpan(children: [
+                                  TextSpan(
+                                      text: "${profileUserModel.name} ",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1!
+                                          .copyWith(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w800)),
+                                  TextSpan(
+                                    text: "(${profileUserModel.type})",
+                                    style: const TextStyle(
+                                        color: Colors.black54,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w900),
+                                  ),
+                                ]),
                               ),
                               const SizedBox(
                                 height: 7.0,
@@ -430,20 +437,24 @@ class ProfileScreen extends StatelessWidget {
                       Expanded(
                         child: Column(
                           children: [
-                            Text(currentUserPost.userName!,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1!
-                                    .copyWith(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w800)),
-                            Text(currentUserPost.foodDonor!,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1!
-                                    .copyWith(color: Colors.grey, fontSize: 10))
+                            Text(
+                              currentUserPost.userName!,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .copyWith(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w800),
+                            ),
+                            Text(
+                              currentUserPost.donorType!,
+                              style: const TextStyle(
+                                  color: Colors.black54,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w900),
+                            ),
                           ],
                         ),
                       )

@@ -142,12 +142,13 @@ Widget postBuilder(context, PostModel postModel, state) => Column(
                                               fontSize: 15,
                                               fontWeight: FontWeight.w800)),
                                 ),
-                                Text('${postModel.foodDonor}',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1!
-                                        .copyWith(
-                                            color: Colors.grey, fontSize: 10))
+                                Text('${postModel.donorType}',
+                                    style: const TextStyle(
+                                        color: Colors.black54,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w900
+                                    ),
+                                ),
                               ],
                             ),
                           )
