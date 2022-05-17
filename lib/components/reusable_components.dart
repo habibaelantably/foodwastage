@@ -48,6 +48,7 @@ Widget defaultButton({
   double radius = 0.0,
   required Function function,
   required String text,
+  required BuildContext context,
 }) =>
     Container(
       height: height,
@@ -58,8 +59,7 @@ Widget defaultButton({
         },
         child: Text(
           isUpperCase ? text.toUpperCase() : text,
-          style: const TextStyle(
-              color: Colors.white, fontWeight: FontWeight.w900, fontSize: 20),
+          style:Theme.of(context).textTheme.bodyText1,
         ),
       ),
       decoration: BoxDecoration(
