@@ -6,7 +6,7 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_states.dart';
 import 'package:group_radio_button/group_radio_button.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../components/reusable_components.dart';
 import '../../styles/colors.dart';
 
@@ -16,7 +16,6 @@ class AddPosts extends StatelessWidget {
   final TextEditingController quantityController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
 
-//
   final formKey = GlobalKey<FormState>();
 
   AddPosts({Key? key}) : super(key: key);
@@ -41,7 +40,7 @@ class AddPosts extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       defaultText(
-                          text: "donate",
+                          text: AppLocalizations.of(context)!.donate,
                           fontWeight: FontWeight.normal,
                           color: KBlack,
                           fontSize: 26),

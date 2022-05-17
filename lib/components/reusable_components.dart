@@ -48,6 +48,7 @@ Widget defaultButton({
   double radius = 0.0,
   required Function function,
   required String text,
+  required BuildContext context,
 }) =>
     Container(
       height: height,

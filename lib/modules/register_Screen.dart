@@ -197,7 +197,7 @@ class RegisterScreen extends StatelessWidget {
                                     country: countryController.text);
                               }
                             },
-                            text: 'register'.toUpperCase(),
+                            text: 'register'.toUpperCase(), context: context,
                           ),
                           fallback: (context) =>
                               const Center(child: CircularProgressIndicator()),

@@ -135,7 +135,7 @@ class PostOverview extends StatelessWidget {
                               child: defaultButton(
                                   function: () {},
                                   text: 'CHAT NOW',
-                                  height: 30.0),
+                                  height: 30.0, context: context),
                             ),
                             const SizedBox(
                               width: 12.0,

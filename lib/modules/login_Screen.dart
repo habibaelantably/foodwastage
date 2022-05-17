@@ -104,7 +104,7 @@ class LoginScreen extends StatelessWidget {
                                       password: passwordController.text);
                                 }
                               },
-                              text: 'login'.toUpperCase()),
+                              text: 'login'.toUpperCase(), context: context),
                           fallback: (context) =>
                               const Center(child: CircularProgressIndicator()),
                         ),

@@ -6,6 +6,201 @@
   "home": "home",
   "@home": {
     "description": "home"
+  },
+  "donate": "donate",
+  "@donate": {
+    "description": "donate"
+  },
+  "13": "13",
+  "@13": {
+    "description": "13"
+  },
+  "favorites": "favorites",
+  "@favorites": {
+    "description": "favorites"
+  },"HISTORY": "HISTORY",
+  "@HISTORY": {
+    "description": "HISTORY"
+  },"donated": "donated",
+  "@donated": {
+    "description": "donated"
+  },
+  "received": "received",
+  "@received": {
+    "description": "received"
+  },"Delete": "Delete",
+  "@Delete": {
+    "description": "Delete"
+  },"maps": "maps",
+  "@maps": {
+    "description": "maps"
+  },"Donate": "Donate",
+  "@Donate": {
+    "description": "Donate"
+  },"Chats": "Chats",
+  "@Chats": {
+    "description": "Chats"
+  },"Pickup where ?": "Pickup where ?",
+  "@Pickup where ?": {
+    "description": "Pickup where ?"
+  },"Location": "Location",
+  "@Location": {
+    "description": "Location"
+  },"Food Item(s)": "Food Item(s)",
+  "@Food Item(s)": {
+    "description": "Food Item(s)"
+  },"Item(s)!": "Item(s)!",
+  "@Item(s)!": {
+    "description": "Item(s)!"
+  },
+"Pickup Day": "Pickup Day",
+  "@Pickup Day": {
+    "description": "Pickup Day"
+  },"Quantity": "Quantity",
+  "@Quantity": {
+    "description": "Quantity"
+  },"Item Quantity": "Item Quantity",
+  "@Item Quantity": {
+    "description": "Item Quantity"
+  },"Description": "Description",
+  "@Description": {
+    "description": "Description"
+  },"Write a description": "Write a description",
+  "@Write a description": {
+    "description": "Write a description"
+  },"CHAT NOW": "CHAT NOW",
+  "@CHAT NOW": {
+    "description": "CHAT NOW"
+  },"GET": "GET",
+  "@GET": {
+    "description": "GET"
+  },"Rate": "Rate",
+  "@Rate": {
+    "description": "Rate"
+  },"Chat": "Chat",
+  "@Chat": {
+    "description": "Chat"
+  },"You have no posts yet...": "You have no posts yet...",
+  "@You have no posts yet...": {
+    "description": "You have no posts yet..."
+  },"enter the food name": "enter the food name",
+  "@enter the food name": {
+    "description": "enter the food name"
+  },"enter the location": "enter the location",
+  "@enter the location": {
+    "description": "enter the location"
+  },"enter the quantity": "enter the quantity",
+  "@enter the quantity": {
+    "description": "enter the quantity"
+  },"enter the description": "enter the description",
+  "@enter the description": {
+    "description": "enter the description"
+  },"enter the more about item": "enter the more about item",
+  "@enter the more about item": {
+    "description": "enter the more about item"
+  },"Photos": "Photos",
+  "@Photos": {
+    "description": "Photos"
+  },
+  "I assure that food quality and hygiene has maintained": "I assure that food quality and hygiene has maintained",
+  "@I assure that food quality and hygiene has maintained": {
+    "description": "I assure that food quality and hygiene has maintained"
+  }, "Confirm Rules": "Confirm Rules",
+  "@Confirm Rules": {
+    "description": "Confirm Rules"
+  }, "Please Assure the food quality": "Please Assure the food quality",
+  "@Please Assure the food quality": {
+    "description": "Please Assure the food quality"
+  }, "Update": "Update",
+  "@Update": {
+    "description": "Update"
+  }, "assets/images/LoginIcon.png": "assets/images/LoginIcon.png",
+  "@assets/images/LoginIcon.png": {
+    "description": "assets/images/LoginIcon.png"
+  }, "WELCOME": "WELCOME",
+  "@WELCOME": {
+    "description": "WELCOME"
+  }, "LOGIN TO CONTINUE": "LOGIN TO CONTINUE",
+  "@LOGIN TO CONTINUE": {
+    "description": "LOGIN TO CONTINUE"
+  }, "please enter email address": "please enter email address",
+  "@please enter email address": {
+    "description": "please enter email address"
+  }, "Email Address": "Email Address",
+  "@Email Address": {
+    "description": "Email Address"
+  }, "please enter password": "please enter password",
+  "@please enter password": {
+    "description": "please enter password"
+  }, "password": "password",
+  "@password": {
+    "description": "password"
+  }, "login": "login",
+  "@login": {
+    "description": "login"
+  }, "or": "or",
+  "@or": {
+    "description": "or"
+  }, "assets/images/googleLogo.png": "assets/images/googleLogo.png",
+  "@assets/images/googleLogo.png": {
+    "description": "assets/images/googleLogo.png"
+  }, "Don`t have an account?": "Don`t have an account?",
+  "@Don`t have an account?": {
+    "description": "Don`t have an account?"
+  }, "Register": "Register",
+  "@Register": {
+    "description": "Register"
+  }, "uId": "uId",
+  "@uId": {
+    "description": "uId"
+  }, "REGISTER": "REGISTER",
+  "@REGISTER": {
+    "description": "REGISTER"
+  }, "please enter your name": "please enter your name",
+  "@please enter your name": {
+    "description": "please enter your name"
+  }, "name": "name",
+  "@name": {
+    "description": "name"
+  }, "please enter phone number": "please enter phone number",
+  "@please enter phone number": {
+    "description": "please enter phone number"
+  }, "phone": "phone",
+  "@phone": {
+    "description": "phone"
+  }, "email": "email",
+  "@email": {
+    "description": "email"
+  }, "please confirm your password": "please confirm your password",
+  "@please confirm your password": {
+    "description": "please confirm your password"
+  }, "Password does not match": "Password does not match",
+  "@Password does not match": {
+    "description": "Password does not match"
+  }, "Confirm Password": "Confirm Password",
+  "@Confirm Password": {
+    "description": "Confirm Password"
+  }, "please enter your country": "please enter your country",
+  "@please enter your country": {
+    "description": "please enter your country"
+  },
+  "Country": "Country",
+  "@Country": {
+    "description": "Country"
+  },"Select country": "Select country",
+  "@Select country": {
+    "description": "Select country"
+  },"Search": "Search",
+  "@Search": {
+    "description": "Search"
+  },"Start typing to search": "Start typing to search",
+  "@Start typing to search": {
+    "description": "Start typing to search"
+  },"Already have an account?": "Already have an account?",
+  "@Already have an account?": {
+    "description": "Already have an account?"
+  },"no Favorite add yet": "no Favorite add yet",
+  "@no Favorite add yet": {
+    "description": "no Favorite add yet"
   }
-
 }
