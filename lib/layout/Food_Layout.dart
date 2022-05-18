@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:foodwastage/widgets/my_drawer.dart';
-
+import 'package:foodwastage/shared/components/my_drawer.dart';
 import '../shared/cubit/Food_Cubit/food_cubit.dart';
 import '../shared/cubit/Food_Cubit/food_states.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FoodLayout extends StatelessWidget {
   const FoodLayout({Key? key}) : super(key: key);
@@ -11,17 +11,21 @@ class FoodLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<FoodCubit, FoodStates>(
-      listener: (BuildContext context, state) {
-        // if(state is DonateFoodState)
-        // {
-        //   NavigateTo(context, AddPosts());
-        // }
-      },
+      listener: (BuildContext context, state) {},
       builder: (BuildContext context, Object? state) {
         var cubit = FoodCubit.get(context);
         return Scaffold(
           appBar: AppBar(
-            title: Text(cubit.titles[cubit.currentIndex]),
+            title: Text(cubit.currentIndex == 0
+                ? AppLocalizations.of(context)!.layoutAppBarTitleHome
+                : cubit.currentIndex == 1
+                    ? AppLocalizations.of(context)!.layoutAppBarTitleMap
+                    : cubit.currentIndex == 2
+                        ? AppLocalizations.of(context)!.layoutAppBarTitleDonate
+                        : cubit.currentIndex == 3
+                            ? AppLocalizations.of(context)!
+                                .layoutAppBarTitleFavorites
+                            : AppLocalizations.of(context)!.chatButton),
           ),
           drawer: const CustomDrawer(),
           body: cubit.screens[cubit.currentIndex],
@@ -30,16 +34,23 @@ class FoodLayout extends StatelessWidget {
             onTap: (index) {
               cubit.changeBottomNav(index);
             },
-            items: const [
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+            items: [
               BottomNavigationBarItem(
-                  icon: Icon(Icons.location_on_outlined), label: 'maps'),
+                  icon: const Icon(Icons.home),
+                  label: AppLocalizations.of(context)!.layoutAppBarTitleHome),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.upload_file), label: 'Donate'),
+                  icon: const Icon(Icons.location_on_outlined),
+                  label: AppLocalizations.of(context)!.layoutAppBarTitleMap),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.favorite), label: 'favorites'),
+                  icon: const Icon(Icons.upload_file),
+                  label: AppLocalizations.of(context)!.layoutAppBarTitleDonate),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.message), label: 'Chats'),
+                  icon: const Icon(Icons.favorite),
+                  label:
+                      AppLocalizations.of(context)!.layoutAppBarTitleFavorites),
+              BottomNavigationBarItem(
+                  icon: const Icon(Icons.message),
+                  label: AppLocalizations.of(context)!.chatButton),
             ],
           ),
         );

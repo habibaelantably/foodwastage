@@ -2,14 +2,13 @@ import 'package:buildcondition/buildcondition.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:foodwastage/components/constants.dart';
-import 'package:foodwastage/components/reusable_components.dart';
+import 'package:foodwastage/shared/components/reusable_components.dart';
 import 'package:foodwastage/layout/Food_Layout.dart';
 import 'package:foodwastage/modules/login_Screen.dart';
-import 'package:foodwastage/network/local/cache_helper.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Register/food_register_cubit.dart';
 import 'package:foodwastage/shared/cubit/Register/food_register_state.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class RegisterScreen extends StatelessWidget {
@@ -44,7 +43,9 @@ class RegisterScreen extends StatelessWidget {
                         height: 70.0,
                       ),
                       Text(
-                        'REGISTER',
+                        AppLocalizations.of(context)!
+                            .registerButton
+                            .toUpperCase(),
                         style: Theme.of(context).textTheme.headline5!.copyWith(
                             color: Colors.black, fontWeight: FontWeight.bold),
                       ),
@@ -56,12 +57,14 @@ class RegisterScreen extends StatelessWidget {
                           type: TextInputType.name,
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'please enter your name';
+                              return AppLocalizations.of(context)!
+                                  .registerScreenNameFieldValidation;
                             }
                             return null;
                           },
                           prefix: Icons.person,
-                          label: 'name'),
+                          label: AppLocalizations.of(context)!
+                              .donateScreenNameFieldHint),
                       const SizedBox(
                         height: 15,
                       ),
@@ -70,12 +73,14 @@ class RegisterScreen extends StatelessWidget {
                           type: TextInputType.phone,
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'please enter phone number';
+                              return AppLocalizations.of(context)!
+                                  .registerScreenPhoneFieldValidation;
                             }
                             return null;
                           },
                           prefix: Icons.phone,
-                          label: 'phone'),
+                          label: AppLocalizations.of(context)!
+                              .registerScreenPhoneFieldLabel),
                       const SizedBox(
                         height: 15,
                       ),
@@ -84,12 +89,14 @@ class RegisterScreen extends StatelessWidget {
                           type: TextInputType.emailAddress,
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'please enter email address';
+                              return AppLocalizations.of(context)!
+                                  .loginScreenEmailFieldValidation;
                             }
                             return null;
                           },
                           prefix: Icons.email,
-                          label: 'email'),
+                          label: AppLocalizations.of(context)!
+                              .loginScreenEmailFieldLabel),
                       const SizedBox(
                         height: 15,
                       ),
@@ -98,7 +105,8 @@ class RegisterScreen extends StatelessWidget {
                           type: TextInputType.visiblePassword,
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'please enter password';
+                              return AppLocalizations.of(context)!
+                                  .loginScreenPasswordFieldValidation;
                             }
                             return null;
                           },
@@ -109,7 +117,8 @@ class RegisterScreen extends StatelessWidget {
                             FoodRegisterCubit.get(context)
                                 .changePasswordVisibilityRegister();
                           },
-                          label: 'password'),
+                          label: AppLocalizations.of(context)!
+                              .loginScreenPasswordFieldLabel),
                       const SizedBox(
                         height: 15,
                       ),
@@ -119,16 +128,19 @@ class RegisterScreen extends StatelessWidget {
                           isPassword: true,
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'please confirm your password';
+                              return AppLocalizations.of(context)!
+                                  .loginScreenPasswordFieldValidation;
                             }
                             if (passwordController.text !=
                                 confirmPasswordController.text) {
-                              return "Password does not match";
+                              return AppLocalizations.of(context)!
+                                  .registerScreenConfirmPasswordFieldValidation;
                             }
                             return null;
                           },
                           prefix: Icons.vpn_key_sharp,
-                          label: 'Confirm Password'),
+                          label: AppLocalizations.of(context)!
+                              .registerScreenConfirmPasswordFieldLabel),
                       const SizedBox(
                         height: 15,
                       ),
@@ -137,7 +149,8 @@ class RegisterScreen extends StatelessWidget {
                           type: TextInputType.text,
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'please enter your country';
+                              return AppLocalizations.of(context)!
+                                  .registerScreenCountryFieldValidation;
                             }
                             return null;
                           },
@@ -151,7 +164,6 @@ class RegisterScreen extends StatelessWidget {
                               onSelect: (Country country) {
                                 countryController.text =
                                     country.displayNameNoCountryCode.toString();
-                                print('Select country: ${country.displayName}');
                               },
                               countryListTheme: CountryListThemeData(
                                 borderRadius: const BorderRadius.only(
@@ -159,8 +171,10 @@ class RegisterScreen extends StatelessWidget {
                                   topRight: Radius.circular(40.0),
                                 ),
                                 inputDecoration: InputDecoration(
-                                  labelText: 'Search',
-                                  hintText: 'Start typing to search',
+                                  labelText: AppLocalizations.of(context)!
+                                      .registerScreenCountryFieldSearchLabel,
+                                  hintText: AppLocalizations.of(context)!
+                                      .registerScreenCountryFieldSearchHint,
                                   prefixIcon: const Icon(Icons.search),
                                   border: OutlineInputBorder(
                                     borderSide: BorderSide(
@@ -191,7 +205,9 @@ class RegisterScreen extends StatelessWidget {
                                   country: countryController.text);
                             }
                           },
-                          text: 'register'.toUpperCase(),
+                          text: AppLocalizations.of(context)!
+                              .registerButton
+                              .toUpperCase(),
                           context: context,
                         ),
                         fallback: (context) =>
@@ -203,9 +219,10 @@ class RegisterScreen extends StatelessWidget {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text(
-                            'Already have an account?',
-                            style: TextStyle(
+                          Text(
+                            AppLocalizations.of(context)!
+                                .registerScreenLoginHint,
+                            style: const TextStyle(
                               color: Colors.black,
                             ),
                           ),
@@ -213,9 +230,10 @@ class RegisterScreen extends StatelessWidget {
                               onPressed: () {
                                 navigateTo(context, LoginScreen());
                               },
-                              child: const Text(
-                                'login',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                              child: Text(
+                                AppLocalizations.of(context)!.loginButton,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
                               ))
                         ],
                       )

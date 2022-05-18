@@ -9,13 +9,13 @@ import 'package:foodwastage/models/User_model.dart';
 import 'package:foodwastage/models/post_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import '../../../components/constants.dart';
-import '../../../components/reusable_components.dart';
 import '../../../modules/Add Post Screen/add_post_screen.dart';
 import '../../../modules/Chats Screen/chats_screen.dart';
 import '../../../modules/Favorites Screen/favorites_screen.dart';
 import '../../../modules/Home Screen/home_screen.dart';
 import '../../../modules/Maps Screen/maps_screen.dart';
+import '../../constants.dart';
+import 'package:foodwastage/shared/components/reusable_components.dart';
 import 'food_states.dart';
 
 class FoodCubit extends Cubit<FoodStates> {
@@ -58,7 +58,6 @@ class FoodCubit extends Cubit<FoodStates> {
     const FavoritesScreen(),
     const ChatsScreen()
   ];
-  List<String> titles = ['Home', 'Maps', 'Donate', 'favorites', 'Chats'];
 
   void changeBottomNav(int index) {
     // if (index == 2) {
@@ -336,7 +335,6 @@ class FoodCubit extends Cubit<FoodStates> {
   List<PostModel> currentUserPostsList = [];
   List<PostModel> selectedUserPostsList = [];
   List<PostModel> myReceivedFoodList = [];
-  List<String> postId = [];
   List<UserModel> userData = [];
   List<PostModel> favPosts = [];
 
@@ -369,7 +367,6 @@ class FoodCubit extends Cubit<FoodStates> {
         if (element.get('donorId') == uId) {
           currentUserPostsList.add(PostModel.fromJson(element.data()));
         }
-        postId.add(element.id);
         postsList.add(PostModel.fromJson(element.data()));
       }
       emit(FoodGetPostsSuccessState());
@@ -387,7 +384,6 @@ class FoodCubit extends Cubit<FoodStates> {
       emit(FoodGetSelectedUserPostsSuccessState());
     }
   }
-
 
   void receiveFood({required PostModel postModel}) async {
     emit(FoodReceiveFoodLoadingState());
@@ -427,14 +423,13 @@ class FoodCubit extends Cubit<FoodStates> {
     emit(FoodRatingUpdateSuccessState());
   }
 
-  void logout()async{
+  void logout() async {
     await FirebaseAuth.instance.signOut();
   }
 
-  static String? getLoggedInUser(){
+  static String? getLoggedInUser() {
     User? currentUser = FirebaseAuth.instance.currentUser;
-    currentUser !=null ? uId = currentUser.uid:uId =null;
+    currentUser != null ? uId = currentUser.uid : uId = null;
     return uId;
   }
-
 }

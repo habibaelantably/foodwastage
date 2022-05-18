@@ -1,11 +1,10 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:foodwastage/location_helper.dart';
+import 'package:foodwastage/styles/colors.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-//
 // ignore: must_be_immutable
 class MapScreen extends StatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
@@ -73,7 +72,7 @@ class _MapScreenState extends State<MapScreen> {
           ? buildMap()
           : const Center(
               child: CircularProgressIndicator(
-                color: Colors.blue,
+                color: defaultColor,
               ),
             ),
       floatingActionButton: buildFloatingActionButton(),

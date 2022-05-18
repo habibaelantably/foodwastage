@@ -1,14 +1,13 @@
 import 'package:buildcondition/buildcondition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:foodwastage/components/constants.dart';
-import 'package:foodwastage/components/reusable_components.dart';
+import 'package:foodwastage/shared/components/reusable_components.dart';
 import 'package:foodwastage/layout/Food_Layout.dart';
 import 'package:foodwastage/modules/register_Screen.dart';
-import 'package:foodwastage/network/local/cache_helper.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Login/food_login_cubit.dart';
 import 'package:foodwastage/shared/cubit/Login/food_login_states.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class LoginScreen extends StatelessWidget {
@@ -41,7 +40,7 @@ class LoginScreen extends StatelessWidget {
                         height: 300,
                       ),
                       Text(
-                        'WELCOME',
+                        AppLocalizations.of(context)!.welcome,
                         style: Theme.of(context)
                             .textTheme
                             .headline6!
@@ -49,7 +48,7 @@ class LoginScreen extends StatelessWidget {
                       ),
                       // SizedBox(height: 3.0,),
                       Text(
-                        'LOGIN TO CONTINUE ',
+                        AppLocalizations.of(context)!.loginToContinue,
                         style: Theme.of(context)
                             .textTheme
                             .bodyText1!
@@ -63,12 +62,14 @@ class LoginScreen extends StatelessWidget {
                           type: TextInputType.emailAddress,
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'please enter email address';
+                              return AppLocalizations.of(context)!
+                                  .loginScreenEmailFieldValidation;
                             }
                             return null;
                           },
                           prefix: Icons.email,
-                          label: 'Email Address'),
+                          label: AppLocalizations.of(context)!
+                              .loginScreenEmailFieldLabel),
                       const SizedBox(
                         height: 10,
                       ),
@@ -78,7 +79,8 @@ class LoginScreen extends StatelessWidget {
                           type: TextInputType.visiblePassword,
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'please enter password';
+                              return AppLocalizations.of(context)!
+                                  .loginScreenPasswordFieldValidation;
                             }
                             return null;
                           },
@@ -89,7 +91,8 @@ class LoginScreen extends StatelessWidget {
                             FoodLoginCubit.get(context)
                                 .changePasswordVisibility();
                           },
-                          label: 'password'),
+                          label: AppLocalizations.of(context)!
+                              .loginScreenPasswordFieldLabel),
                       const SizedBox(
                         height: 17.0,
                       ),
@@ -105,7 +108,9 @@ class LoginScreen extends StatelessWidget {
                                     password: passwordController.text);
                               }
                             },
-                            text: 'login'.toUpperCase(),
+                            text: AppLocalizations.of(context)!
+                                .loginButton
+                                .toUpperCase(),
                             context: context),
                         fallback: (context) =>
                             const Center(child: CircularProgressIndicator()),
@@ -116,25 +121,28 @@ class LoginScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Container(
-                            height: 1.0,
-                            width: 150.0,
-                            color: Colors.grey,
+                          Expanded(
+                            child: Container(
+                              height: 1.0,
+                              color: Colors.grey,
+                            ),
                           ),
                           const SizedBox(
                             width: 4.0,
                           ),
-                          const Text(
-                            'or',
-                            style: TextStyle(fontSize: 15, color: Colors.grey),
+                          Text(
+                            AppLocalizations.of(context)!.or,
+                            style: const TextStyle(
+                                fontSize: 15, color: Colors.grey),
                           ),
                           const SizedBox(
                             width: 4.0,
                           ),
-                          Container(
-                            height: 1.0,
-                            width: 150.0,
-                            color: Colors.grey,
+                          Expanded(
+                            child: Container(
+                              height: 1.0,
+                              color: Colors.grey,
+                            ),
                           ),
                         ],
                       ),
@@ -165,12 +173,14 @@ class LoginScreen extends StatelessWidget {
                       ),
                       Column(
                         children: [
-                          const Text('Don`t have an account?'),
+                          Text(AppLocalizations.of(context)!
+                              .loginScreenRegisterHint),
                           TextButton(
                               onPressed: () {
                                 navigateTo(context, RegisterScreen());
                               },
-                              child: const Text('Register')),
+                              child: Text(AppLocalizations.of(context)!
+                                  .registerButton)),
                         ],
                       )
                     ],

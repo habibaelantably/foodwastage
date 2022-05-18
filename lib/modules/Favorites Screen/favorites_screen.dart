@@ -1,7 +1,7 @@
 import 'package:buildcondition/buildcondition.dart';
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '/models/post_model.dart';
 import '/shared/cubit/Food_Cubit/food_cubit.dart';
 import '../../shared/cubit/Food_Cubit/food_states.dart';
@@ -29,8 +29,9 @@ class FavoritesScreen extends StatelessWidget {
                     ),
                 itemCount: FoodCubit.get(context).favPosts.length),
           ),
-          fallback: (context) =>
-              const Center(child: Text('no Favorite add yet')),
+          fallback: (context) => Center(
+              child:
+                  Text(AppLocalizations.of(context)!.favoritesScreenFallback)),
         );
       },
       listener: (BuildContext context, Object? state) {},

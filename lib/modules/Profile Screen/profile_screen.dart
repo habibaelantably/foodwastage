@@ -2,14 +2,13 @@ import 'package:buildcondition/buildcondition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:foodwastage/components/constants.dart';
+import 'package:foodwastage/shared/constants.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_states.dart';
 import 'package:foodwastage/styles/colors.dart';
-import '../../components/reusable_components.dart';
+import 'package:foodwastage/shared/components/reusable_components.dart';
 import '../../models/User_model.dart';
-import '../../models/post_model.dart';
-import '../Post Overview Screen/post_overview.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: must_be_immutable
 class ProfileScreen extends StatelessWidget {
@@ -18,7 +17,6 @@ class ProfileScreen extends StatelessWidget {
   late UserModel profileUserModel;
   double? ratingValue;
 
-//
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<FoodCubit, FoodStates>(
@@ -30,17 +28,19 @@ class ProfileScreen extends StatelessWidget {
             backgroundColor: Colors.white,
             elevation: 0.0,
             leading: IconButton(
-              onPressed: (){
+              onPressed: () {
                 //to back to home directly
-                FoodCubit.get(context).currentIndex != 0 ? FoodCubit.get(context).changeBottomNav(0):null;
+                FoodCubit.get(context).currentIndex != 0
+                    ? FoodCubit.get(context).changeBottomNav(0)
+                    : null;
 
                 Navigator.pop(context);
               },
               icon: const Icon(Icons.arrow_back),
             ),
-            title: const Text(
-              'Profile',
-              style: TextStyle(
+            title: Text(
+              AppLocalizations.of(context)!.profileScreenTitle,
+              style: const TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
               ),
@@ -155,9 +155,10 @@ class ProfileScreen extends StatelessWidget {
                                                         rating: ratingValue!);
                                               }
                                             },
-                                            child: const Text(
-                                              "Rate",
-                                              style: TextStyle(
+                                            child: Text(
+                                              AppLocalizations.of(context)!
+                                                  .rateButton,
+                                              style: const TextStyle(
                                                   color: Colors.white),
                                             ),
                                           ),
@@ -170,9 +171,10 @@ class ProfileScreen extends StatelessWidget {
                                       onPressed: () {},
                                       color: defaultColor,
                                       height: 24,
-                                      child: const Text(
-                                        'Chat',
-                                        style: TextStyle(
+                                      child: Text(
+                                        AppLocalizations.of(context)!
+                                            .chatButton,
+                                        style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             color: Colors.white),
                                       ),
@@ -200,19 +202,18 @@ class ProfileScreen extends StatelessWidget {
                           shrinkWrap: true,
                           physics: const BouncingScrollPhysics(),
                           itemBuilder: (context, index) {
-                            return buildMyPosts(
-                              context: context,
-                              currentUserPost: uId == selectedUserId
-                                  ? FoodCubit.get(context)
-                                      .currentUserPostsList[index]
-                                  : FoodCubit.get(context)
-                                      .selectedUserPostsList[index],
-                              index: index,
-                              selectedUserId: selectedUserId,
-                            );
+                            return postBuilder(
+                                context: context,
+                                postModel: uId == selectedUserId
+                                    ? FoodCubit.get(context)
+                                        .currentUserPostsList[index]
+                                    : FoodCubit.get(context)
+                                        .selectedUserPostsList[index],
+                                viewPost: true,
+                                isInHistory: false);
                           },
                           separatorBuilder: (context, index) => const SizedBox(
-                                height: 10.0,
+                                height: 20.0,
                               ),
                           itemCount: selectedUserId == uId
                               ? FoodCubit.get(context)
@@ -376,150 +377,6 @@ class ProfileScreen extends StatelessWidget {
               }),
         );
       },
-    );
-  }
-
-  Widget buildMyPosts(
-      {required BuildContext context,
-      required PostModel currentUserPost,
-      required int index,
-      required selectedUserId}) {
-    return InkWell(
-      onTap: () {
-        navigateTo(context, PostOverview(postModel: currentUserPost));
-      },
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        elevation: 5.0,
-        color: Colors.grey[100],
-        margin: const EdgeInsets.symmetric(horizontal: 15.0),
-        child: Row(
-          children: [
-            Container(
-              height: 135,
-              width: 155,
-              decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(10.0),
-                      bottomLeft: Radius.circular(10.0)),
-                  image: DecorationImage(
-                    image: NetworkImage(currentUserPost.imageUrl1!),
-                    fit: BoxFit.fill,
-                  )),
-            ),
-            const SizedBox(
-              width: 10.0,
-            ),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    currentUserPost.itemName!,
-                    style: Theme.of(context).textTheme.bodyText1,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                  ),
-                  const SizedBox(
-                    height: 7.0,
-                  ),
-                  Row(
-                    children: [
-                      CircleAvatar(
-                        backgroundImage:
-                            NetworkImage(currentUserPost.userImage!),
-                      ),
-                      const SizedBox(
-                        width: 5.0,
-                      ),
-                      Expanded(
-                        child: Column(
-                          children: [
-                            Text(
-                              currentUserPost.userName!,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .copyWith(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w800),
-                            ),
-                            Text(
-                              currentUserPost.donorType!,
-                              style: const TextStyle(
-                                  color: Colors.black54,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w900),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 5.0, right: 5.0),
-              child: SizedBox(
-                height: 135,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    //the condition is for display delete button if i'm in my profile and favorite button if i'm in another user profile
-                    currentUserPost.donorId != uId
-                        ? const Padding(
-                            padding: EdgeInsets.only(top: 5.0, right: 5.0),
-                            child: Icon(
-                              Icons.favorite_border,
-                              color: defaultColor,
-                            ),
-                          )
-                        : Padding(
-                            padding:
-                                const EdgeInsets.only(top: 5.0, right: 5.0),
-                            child: PopupMenuButton<String>(
-                                icon: const Icon(Icons.more_horiz),
-                                onSelected: (value) {
-                                  if (value == "Delete") {
-                                    FoodCubit.get(context)
-                                        .deletePost(currentUserPost.postId!);
-                                  }
-                                },
-                                itemBuilder: (BuildContext context) {
-                                  return <PopupMenuItem<String>>[
-                                    const PopupMenuItem(
-                                      child: Text("Delete"),
-                                      value: "Delete",
-                                    )
-                                  ];
-                                })),
-                    const Spacer(),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      textBaseline: TextBaseline.alphabetic,
-                      children: const [
-                        Text(
-                          "13",
-                          style: TextStyle(color: Colors.orange),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 5.0, right: 5.0),
-                          child: Icon(Icons.comment_outlined),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
     );
   }
 }

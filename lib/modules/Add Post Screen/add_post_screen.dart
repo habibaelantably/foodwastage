@@ -7,7 +7,7 @@ import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_states.dart';
 import 'package:group_radio_button/group_radio_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import '../../components/reusable_components.dart';
+import 'package:foodwastage/shared/components/reusable_components.dart';
 import '../../styles/colors.dart';
 
 class AddPosts extends StatelessWidget {
@@ -39,7 +39,7 @@ class AddPosts extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     defaultText(
-                        text: AppLocalizations.of(context)!.donate,
+                        text: AppLocalizations.of(context)!.layoutAppBarTitleDonate,
                         fontWeight: FontWeight.w800,
                         color: KBlack,
                         fontSize: 26),
@@ -92,17 +92,17 @@ class AddPosts extends StatelessWidget {
                           textEditingController: foodNameController,
                           validator: (value) {
                             if (value.toString().isEmpty) {
-                              return "enter the food name";
+                              return AppLocalizations.of(context)!.donateScreenNameFieldValidation;
                             } else {
                               return null;
                             }
                           },
-                          rowText: "Item Name",
+                          rowText: AppLocalizations.of(context)!.donateScreenNameFieldHeader,
                           fontSize: 19,
                           color: KBlack,
                           fontWeight: FontWeight.normal,
                           icon: Icons.fastfood_outlined,
-                          hintTextForm: "Name"),
+                          hintTextForm: AppLocalizations.of(context)!.donateScreenNameFieldHint),
                       SizedBox(
                         height: size.height / 60,
                       ),
@@ -111,19 +111,19 @@ class AddPosts extends StatelessWidget {
                       rowTextAndFormInput(
                           validator: (value) {
                             if (value.toString().isEmpty) {
-                              return "enter the location";
+                              return AppLocalizations.of(context)!.donateScreenLocationFieldValidation;
                             } else {
                               return null;
                             }
                           },
                           initialValue: null,
                           textEditingController: locationController,
-                          rowText: "Pickup where ?",
+                          rowText: AppLocalizations.of(context)!.donateScreenLocationFieldHeader,
                           fontSize: 19,
                           color: KBlack,
                           fontWeight: FontWeight.normal,
                           icon: Icons.add_location_alt_outlined,
-                          hintTextForm: "Location!"),
+                          hintTextForm: AppLocalizations.of(context)!.donateScreenLocationFieldHint),
                       SizedBox(
                         height: size.height / 60,
                       ),
@@ -133,7 +133,7 @@ class AddPosts extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           defaultText(
-                              text: "Pickup Day",
+                              text: AppLocalizations.of(context)!.donateScreenDateFieldHeader,
                               fontSize: 19,
                               color: KBlack,
                               fontWeight: FontWeight.normal),
@@ -171,7 +171,7 @@ class AddPosts extends StatelessWidget {
                           validator: (value) {
                             if (value == 0 ||
                                 quantityController.text.isEmpty) {
-                              return "enter the quantity";
+                              return AppLocalizations.of(context)!.donateScreenQuantityFieldValidation;
                             } else {
                               return null;
                             }
@@ -181,12 +181,12 @@ class AddPosts extends StatelessWidget {
                           inputFormatters: <TextInputFormatter>[
                             FilteringTextInputFormatter.digitsOnly
                           ],
-                          rowText: "Quantity",
+                          rowText: AppLocalizations.of(context)!.donateScreenQuantityFieldHeader,
                           fontSize: 19,
                           color: KBlack,
                           fontWeight: FontWeight.normal,
                           icon: Icons.list_alt,
-                          hintTextForm: "Item Quantity"),
+                          hintTextForm: AppLocalizations.of(context)!.donateScreenQuantityFieldHint),
                       SizedBox(
                         height: size.height / 65,
                       ),
@@ -197,26 +197,26 @@ class AddPosts extends StatelessWidget {
                           textEditingController: descriptionController,
                           validator: (value) {
                             if (value.toString().isEmpty) {
-                              return "enter the description";
+                              return AppLocalizations.of(context)!.donateScreenDescriptionFieldValidation;
                             } else if (value.toString().length <= 50) {
-                              return "enter the more about item";
+                              return AppLocalizations.of(context)!.donateScreenDescriptionFieldValidation2;
                             } else {
                               return null;
                             }
                           },
-                          rowText: "Description",
+                          rowText: AppLocalizations.of(context)!.donateScreenDescriptionFieldHeader,
                           fontSize: 19,
                           color: KBlack,
                           fontWeight: FontWeight.normal,
                           icon: Icons.description,
-                          hintTextForm: "Write a description"),
+                          hintTextForm: AppLocalizations.of(context)!.donateScreenDescriptionFieldHint),
                       SizedBox(
                         height: size.height / 60,
                       ),
                       /////////////////////////////////////Images/////////////////////////////////////
-                      const Text(
-                        "Photos",
-                        style: TextStyle(fontSize: 19),
+                      Text(
+                        AppLocalizations.of(context)!.donateScreenPhotoFieldHeader,
+                        style: const TextStyle(fontSize: 19),
                       ),
                       SizedBox(
                         height: size.height / 90,
@@ -454,7 +454,7 @@ class AddPosts extends StatelessWidget {
                           ),
                           defaultText(
                               text:
-                              "I assure that food quality and hygiene has maintained",
+                              AppLocalizations.of(context)!.donateScreenPolicy,
                               fontSize: size.width * 0.03,
                               color: KBlack,
                               fontWeight: FontWeight.normal)
@@ -480,16 +480,16 @@ class AddPosts extends StatelessWidget {
                                       context: context,
                                       builder: (_) => AlertDialog(
                                         title:
-                                        const Text('Confirm Rules'),
-                                        content: const Text(
-                                            'Please Assure the food quality'),
+                                        Text(AppLocalizations.of(context)!.donateScreenPolicyValidationDialogTitle),
+                                        content: Text(
+                                            AppLocalizations.of(context)!.donateScreenPolicyValidationDialogDescription),
                                         actions: [
                                           TextButton(
                                               onPressed: () {
                                                 Navigator.pop(context);
                                               },
                                               child: defaultText(
-                                                  text: "Ok",
+                                                  text: AppLocalizations.of(context)!.dialogOkButton,
                                                   fontSize: 20,
                                                   color: KBlack,
                                                   fontWeight:
@@ -529,7 +529,7 @@ class AddPosts extends StatelessWidget {
                                 ),
                               )
                                   : defaultText(
-                                  text: "SUBMIT",
+                                  text: AppLocalizations.of(context)!.submitButton,
                                   fontSize: 26,
                                   color: Colors.white,
                                   fontWeight: FontWeight.w400)),
