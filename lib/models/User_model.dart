@@ -5,6 +5,7 @@ class UserModel {
   String? uId;
   String? country;
   String? image;
+  String? type;
   double? rating;
 
   UserModel({
@@ -14,6 +15,7 @@ class UserModel {
     this.uId,
     this.country,
     this.image,
+    this.type,
     this.rating,
   });
 
@@ -24,6 +26,7 @@ class UserModel {
     uId = json['uId'];
     country = json['country'];
     image = json['image'];
+    type = json['type'];
     rating = json['rating'];
   }
 
@@ -35,6 +38,7 @@ class UserModel {
       'uId': uId,
       'country': country,
       'image': image,
+      'type': type,
       'rating': rating,
     };
   }

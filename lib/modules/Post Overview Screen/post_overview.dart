@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodwastage/models/post_model.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
-
-import '../../components/constants.dart';
-import '../../components/reusable_components.dart';
+import '../../shared/constants.dart';
+import 'package:foodwastage/shared/components/reusable_components.dart';
 import '../../shared/cubit/Food_Cubit/food_states.dart';
 import '../../styles/colors.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PostOverview extends StatelessWidget {
   const PostOverview({Key? key, required this.postModel}) : super(key: key);
   final PostModel postModel;
 
-//
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<FoodCubit, FoodStates>(
@@ -39,7 +38,16 @@ class PostOverview extends StatelessWidget {
                       fontSize: 24.0, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(
-                  height: 18.0,
+                  height: 5.0,
+                ),
+                Text(
+                  "${AppLocalizations.of(context)!.postDateHeader} ${postModel.postDate!}",
+                  style: const TextStyle(
+                    fontSize: 16.0,
+                  ),
+                ),
+                const SizedBox(
+                  height: 12.0,
                 ),
                 Expanded(
                   child: SingleChildScrollView(
@@ -49,29 +57,33 @@ class PostOverview extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          /////////////////////////////////////Name/////////////////////////////////////
+                          rowTextAndFormInput(
+                              rowText: AppLocalizations.of(context)!
+                                  .donateScreenNameFieldHeader,
+                              initialValue: postModel.itemName!,
+                              fontSize: 19,
+                              color: KBlack,
+                              isEnabled: false,
+                              fontWeight: FontWeight.normal,
+                              icon: Icons.fastfood_outlined,
+                              hintTextForm: AppLocalizations.of(context)!
+                                  .donateScreenNameFieldHint),
+
+                          const SizedBox(height: 20),
+
                           rowTextAndFormInput(
                               /////////////////////////////////////Location/////////////////////////////////////
-                              rowText: "Pickup where ?",
+                              rowText: AppLocalizations.of(context)!
+                                  .donateScreenLocationFieldHeader,
                               initialValue: postModel.location!,
-                              isReadonly: true,
+                              isEnabled: false,
                               fontSize: 19,
                               color: KBlack,
                               fontWeight: FontWeight.normal,
                               icon: Icons.add_location_alt_outlined,
-                              hintTextForm: "Location!"),
-
-                          const SizedBox(height: 20),
-
-                          /////////////////////////////////////Name/////////////////////////////////////
-                          rowTextAndFormInput(
-                              rowText: "Food Item(s)",
-                              initialValue: postModel.itemName!,
-                              fontSize: 19,
-                              color: KBlack,
-                              isReadonly: true,
-                              fontWeight: FontWeight.normal,
-                              icon: Icons.fastfood_outlined,
-                              hintTextForm: "Item(s)!"),
+                              hintTextForm: AppLocalizations.of(context)!
+                                  .donateScreenLocationFieldHint),
 
                           const SizedBox(height: 20),
 
@@ -80,7 +92,8 @@ class PostOverview extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               defaultText(
-                                  text: "Pickup Day",
+                                  text: AppLocalizations.of(context)!
+                                      .donateScreenDateFieldHeader,
                                   fontSize: 19,
                                   color: KBlack,
                                   fontWeight: FontWeight.normal),
@@ -88,39 +101,43 @@ class PostOverview extends StatelessWidget {
                                   color: defaultColor),
                             ],
                           ),
-
                           TextFormField(
                             decoration: const InputDecoration(),
-                            initialValue: postModel.postDate!,
-                            readOnly: true,
+                            initialValue: postModel.pickupDate!,
+                            enabled: false,
                           ),
                           const SizedBox(height: 20),
 
                           /////////////////////////////////////Quantity/////////////////////////////////////
 
                           rowTextAndFormInput(
-                              isReadonly: true,
-                              rowText: "Quantity",
+                              isEnabled: false,
+                              rowText: AppLocalizations.of(context)!
+                                  .donateScreenQuantityFieldHeader,
                               initialValue: postModel.quantity!,
                               fontSize: 19,
                               color: KBlack,
                               fontWeight: FontWeight.normal,
                               icon: Icons.list_alt,
-                              hintTextForm: "Item Quantity"),
+                              hintTextForm: AppLocalizations.of(context)!
+                                  .donateScreenQuantityFieldHint),
 
                           const SizedBox(height: 20),
 
                           /////////////////////////////////////Description/////////////////////////////////////
 
                           rowTextAndFormInput(
-                              isReadonly: true,
-                              rowText: "Description",
+                              isEnabled: false,
+                              linesNumber: 5,
+                              rowText: AppLocalizations.of(context)!
+                                  .donateScreenDescriptionFieldHeader,
                               initialValue: postModel.description!,
                               fontSize: 19,
                               color: KBlack,
                               fontWeight: FontWeight.normal,
                               icon: Icons.description,
-                              hintTextForm: "Write a description"),
+                              hintTextForm: AppLocalizations.of(context)!
+                                  .donateScreenDescriptionFieldHint),
                         ],
                       ),
                     ),
@@ -133,9 +150,13 @@ class PostOverview extends StatelessWidget {
                           children: [
                             Expanded(
                               child: defaultButton(
-                                  function: () {},
-                                  text: 'CHAT NOW',
-                                  height: 30.0, context: context),
+                                function: () {},
+                                text: AppLocalizations.of(context)!
+                                    .chatButton
+                                    .toUpperCase(),
+                                height: 30.0,
+                                context: context,
+                              ),
                             ),
                             const SizedBox(
                               width: 12.0,
@@ -161,12 +182,14 @@ class PostOverview extends StatelessWidget {
                                       ? const CircularProgressIndicator(
                                           color: Colors.white,
                                         )
-                                      : const Text(
-                                          "GET",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w900,
-                                              fontSize: 20),
+                                      : Text(
+                                          AppLocalizations.of(context)!
+                                              .getButton
+                                              .toUpperCase(),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .copyWith(color: Colors.white),
                                         ),
                                 ),
                               ),

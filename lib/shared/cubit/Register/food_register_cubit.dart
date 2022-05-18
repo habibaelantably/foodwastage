@@ -8,7 +8,7 @@ import 'package:foodwastage/modules/register_Screen.dart';
 import 'package:foodwastage/shared/cubit/Register/food_register_state.dart';
 
 class FoodRegisterCubit extends Cubit<FoodRegisterStates> {
-  FoodRegisterCubit() : super(FoodIntialRegisterState());
+  FoodRegisterCubit() : super(FoodInitialRegisterState());
 
   static FoodRegisterCubit get(context) => BlocProvider.of(context);
 
@@ -21,7 +21,7 @@ class FoodRegisterCubit extends Cubit<FoodRegisterStates> {
       required String phone,
       required String country,
       }) {
-    emit(FoodLoadingRegisterstate());
+    emit(FoodLoadingRegisterState());
     FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email, password: password)
         .then((value) {

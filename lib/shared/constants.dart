@@ -1,1 +1,2 @@
-String googleMapsAPiKey = 'AIzaSyBNn0RodDLlTUWGZrrnBwmhXXqRCGSvRV0'; //
+String? uId;
+const String postsCollectionKey = "posts";

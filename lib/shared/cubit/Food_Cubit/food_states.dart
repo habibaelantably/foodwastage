@@ -10,13 +10,8 @@ class FoodGetSelectedUserSuccessState extends FoodStates {
   FoodGetSelectedUserSuccessState(this.selectedUserId);
 }
 
-class FoodSuccessState extends FoodStates {
-  final String uId;
+class FoodSuccessState extends FoodStates {}
 
-  FoodSuccessState(this.uId);
-}
-
-//
 class FoodErrorState extends FoodStates {}
 
 class ChangeBottomNavState extends FoodStates {}

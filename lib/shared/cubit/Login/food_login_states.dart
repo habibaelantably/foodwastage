@@ -1,6 +1,6 @@
 abstract class FoodLoginStates {}
 
-class FoodLoginIntialState extends FoodLoginStates {}
+class FoodLoginInitialState extends FoodLoginStates {}
 
 class FoodLoginLoadingState extends FoodLoginStates {}
 

@@ -1,8 +1,8 @@
 class FoodRegisterStates {}
 
-class FoodIntialRegisterState extends FoodRegisterStates {}
+class FoodInitialRegisterState extends FoodRegisterStates {}
 
-class FoodLoadingRegisterstate extends FoodRegisterStates {}
+class FoodLoadingRegisterState extends FoodRegisterStates {}
 
 class FoodSuccessRegisterState extends FoodRegisterStates {}
 

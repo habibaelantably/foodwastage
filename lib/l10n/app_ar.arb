@@ -1,69 +1,124 @@
 {
-  "language": "العربية",
-  "helloWorld": "مرحبا بالعالم",
-  "home": "الرئيسية",
-  "donate": "تبرع",
-  "13": "١٣",
-  "favorites": "المفضلات ",
-  "HISTORY": "التاريخ",
-  "donated": " تم التبرع",
-  "received": " تم الاستلام",
-  "Delete": "حذف",
-  "maps": "الخرائط",
-  "Donate": " تبرع",
-  "Pickup where ?": " اين الاستلام ؟",
-  "Food Item(s)": "المواد الغذائية)",
-  "Location": "الموقع",
-  "Item(s)!": "الرئيسية",
-  "Pickup Day":" يوم الاستلام",
-  "Quantity": "الكميه ",
-  "Item Quantity": "الرئيسية",
-  "Description": "وصف",
-  "Write a description": "اكتب وصف",
-  "CHAT NOW": "المحادثة الأن",
-  "GET": "الرئيسية",
-  "Rate": "تقييم",
-  "Chat": "المحادثة",
-  "You have no posts yet...": "ليس لديك أي مشاركات حتى الآن ..",
-  "enter the food name": " أدخل اسم الطعام",
-  "enter the location": " أدخل الموقع",
-  "enter the quantity": " أدخل الكمية",
-  "enter the description": "أدخل الوصف",
-  "enter the more about item": " أدخل المزيد حول العنصر",
-  "Photos": " الصور",
-  "I assure that food quality and hygiene has maintained": "ؤكد أن جودة الطعام والنظافة قد تم الحفاظ عليها",
-  "Confirm Rules": "تأكيد الشروط",
-  "Please Assure the food quality": " يرجى التأكد من جودة الطعام",
-  "Ok": " موافق ",
-  "Update": " تحديث",
-  "assets/images/LoginIcon.png": " الأصول / الصور / LoginIcon.png",
-  "WELCOME": " أهلا بك",
-  "LOGIN TO CONTINUE": " سجل الدخول للمتابعة",
-  "please enter email address": "الرجاء إدخال عنوان البريد الإلكتروني",
-  "Email Address": "عنوان بريد الكتروني",
-  "please enter password": "الرجاء إدخال كلمة المرور",
-  "password": "كلمه السر",
-  "login": "تسجيل الدخول",
-  "or": "الرئيسية",
-  "assets/images/googleLogo.png": " الأصول / الصور / googleLogo.png",
-  "Don`t have an account?": " ليس لديك حساب؟",
-  "Register": " تسجيل ",
-  "uId": "الرئيسية",
-  "REGISTER": " تسجيل",
-  "please enter your name": "من فضلك أدخل إسمك",
-  "please enter phone number": " الرجاء إدخال رقم الهاتف",
-  "phone": "الهاتف",
-  "email": "البريد الإلكتروني",
-  "please confirm your password": " يرجى التأكد من صحة كلمة المرور الخاصة بك",
-  "Password does not match": "كلمة السر غير متطابقة",
-  "Confirm Password": " تأكيد كلمة المرور",
-  "please enter your country": "الرجاء إدخال بلدك",
-  "Country": "الدولة",
-  "Select country": " حدد الدولة",
-  "Search": " بحث",
-  "Start typing to search": " ابدأ الكتابة للبحث",
-  "Already have an account?": " هل لديك حساب بالفعل ؟",
-  "name": " الإ سم",
-  "no Favorite add yet": " لا يوجد إضافه مفضله بعد ",
-  "Chats": "المحادثات"
+  "layoutAppBarTitleHome": "الرئيسية",
+
+  "layoutAppBarTitleMap": "الخريطة",
+
+  "layoutAppBarTitleDonate": "تبرع",
+
+  "layoutAppBarTitleFavorites": "المفضلات",
+
+  "donateScreenNameFieldValidation": "ادخل اسم الطعام",
+
+  "donateScreenNameFieldHeader": "اسم العنصر",
+
+  "donateScreenNameFieldHint": "الاسم",
+
+  "donateScreenLocationFieldValidation": "ادخل الموقع",
+
+  "donateScreenLocationFieldHeader": "مكان الالتقاط",
+
+  "donateScreenLocationFieldHint": "الموقع",
+
+  "donateScreenDateFieldHeader": "يوم الالتقاط",
+
+  "donateScreenQuantityFieldValidation": "ادخل الكمية",
+
+  "donateScreenQuantityFieldHeader": "كمية العنصر",
+
+  "donateScreenQuantityFieldHint": "الكمية",
+
+  "donateScreenDescriptionFieldValidation": "ادخل الوصف",
+
+  "donateScreenDescriptionFieldValidation2": "أدخل مزيدًا من التفاصيل حول هذا العنصر",
+
+  "donateScreenDescriptionFieldHeader": "وصف العنصر",
+
+  "donateScreenDescriptionFieldHint": "الوصف",
+
+  "donateScreenPhotoFieldHeader": "صورة",
+
+  "donateScreenPolicy": "أؤكد أن جودة الطعام والنظافة قد تم الحفاظ عليها",
+
+  "donateScreenPolicyValidationDialogTitle": "تأكيد القواعد",
+
+  "donateScreenPolicyValidationDialogDescription": "من فضلك أكد جودة الطعام",
+
+  "dialogOkButton": "موافق",
+
+  "submitButton": "نشر",
+
+  "favoritesScreenFallback": "ليس لديك أي مفضلات",
+
+  "historyScreenTitle": "التاريخ",
+
+  "historyScreenPostStatusDonated": "متبرع به",
+
+  "historyScreenPostStatusReceived": "مؤخذ",
+
+  "deleteButton": "حذف",
+
+  "postDateHeader": "تم النشر في:",
+
+  "chatButton": "المحادثة",
+
+  "getButton": "أخذ",
+
+  "profileScreenTitle": "الملف الشخصي",
+
+  "rateButton": "تقييم",
+
+  "profileScreenFallback": "لم تتبرع بأي طعام بعد ...",
+
+  "welcome": "أهلا بك",
+
+  "loginToContinue": "تسجيل الدخول للمتابعة",
+
+  "loginScreenEmailFieldLabel": "عنوان بريد الكتروني",
+
+  "loginScreenEmailFieldValidation": "من فضلك أدخل عنوان البريد الإلكتروني",
+
+  "loginScreenPasswordFieldLabel": "كلمة السر",
+
+  "loginScreenPasswordFieldValidation": "من فضلك أدخل كلمة السر",
+
+  "loginButton": "تسجيل الدخول",
+
+  "or": "أو",
+
+  "loginScreenRegisterHint": "لا تمتلك حساب ؟",
+
+  "registerButton": "تسجيل",
+
+  "registerScreenNameFieldValidation": "من فضلك أدخل إسمك",
+
+  "registerScreenPhoneFieldLabel": "الهاتف",
+
+  "registerScreenPhoneFieldValidation": "من فضلك أدخل رقم الهاتف",
+
+  "registerScreenConfirmPasswordFieldLabel": "تأكيد كلمة السر",
+
+  "registerScreenConfirmPasswordFieldValidation": "كلمة المرور غير متطابقة",
+
+  "registerScreenCountryFieldLabel": "البلد",
+
+  "registerScreenCountryFieldValidation": "من فضلك أدخل بلدك",
+
+
+  "registerScreenCountryFieldSearchLabel": "بحث",
+
+  "registerScreenCountryFieldSearchHint": "ابدأ الكتابة للبحث",
+
+  "registerScreenLoginHint": "هل لديك حساب؟",
+
+  "drawerDarkModeRow": "الوضع المظلم:",
+
+  "drawerLanguageRow": "اللغة:",
+
+  "drawerAboutUsRow": "من نحن",
+
+  "drawerContactUsRow": "تواصل معنا",
+
+  "drawerTermsAndConditionsRow": "البنود و الشروط",
+
+  "logoutButton": "تسجيل الخروج"
 }
