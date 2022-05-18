@@ -65,6 +65,8 @@
 
   "profileScreenTitle": "الملف الشخصي",
 
+  "profileScreenPostsFallBack": "لم تتبرع بأي طعام بعد ...",
+
   "rateButton": "تقييم",
 
   "profileScreenFallback": "لم تتبرع بأي طعام بعد ...",

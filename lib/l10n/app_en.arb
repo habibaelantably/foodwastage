@@ -130,6 +130,7 @@
     "description": "History"
   },
 
+
   "historyScreenPostStatusDonated": "donated",
   "@donated": {
     "description": "donated"
@@ -145,7 +146,7 @@
     "description": "Delete"
   },
 
-  "postDateHeader": "PostedAt at:",
+  "postDateHeader": "Posted at:",
   "@postDateHeader": {
     "description": "postDateHeader"
   },
@@ -165,15 +166,16 @@
     "description": "Profile"
   },
 
+  "profileScreenPostsFallBack": "You haven't donated any food yet...",
+  "@profileScreenPostsFallBack": {
+    "description": "profileScreenPostsFallBack"
+  },
+
   "rateButton": "Rate",
   "@Rate": {
     "description": "Rate"
   },
 
-  "profileScreenFallback": "You haven't donated any food yet...",
-  "@profileScreenFallback": {
-    "description": "profileScreenFallback"
-  },
 
   "welcome": "Welcome",
   "@Welcome": {

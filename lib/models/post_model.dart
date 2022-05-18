@@ -1,4 +1,5 @@
 class PostModel {
+  String? postId;
   int? itemCount;
   String? location;
   String? itemName;
@@ -9,15 +10,14 @@ class PostModel {
   String? imageUrl1;
   String? imageUrl2;
   String? foodType;
-  String? donorType;
   String? donorId;
   String? userName;
   String? userImage;
-  String? postId;
   String? receiverId;
   bool? isFavorite;
 
   PostModel({
+    this.postId,
     this.itemCount,
     this.location,
     this.itemName,
@@ -28,11 +28,9 @@ class PostModel {
     this.imageUrl1,
     this.imageUrl2,
     this.foodType,
-    this.donorType,
     this.donorId,
     this.userName,
     this.userImage,
-    this.postId,
     this.receiverId,
     this.isFavorite = false,
   });
@@ -49,11 +47,9 @@ class PostModel {
       'imageUrl1': imageUrl1,
       'imageUrl2': imageUrl2,
       'foodType': foodType,
-      'foodDonor': donorType,
       'donorId': donorId,
       'userName': userName,
       'userImage': userImage,
-      'postId': postId,
       'receiverId': receiverId,
       'isFavorite': isFavorite ??= false,
     };
@@ -61,6 +57,7 @@ class PostModel {
 
   factory PostModel.fromJson(json) {
     return PostModel(
+      postId: json['postId'],
       itemCount: json['itemCount'],
       location: json['location'],
       itemName: json['itemName'],
@@ -71,11 +68,9 @@ class PostModel {
       imageUrl1: json['imageUrl1'],
       imageUrl2: json['imageUrl2'],
       foodType: json['foodType'],
-      donorType: json['foodDonor'],
       donorId: json['donorId'],
       userName: json['userName'],
       userImage: json['userImage'],
-      postId: json['postId'],
       receiverId: json['receiverId'],
       isFavorite: json['isFavorite'] ??= false,
     );

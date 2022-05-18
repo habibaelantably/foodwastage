@@ -12,7 +12,8 @@ import '../../styles/colors.dart';
 
 class AddPosts extends StatelessWidget {
   final TextEditingController locationController = TextEditingController();
-  final TextEditingController foodNameController = TextEditingController();
+  final TextEditingController dateController = TextEditingController();
+  final TextEditingController itemNameController = TextEditingController();
   final TextEditingController quantityController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
 
@@ -23,7 +24,7 @@ class AddPosts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-
+    dateController.text = FoodCubit.get(context).date;
     return BlocConsumer<FoodCubit, FoodStates>(
       listener: (context, state) {},
       builder: (context, state) {
@@ -89,7 +90,7 @@ class AddPosts extends StatelessWidget {
 
                       rowTextAndFormInput(
                           initialValue: null,
-                          textEditingController: foodNameController,
+                          textEditingController: itemNameController,
                           validator: (value) {
                             if (value.toString().isEmpty) {
                               return AppLocalizations.of(context)!.donateScreenNameFieldValidation;
@@ -143,8 +144,8 @@ class AddPosts extends StatelessWidget {
                       ),
                       TextFormField(
                         decoration: const InputDecoration(),
+                        controller: dateController,
                         readOnly: true,
-                        initialValue: FoodCubit.get(context).date,
                         onTap: (){
                           DatePicker.showDatePicker(
                             context,
@@ -155,9 +156,11 @@ class AddPosts extends StatelessWidget {
                                 DateTime.now().month, DateTime.now().day),
                             onChanged: (date) {
                               FoodCubit.get(context).changDateTime(date);
+                              dateController.text = FoodCubit.get(context).date;
                             },
                             onConfirm: (date) {
                               FoodCubit.get(context).changDateTime(date);
+                              dateController.text = FoodCubit.get(context).date;
                             },
                           );
                         },
@@ -419,23 +422,6 @@ class AddPosts extends StatelessWidget {
                           item,
                         ),
                       ),
-                      RadioGroup<String>.builder(
-                        activeColor: KBlack,
-                        direction: Axis.horizontal,
-                        groupValue: FoodCubit.get(context).foodDonor,
-                        horizontalAlignment: MainAxisAlignment.spaceAround,
-                        onChanged: (value) {
-                          FoodCubit.get(context)
-                              .changeVerticalGroupValue2(value);
-                        },
-                        items: FoodCubit.get(context).status2,
-                        textStyle: const TextStyle(
-                            fontSize: 12, fontWeight: FontWeight.bold),
-                        itemBuilder: (item) => RadioButtonBuilder(
-                          item,
-                        ),
-                      ),
-
                       /////////////////////////////////////Assure Quality/////////////////////////////////////
                       const SizedBox(height: 10.0,),
                       Row(
@@ -446,7 +432,7 @@ class AddPosts extends StatelessWidget {
                               FoodCubit.get(context).check();
                             },
                             child: Icon(
-                              FoodCubit.get(context).isChecked == false
+                              FoodCubit.get(context).addPostPolicyIsChecked == false
                                   ? Icons.radio_button_unchecked_outlined
                                   : Icons.check_circle_outline,
                               color: defaultColor,
@@ -474,7 +460,7 @@ class AddPosts extends StatelessWidget {
                                 ),
                               ),
                               onPressed: () {
-                                if (FoodCubit.get(context).isChecked ==
+                                if (FoodCubit.get(context).addPostPolicyIsChecked ==
                                     false) {
                                   showDialog(
                                       context: context,
@@ -498,25 +484,29 @@ class AddPosts extends StatelessWidget {
                                       ));
                                 }
                                 if (formKey.currentState!.validate() &&
-                                    FoodCubit.get(context).isChecked ==
+                                    FoodCubit.get(context).addPostPolicyIsChecked ==
                                         true) {
                                   FoodCubit.get(context).addPost(
-                                    itemCount:
-                                    FoodCubit.get(context).itemCount,
+                                    postDate: "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
+                                    itemCount: FoodCubit.get(context).itemCount,
                                     location: locationController.text,
-                                    itemName: foodNameController.text,
-                                    postDate: FoodCubit.get(context).date,
-                                    quantity: FoodCubit.get(context)
-                                        .itemCount
-                                        .toString(),
+                                    itemName: itemNameController.text,
+                                    pickupDate: FoodCubit.get(context).date,
+                                    quantity: quantityController.text,
                                     description: descriptionController.text,
                                     imageUrl1: "imageUrl1",
                                     imageUrl2: "imageUrl2",
-                                    foodType:
-                                    FoodCubit.get(context).foodType,
-                                    foodDonor:
-                                    FoodCubit.get(context).foodDonor,
+                                    foodType: FoodCubit.get(context).foodType,
+                                    foodDonor: FoodCubit.get(context).userModel!.type!
                                   );
+                                  FoodCubit.get(context).currentIndex = 0;
+                                  FoodCubit.get(context).date = "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
+                                  FoodCubit.get(context).changeVerticalGroupValue("Main dishes");
+                                  FoodCubit.get(context).addPostPolicyIsChecked = false;
+                                  locationController.text='';
+                                  itemNameController.text='';
+                                  quantityController.text='';
+                                  descriptionController.text='';
                                 }
                               },
                               child: state is CreatePostLoadingState

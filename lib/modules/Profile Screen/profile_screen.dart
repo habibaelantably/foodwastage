@@ -25,7 +25,6 @@ class ProfileScreen extends StatelessWidget {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
-            backgroundColor: Colors.white,
             elevation: 0.0,
             leading: IconButton(
               onPressed: () {
@@ -361,10 +360,11 @@ class ProfileScreen extends StatelessWidget {
                             color: Colors.grey[300],
                           ),
                         ),
-                        const Text(
-                          "You have no posts yet...",
-                          style: TextStyle(
-                              fontSize: 26.0,
+                        Text(
+                          AppLocalizations.of(context)!.profileScreenPostsFallBack,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              fontSize: 24.0,
                               fontWeight: FontWeight.w700,
                               color: defaultColor),
                         )

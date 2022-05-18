@@ -6,10 +6,11 @@ import 'package:foodwastage/shared/cubit/Food_Cubit/food_states.dart';
 import '../../shared/components/reusable_components.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../styles/colors.dart';
+
 class HistoryScreen extends StatelessWidget {
   const HistoryScreen({Key? key}) : super(key: key);
 
-//
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<FoodCubit, FoodStates>(
@@ -54,9 +55,19 @@ class HistoryScreen extends StatelessWidget {
                 ),
               ),
               condition: FoodCubit.get(context).myReceivedFoodList.isNotEmpty,
-              fallback: (context) => const Center(
-                child: CircularProgressIndicator(),
-              ),
+              fallback: (context) =>FoodCubit.get(context).myReceivedFoodList.isEmpty? Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Center(
+                  child: Text(
+                    AppLocalizations.of(context)!.profileScreenPostsFallBack,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.w700,
+                        color: defaultColor),
+                  ),
+                ),
+              ) : const Center(child: CircularProgressIndicator())
             ));
       },
     );
