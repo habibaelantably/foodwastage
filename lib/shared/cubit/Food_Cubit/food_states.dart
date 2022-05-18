@@ -93,3 +93,5 @@ class FoodGetMyReceiveFoodSuccessState extends FoodStates {}
 class FoodGetMyReceiveFoodErrorState extends FoodStates {}
 
 class FoodFavoriteState extends FoodStates {}
+
+class ChangeLoginState extends FoodStates {}

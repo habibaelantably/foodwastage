@@ -198,9 +198,9 @@ Widget rowTextAndFormInput(
 Widget postBuilder({required BuildContext context, required PostModel postModel, required bool viewPost, required bool isInHistory}) => Column(
   children: [
     InkWell(
-      onTap: () {
-        viewPost ? navigateTo(context, PostOverview(postModel: postModel)): null ;
-      },
+      onTap: viewPost ?() {
+        navigateTo(context, PostOverview(postModel: postModel));
+      }: null,
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
@@ -235,7 +235,7 @@ Widget postBuilder({required BuildContext context, required PostModel postModel,
                     height: 37,
                     padding: const EdgeInsets.only(top: 8.0),
                     child: Text(
-                      postModel.postDate!,
+                      "${postModel.postDate}",
                       style: const TextStyle(
                         fontSize: 12.0,
                       ),
@@ -297,7 +297,7 @@ Widget postBuilder({required BuildContext context, required PostModel postModel,
                                       selectedUserId: postModel.donorId!,
                                     ));
                               },
-                              child: Text(postModel.userName!,
+                              child: Text("${postModel.userName}",
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: Theme.of(context)
@@ -308,7 +308,7 @@ Widget postBuilder({required BuildContext context, required PostModel postModel,
                                       fontWeight: FontWeight.w800)),
                             ),
                             Text(
-                              '${postModel.donorType}',
+                              '${FoodCubit.get(context).userModel!.type}',
                               style: const TextStyle(
                                   color: Colors.black54,
                                   fontSize: 12,
@@ -343,14 +343,14 @@ Widget postBuilder({required BuildContext context, required PostModel postModel,
                       ? IconButton(
                     onPressed: () {
                       FoodCubit.get(context)
-                          .getFavPosts(postModel.postId!);
+                          .getFavPosts(postModel);
                     },
                     iconSize: 20,
                     constraints:
                     BoxConstraints.tight(const Size(35.0, 35.0)),
                     icon: Icon(
                       FoodCubit.get(context)
-                          .isItFav(postModel.postId!) ??
+                          .isItFav(postModel) ??
                           false
                           ? Icons.favorite
                           : Icons.favorite_border,
@@ -400,4 +400,3 @@ Widget postBuilder({required BuildContext context, required PostModel postModel,
     ),
   ],
 );
-

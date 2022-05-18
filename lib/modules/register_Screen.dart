@@ -9,6 +9,7 @@ import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Register/food_register_cubit.dart';
 import 'package:foodwastage/shared/cubit/Register/food_register_state.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../shared/constants.dart';
 
 // ignore: must_be_immutable
 class RegisterScreen extends StatelessWidget {
@@ -247,8 +248,15 @@ class RegisterScreen extends StatelessWidget {
         );
       }, listener: (BuildContext context, Object? state) {
         if (state is FoodSuccessCreateState) {
-          FoodCubit.getLoggedInUser();
-          navigateAndKill(context, const FoodLayout());
+          if(uId!=null) {
+            FoodCubit.getLoggedInUser();
+            FoodCubit.get(context).getUserdata(context: context);
+            FoodCubit.get(context).getPosts();
+            navigateAndKill(context, const FoodLayout());
+          }else{
+            FoodCubit.getLoggedInUser();
+            navigateAndKill(context, const FoodLayout());
+          }
         }
       }),
     );

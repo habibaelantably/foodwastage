@@ -35,7 +35,6 @@ class UpdatePost extends StatelessWidget {
         descriptionController.text = postModel.description!;
         FoodCubit.get(context).itemCount = postModel.itemCount!;
         FoodCubit.get(context).itemCount = postModel.itemCount!;
-        FoodCubit.get(context).foodDonor = postModel.donorType!;
         FoodCubit.get(context).foodType = postModel.foodType!;
 
         return Scaffold(
@@ -458,22 +457,6 @@ class UpdatePost extends StatelessWidget {
                             item,
                           ),
                         ),
-                        RadioGroup<String>.builder(
-                          activeColor: KBlack,
-                          direction: Axis.horizontal,
-                          groupValue: FoodCubit.get(context).foodDonor,
-                          horizontalAlignment: MainAxisAlignment.spaceAround,
-                          onChanged: (value) {
-                            FoodCubit.get(context)
-                                .changeVerticalGroupValue2(value);
-                          },
-                          items: FoodCubit.get(context).status2,
-                          textStyle: const TextStyle(
-                              fontSize: 12, fontWeight: FontWeight.bold),
-                          itemBuilder: (item) => RadioButtonBuilder(
-                            item,
-                          ),
-                        ),
 
                         //row text
                         Row(
@@ -484,7 +467,7 @@ class UpdatePost extends StatelessWidget {
                                 FoodCubit.get(context).check();
                               },
                               child: Icon(
-                                FoodCubit.get(context).isChecked == false
+                                FoodCubit.get(context).addPostPolicyIsChecked == false
                                     ? Icons.radio_button_unchecked_outlined
                                     : Icons.check_circle_outline,
                                 color: defaultColor,
@@ -512,7 +495,7 @@ class UpdatePost extends StatelessWidget {
                                     ),
                                   ),
                                   onPressed: () {
-                                    if (FoodCubit.get(context).isChecked ==
+                                    if (FoodCubit.get(context).addPostPolicyIsChecked ==
                                         false) {
                                       showDialog(
                                         context: context,
@@ -541,7 +524,7 @@ class UpdatePost extends StatelessWidget {
                                       );
                                     }
                                     if (formKey.currentState!.validate() &&
-                                        FoodCubit.get(context).isChecked ==
+                                        FoodCubit.get(context).addPostPolicyIsChecked ==
                                             true) {
                                       FoodCubit.get(context).updatePost(
                                         itemCount:
@@ -555,13 +538,11 @@ class UpdatePost extends StatelessWidget {
                                         imageUrl2: postModel.imageUrl2!,
                                         foodType:
                                             FoodCubit.get(context).foodType,
-                                        foodDonor:
-                                            FoodCubit.get(context).foodDonor,
-                                        postId: postId,
 
                                         /// no isFavorite Variable !!!
                                         ///
                                         isFavorite: false,
+
                                       );
                                     }
                                   },
