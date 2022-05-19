@@ -141,11 +141,10 @@ Color setToastColor(ToastStates states) {
 Widget defaultText(
     {required String text,
     required double fontSize,
-    required Color color,
     required FontWeight fontWeight}) {
   return Text(
     text,
-    style: TextStyle(fontSize: fontSize, color: color, fontWeight: fontWeight),
+    style: TextStyle(fontSize: fontSize, fontWeight: fontWeight, color:  defaultColor),
   );
 }
 
@@ -156,7 +155,6 @@ Widget rowTextAndFormInput(
     Function? validator,
     TextInputType? textInputType,
     List<TextInputFormatter>? inputFormatters,
-    required Color color,
     required FontWeight fontWeight,
     required IconData icon,
     bool isEnabled = true,
@@ -172,7 +170,6 @@ Widget rowTextAndFormInput(
           defaultText(
               text: rowText,
               fontSize: fontSize,
-              color: color,
               fontWeight: fontWeight),
           Icon(icon, color: defaultColor),
         ],
@@ -206,7 +203,6 @@ Widget postBuilder({required BuildContext context, required PostModel postModel,
           borderRadius: BorderRadius.circular(15.0),
         ),
         elevation: 5.0,
-        color: Colors.grey[100],
         margin: const EdgeInsets.symmetric(horizontal: 15.0),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -309,8 +305,8 @@ Widget postBuilder({required BuildContext context, required PostModel postModel,
                             ),
                             Text(
                               '${FoodCubit.get(context).userModel!.type}',
-                              style: const TextStyle(
-                                  color: Colors.black54,
+                              style: TextStyle(
+                                  color: Colors.grey[400],
                                   fontSize: 12,
                                   fontWeight: FontWeight.w900),
                             ),

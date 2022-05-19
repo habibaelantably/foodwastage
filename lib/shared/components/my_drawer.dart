@@ -53,8 +53,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     text: TextSpan(children: [
                       TextSpan(
                         text: "${_userModel.name} ",
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 22,
+                          color: PreferencesCubit.get(context).darkModeSwitchIsOn ? Colors.white:Colors.black,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -266,15 +267,18 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       leading: const Icon(
                         FontAwesomeIcons.arrowRightFromBracket,
                         size: 20,
+                        color: Colors.red,
                       ),
                       title: Text(
                         AppLocalizations.of(context)!.logoutButton,
                         style: const TextStyle(
                           fontSize: 16,
+                          color: Colors.red
                         ),
                       ),
                       onTap: () {
                         FoodCubit.get(context).logout();
+                        FoodCubit.get(context).currentIndex = 0;
                         navigateAndKill(context, LoginScreen());
                       },
                     ),

@@ -157,7 +157,6 @@ class FoodCubit extends Cubit<FoodStates> {
 
   ///////////////////////////////////////upload post data
   Future<void> addPost({
-    required int itemCount,
     required String location,
     required String itemName,
     required String pickupDate,
@@ -177,11 +176,10 @@ class FoodCubit extends Cubit<FoodStates> {
       foodType: foodType,
       imageUrl1: imageUrl1,
       imageUrl2: imageUrl2,
-      itemCount: itemCount,
       itemName: itemName,
       location: location,
       pickupDate: pickupDate,
-      quantity: itemCount.toString(),
+      quantity: quantity,
       donorId: uId,
       userName: userModel!.name,
       userImage: userModel!.image,
@@ -247,7 +245,6 @@ class FoodCubit extends Cubit<FoodStates> {
 
   //لازم تمرر id بتاع البوست علسان تعمل update بيه
   Future<void> updatePost({
-    required int itemCount,
     required String location,
     required String itemName,
     required String postDate,
@@ -265,7 +262,6 @@ class FoodCubit extends Cubit<FoodStates> {
       foodType: foodType,
       imageUrl1: imageUrl1,
       imageUrl2: imageUrl2,
-      itemCount: itemCount,
       itemName: itemName,
       location: location,
       pickupDate: postDate,

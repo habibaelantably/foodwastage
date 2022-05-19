@@ -40,10 +40,10 @@ class AddPosts extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     defaultText(
-                        text: AppLocalizations.of(context)!.layoutAppBarTitleDonate,
-                        fontWeight: FontWeight.w800,
-                        color: KBlack,
-                        fontSize: 26),
+                        text: AppLocalizations.of(context)!
+                            .layoutAppBarTitleDonate,
+                        fontSize: 26.0,
+                        fontWeight: FontWeight.w800),
                     Card(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -58,11 +58,13 @@ class AddPosts extends StatelessWidget {
                                 size: 15,
                                 color: defaultColor,
                               )),
-                          defaultText(
-                              text: "${FoodCubit.get(context).itemCount}",
-                              fontSize: 15,
-                              color: KBlack,
-                              fontWeight: FontWeight.normal),
+                          Text(
+                            "${FoodCubit.get(context).itemCount}",
+                            style: const TextStyle(
+                                fontSize: 15,
+                                color: Colors.white,
+                                fontWeight: FontWeight.normal),
+                          ),
                           IconButton(
                               onPressed: () {
                                 FoodCubit.get(context)
@@ -85,7 +87,6 @@ class AddPosts extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-
                       /////////////////////////////////////Food Name/////////////////////////////////////
 
                       rowTextAndFormInput(
@@ -93,17 +94,20 @@ class AddPosts extends StatelessWidget {
                           textEditingController: itemNameController,
                           validator: (value) {
                             if (value.toString().isEmpty) {
-                              return AppLocalizations.of(context)!.donateScreenNameFieldValidation;
+                              return AppLocalizations.of(context)!
+                                  .donateScreenNameFieldValidation;
                             } else {
                               return null;
                             }
                           },
-                          rowText: AppLocalizations.of(context)!.donateScreenNameFieldHeader,
+                          rowText: AppLocalizations.of(context)!
+                              .donateScreenNameFieldHeader,
                           fontSize: 19,
-                          color: KBlack,
                           fontWeight: FontWeight.normal,
                           icon: Icons.fastfood_outlined,
-                          hintTextForm: AppLocalizations.of(context)!.donateScreenNameFieldHint),
+                          hintTextForm: AppLocalizations.of(context)!
+                              .donateScreenNameFieldHint),
+
                       SizedBox(
                         height: size.height / 60,
                       ),
@@ -112,19 +116,21 @@ class AddPosts extends StatelessWidget {
                       rowTextAndFormInput(
                           validator: (value) {
                             if (value.toString().isEmpty) {
-                              return AppLocalizations.of(context)!.donateScreenLocationFieldValidation;
+                              return AppLocalizations.of(context)!
+                                  .donateScreenLocationFieldValidation;
                             } else {
                               return null;
                             }
                           },
                           initialValue: null,
                           textEditingController: locationController,
-                          rowText: AppLocalizations.of(context)!.donateScreenLocationFieldHeader,
+                          rowText: AppLocalizations.of(context)!
+                              .donateScreenLocationFieldHeader,
                           fontSize: 19,
-                          color: KBlack,
                           fontWeight: FontWeight.normal,
                           icon: Icons.add_location_alt_outlined,
-                          hintTextForm: AppLocalizations.of(context)!.donateScreenLocationFieldHint),
+                          hintTextForm: AppLocalizations.of(context)!
+                              .donateScreenLocationFieldHint),
                       SizedBox(
                         height: size.height / 60,
                       ),
@@ -134,9 +140,9 @@ class AddPosts extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           defaultText(
-                              text: AppLocalizations.of(context)!.donateScreenDateFieldHeader,
+                              text: AppLocalizations.of(context)!
+                                  .donateScreenDateFieldHeader,
                               fontSize: 19,
-                              color: KBlack,
                               fontWeight: FontWeight.normal),
                           const Icon(Icons.date_range_outlined,
                               color: defaultColor),
@@ -146,7 +152,7 @@ class AddPosts extends StatelessWidget {
                         decoration: const InputDecoration(),
                         controller: dateController,
                         readOnly: true,
-                        onTap: (){
+                        onTap: () {
                           DatePicker.showDatePicker(
                             context,
                             currentTime: DateTime.now(),
@@ -172,9 +178,9 @@ class AddPosts extends StatelessWidget {
                       rowTextAndFormInput(
                           initialValue: null,
                           validator: (value) {
-                            if (value == 0 ||
-                                quantityController.text.isEmpty) {
-                              return AppLocalizations.of(context)!.donateScreenQuantityFieldValidation;
+                            if (value == 0 || quantityController.text.isEmpty) {
+                              return AppLocalizations.of(context)!
+                                  .donateScreenQuantityFieldValidation;
                             } else {
                               return null;
                             }
@@ -184,41 +190,47 @@ class AddPosts extends StatelessWidget {
                           inputFormatters: <TextInputFormatter>[
                             FilteringTextInputFormatter.digitsOnly
                           ],
-                          rowText: AppLocalizations.of(context)!.donateScreenQuantityFieldHeader,
+                          rowText: AppLocalizations.of(context)!
+                              .donateScreenQuantityFieldHeader,
                           fontSize: 19,
-                          color: KBlack,
                           fontWeight: FontWeight.normal,
                           icon: Icons.list_alt,
-                          hintTextForm: AppLocalizations.of(context)!.donateScreenQuantityFieldHint),
+                          hintTextForm: AppLocalizations.of(context)!
+                              .donateScreenQuantityFieldHint),
                       SizedBox(
                         height: size.height / 65,
                       ),
                       /////////////////////////////////////Description/////////////////////////////////////
 
                       rowTextAndFormInput(
+                        linesNumber: 5,
                           initialValue: null,
                           textEditingController: descriptionController,
                           validator: (value) {
                             if (value.toString().isEmpty) {
-                              return AppLocalizations.of(context)!.donateScreenDescriptionFieldValidation;
+                              return AppLocalizations.of(context)!
+                                  .donateScreenDescriptionFieldValidation;
                             } else if (value.toString().length <= 50) {
-                              return AppLocalizations.of(context)!.donateScreenDescriptionFieldValidation2;
+                              return AppLocalizations.of(context)!
+                                  .donateScreenDescriptionFieldValidation2;
                             } else {
                               return null;
                             }
                           },
-                          rowText: AppLocalizations.of(context)!.donateScreenDescriptionFieldHeader,
+                          rowText: AppLocalizations.of(context)!
+                              .donateScreenDescriptionFieldHeader,
                           fontSize: 19,
-                          color: KBlack,
                           fontWeight: FontWeight.normal,
                           icon: Icons.description,
-                          hintTextForm: AppLocalizations.of(context)!.donateScreenDescriptionFieldHint),
+                          hintTextForm: AppLocalizations.of(context)!
+                              .donateScreenDescriptionFieldHint),
                       SizedBox(
                         height: size.height / 60,
                       ),
                       /////////////////////////////////////Images/////////////////////////////////////
                       Text(
-                        AppLocalizations.of(context)!.donateScreenPhotoFieldHeader,
+                        AppLocalizations.of(context)!
+                            .donateScreenPhotoFieldHeader,
                         style: const TextStyle(fontSize: 19),
                       ),
                       SizedBox(
@@ -233,54 +245,43 @@ class AddPosts extends StatelessWidget {
                           if (FoodCubit.get(context).imageFile1 == null)
                             FoodCubit.get(context).imageFile2 != null
                                 ? DottedBorder(
-                              color: defaultColor,
-                              strokeWidth: 2,
-                              dashPattern: const [
-                                3,
-                                3,
-                              ],
-                              child: InkWell(
-                                onTap: () {
-                                  if (FoodCubit.get(context)
-                                      .imageFile1 ==
-                                      null) {
-                                    FoodCubit.get(context).getImage1();
-                                  } else if (FoodCubit.get(context)
-                                      .imageFile2 ==
-                                      null) {
-                                    FoodCubit.get(context).getImage2();
-                                  }
-                                },
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  width: size.width * .23,
-                                  height: size.width * .23,
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: const Icon(
-                                    Icons.add,
-                                    color: Colors.grey,
-                                    size: 30,
-                                  ),
-                                ),
-                              ),
-                            )
+                                    color: defaultColor,
+                                    strokeWidth: 2,
+                                    dashPattern: const [
+                                      3,
+                                      3,
+                                    ],
+                                    child: InkWell(
+                                      onTap: () {
+                                        if (FoodCubit.get(context).imageFile1 ==
+                                            null) {
+                                          FoodCubit.get(context).getImage1();
+                                        } else if (FoodCubit.get(context)
+                                                .imageFile2 ==
+                                            null) {
+                                          FoodCubit.get(context).getImage2();
+                                        }
+                                      },
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        width: size.width * .23,
+                                        height: size.width * .23,
+                                        padding: const EdgeInsets.all(16.0),
+                                        child: const Icon(
+                                          Icons.add,
+                                          color: Colors.grey,
+                                          size: 30,
+                                        ),
+                                      ),
+                                    ),
+                                  )
                                 : const SizedBox()
                           else if (FoodCubit.get(context).imageFile1 != null)
                             Stack(
                               children: [
                                 Container(
                                     decoration: const BoxDecoration(
-                                      // boxShadow: [
-                                      //   BoxShadow(
-                                      //     color: Colors.grey
-                                      //         .withOpacity(0.5),
-                                      //     spreadRadius: 2,
-                                      //     blurRadius: 4,
-                                      //     offset: Offset(0,
-                                      //         3), // changes position of shadow
-                                      //   ),
-                                      // ],
-                                    ),
+                                        ),
                                     alignment: Alignment.center,
                                     width: size.width * .23,
                                     height: size.width * .23,
@@ -300,8 +301,7 @@ class AddPosts extends StatelessWidget {
                                       child: IconButton(
                                         padding: EdgeInsets.zero,
                                         onPressed: () {
-                                          FoodCubit.get(context)
-                                              .deleteImage1();
+                                          FoodCubit.get(context).deleteImage1();
                                         },
                                         icon: Icon(
                                           Icons.clear,
@@ -331,7 +331,7 @@ class AddPosts extends StatelessWidget {
                                       null) {
                                     FoodCubit.get(context).getImage1();
                                   } else if (FoodCubit.get(context)
-                                      .imageFile2 ==
+                                          .imageFile2 ==
                                       null) {
                                     FoodCubit.get(context).getImage2();
                                   }
@@ -354,17 +354,7 @@ class AddPosts extends StatelessWidget {
                               children: [
                                 Container(
                                     decoration: const BoxDecoration(
-                                      // boxShadow: [
-                                      //   BoxShadow(
-                                      //     color: Colors.grey
-                                      //         .withOpacity(0.5),
-                                      //     spreadRadius: 2,
-                                      //     blurRadius: 4,
-                                      //     offset: Offset(0,
-                                      //         3), // changes position of shadow
-                                      //   ),
-                                      // ],
-                                    ),
+                                        ),
                                     alignment: Alignment.center,
                                     width: size.width * .23,
                                     height: size.width * .23,
@@ -386,8 +376,7 @@ class AddPosts extends StatelessWidget {
                                       child: IconButton(
                                         padding: EdgeInsets.zero,
                                         onPressed: () {
-                                          FoodCubit.get(context)
-                                              .deleteImage2();
+                                          FoodCubit.get(context).deleteImage2();
                                         },
                                         icon: Icon(
                                           Icons.clear,
@@ -407,10 +396,10 @@ class AddPosts extends StatelessWidget {
                       ),
                       /////////////////////////////////////FoodDonor And FoodType/////////////////////////////////////
                       RadioGroup<String>.builder(
-                        activeColor: KBlack,
+                        activeColor: defaultColor,
                         direction: Axis.horizontal,
                         groupValue: FoodCubit.get(context).foodType,
-                        horizontalAlignment: MainAxisAlignment.spaceAround,
+                        horizontalAlignment: MainAxisAlignment.spaceBetween,
                         onChanged: (value) => FoodCubit.get(context)
                             .changeVerticalGroupValue(value),
                         items: FoodCubit.get(context).status,
@@ -423,7 +412,9 @@ class AddPosts extends StatelessWidget {
                         ),
                       ),
                       /////////////////////////////////////Assure Quality/////////////////////////////////////
-                      const SizedBox(height: 10.0,),
+                      const SizedBox(
+                        height: 10.0,
+                      ),
                       Row(
                         // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -432,21 +423,28 @@ class AddPosts extends StatelessWidget {
                               FoodCubit.get(context).check();
                             },
                             child: Icon(
-                              FoodCubit.get(context).addPostPolicyIsChecked == false
+                              FoodCubit.get(context).addPostPolicyIsChecked ==
+                                      false
                                   ? Icons.radio_button_unchecked_outlined
                                   : Icons.check_circle_outline,
                               color: defaultColor,
                             ),
                           ),
-                          defaultText(
-                              text:
-                              AppLocalizations.of(context)!.donateScreenPolicy,
-                              fontSize: size.width * 0.03,
-                              color: KBlack,
-                              fontWeight: FontWeight.normal)
+                          const SizedBox(
+                            width: 8.0,
+                          ),
+                          Text(
+                               AppLocalizations.of(context)!
+                                  .donateScreenPolicy,
+                              style: TextStyle(
+                                  fontSize: size.width * 0.03,
+                                  fontWeight: FontWeight.normal
+                              ),)
                         ],
                       ),
-                      const SizedBox(height: 10.0,),
+                      const SizedBox(
+                        height: 10.0,
+                      ),
                       Align(
                         alignment: Alignment.center,
                         child: Container(
@@ -455,74 +453,86 @@ class AddPosts extends StatelessWidget {
                           child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      12), // <-- Radius
+                                  borderRadius:
+                                      BorderRadius.circular(12), // <-- Radius
                                 ),
                               ),
                               onPressed: () {
-                                if (FoodCubit.get(context).addPostPolicyIsChecked ==
+                                if (FoodCubit.get(context)
+                                        .addPostPolicyIsChecked ==
                                     false) {
                                   showDialog(
                                       context: context,
                                       builder: (_) => AlertDialog(
-                                        title:
-                                        Text(AppLocalizations.of(context)!.donateScreenPolicyValidationDialogTitle),
-                                        content: Text(
-                                            AppLocalizations.of(context)!.donateScreenPolicyValidationDialogDescription),
-                                        actions: [
-                                          TextButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: defaultText(
-                                                  text: AppLocalizations.of(context)!.dialogOkButton,
-                                                  fontSize: 20,
-                                                  color: KBlack,
-                                                  fontWeight:
-                                                  FontWeight.bold))
-                                        ],
-                                      ));
+                                            title: Text(AppLocalizations.of(
+                                                    context)!
+                                                .donateScreenPolicyValidationDialogTitle),
+                                            content: Text(AppLocalizations.of(
+                                                    context)!
+                                                .donateScreenPolicyValidationDialogDescription),
+                                            actions: [
+                                              TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: defaultText(
+                                                      text: AppLocalizations.of(
+                                                              context)!
+                                                          .dialogOkButton,
+                                                      fontSize: 20,
+                                                      fontWeight: FontWeight.bold))
+                                            ],
+                                          ));
                                 }
                                 if (formKey.currentState!.validate() &&
-                                    FoodCubit.get(context).addPostPolicyIsChecked ==
+                                    FoodCubit.get(context)
+                                            .addPostPolicyIsChecked ==
                                         true) {
                                   FoodCubit.get(context).addPost(
-                                    postDate: "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
-                                    itemCount: FoodCubit.get(context).itemCount,
-                                    location: locationController.text,
-                                    itemName: itemNameController.text,
-                                    pickupDate: FoodCubit.get(context).date,
-                                    quantity: quantityController.text,
-                                    description: descriptionController.text,
-                                    imageUrl1: "imageUrl1",
-                                    imageUrl2: "imageUrl2",
-                                    foodType: FoodCubit.get(context).foodType,
-                                    foodDonor: FoodCubit.get(context).userModel!.type!
-                                  );
+                                      postDate:
+                                          "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
+                                      location: locationController.text,
+                                      itemName: itemNameController.text,
+                                      pickupDate: FoodCubit.get(context).date,
+                                      quantity: quantityController.text,
+                                      description: descriptionController.text,
+                                      imageUrl1: "imageUrl1",
+                                      imageUrl2: "imageUrl2",
+                                      foodType: FoodCubit.get(context).foodType,
+                                      foodDonor: FoodCubit.get(context)
+                                          .userModel!
+                                          .type!);
                                   FoodCubit.get(context).currentIndex = 0;
-                                  FoodCubit.get(context).date = "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
-                                  FoodCubit.get(context).changeVerticalGroupValue("Main dishes");
-                                  FoodCubit.get(context).addPostPolicyIsChecked = false;
-                                  locationController.text='';
-                                  itemNameController.text='';
-                                  quantityController.text='';
-                                  descriptionController.text='';
+                                  FoodCubit.get(context).date =
+                                      "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
+                                  FoodCubit.get(context)
+                                      .changeVerticalGroupValue("Main dishes");
+                                  FoodCubit.get(context)
+                                      .addPostPolicyIsChecked = false;
+                                  locationController.text = '';
+                                  itemNameController.text = '';
+                                  quantityController.text = '';
+                                  descriptionController.text = '';
                                 }
                               },
                               child: state is CreatePostLoadingState
                                   ? SizedBox(
-                                height: size.width * .05,
-                                width: size.width * .05,
-                                child:
-                                const CircularProgressIndicator(
-                                  color: Colors.white,
-                                ),
-                              )
-                                  : defaultText(
-                                  text: AppLocalizations.of(context)!.submitButton,
-                                  fontSize: 26,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w400)),
+                                      height: size.width * .05,
+                                      width: size.width * .05,
+                                      child: const CircularProgressIndicator(
+                                        color: Colors.white,
+                                      ),
+                                    )
+                                  : Text(
+                                       AppLocalizations.of(context)!
+                                          .submitButton,
+                                      style: const TextStyle(
+                                          fontSize: 26,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w400
+                                      ),
+                              ),
+                          ),
                         ),
                       ),
                     ],
