@@ -8,6 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:foodwastage/models/User_model.dart';
 import 'package:foodwastage/models/post_model.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../modules/Add Post Screen/add_post_screen.dart';
 import '../../../modules/Chats Screen/chats_screen.dart';
 import '../../../modules/Favorites Screen/favorites_screen.dart';
@@ -15,6 +16,7 @@ import '../../../modules/Home Screen/home_screen.dart';
 import '../../../modules/Maps Screen/maps_screen.dart';
 import '../../constants.dart';
 import 'package:foodwastage/shared/components/reusable_components.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'food_states.dart';
 
 class FoodCubit extends Cubit<FoodStates> {
@@ -72,38 +74,36 @@ class FoodCubit extends Cubit<FoodStates> {
   firebase_storage.FirebaseStorage storage =
       firebase_storage.FirebaseStorage.instance;
 
-  ////////////////////////////////////////////////
-  int itemCount = 0;
+  int itemQuantity = 1;
 
   String date = "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
 
   String foodType = "Main dishes";
 
-  List<String> status = ["Main dishes", "Desert", "Sandwich"];
+  List<String> foodTypeList = ["Main dishes", "Desert", "Sandwich"];
+
+  String contactMethod = "Phone";
+
+  List<String> contactMethodList = ["Phone", "Chat", "Both"];
 
   bool addPostPolicyIsChecked = false;
 
-  check() {
+  donatePolicyCheck() {
     addPostPolicyIsChecked = !addPostPolicyIsChecked;
     emit(IsCheckedState());
   }
 
-  minusItemCount(TextEditingController quantityController) {
-    if (itemCount != 0) {
-      itemCount--;
-      quantityController.text = itemCount.toString();
+  minusItemCount() {
+    if (itemQuantity != 0) {
+      itemQuantity--;
     }
-    // else {
-    //   itemCount = quantityController.text as int;
-    // }
     emit(CounterIncrementState());
   }
 
-  incrementItemCount(TextEditingController quantityController) {
-    itemCount++;
-    quantityController.text = itemCount.toString();
-    //   itemCount= quantityController.text as int ;
-
+  incrementItemCount() {
+    if(itemQuantity < 5) {
+      itemQuantity++;
+    }
     emit(CounterMinusState());
   }
 
@@ -112,8 +112,13 @@ class FoodCubit extends Cubit<FoodStates> {
     emit(ChangeDateTimeState());
   }
 
-  changeVerticalGroupValue(value) {
+  changeFoodTypeValue(value) {
     foodType = value;
+    emit(ChangeVerticalGroupValue());
+  }
+
+  changeContactMethodValue(value) {
+    contactMethod = value;
     emit(ChangeVerticalGroupValue());
   }
 
@@ -160,11 +165,12 @@ class FoodCubit extends Cubit<FoodStates> {
     required String location,
     required String itemName,
     required String pickupDate,
-    required String quantity,
+    required String foodQuantity,
     required String description,
     required String imageUrl1,
     required String imageUrl2,
     required String foodType,
+    required String contactMethod,
     required String foodDonor,
     required String postDate,
     bool? isFavorite,
@@ -174,13 +180,15 @@ class FoodCubit extends Cubit<FoodStates> {
     PostModel postModel = PostModel(
       description: description,
       foodType: foodType,
+      contactMethod: contactMethod,
       imageUrl1: imageUrl1,
       imageUrl2: imageUrl2,
       itemName: itemName,
       location: location,
       pickupDate: pickupDate,
-      quantity: quantity,
+      itemQuantity: foodQuantity,
       donorId: uId,
+      donorPhone: userModel!.phone,
       userName: userModel!.name,
       userImage: userModel!.image,
       isFavorite: isFavorite ??= false,
@@ -248,11 +256,12 @@ class FoodCubit extends Cubit<FoodStates> {
     required String location,
     required String itemName,
     required String postDate,
-    required String quantity,
+    required String foodQuantity,
     required String description,
     required String imageUrl1,
     required String imageUrl2,
     required String foodType,
+    required String contactMethod,
     required bool isFavorite,
   }) async {
     emit(UpdatePostLoadingState());
@@ -260,13 +269,15 @@ class FoodCubit extends Cubit<FoodStates> {
     PostModel postModel = PostModel(
       description: description,
       foodType: foodType,
+      contactMethod: contactMethod,
       imageUrl1: imageUrl1,
       imageUrl2: imageUrl2,
       itemName: itemName,
       location: location,
       pickupDate: postDate,
-      quantity: quantity,
+      itemQuantity: foodQuantity,
       donorId: uId,
+      donorPhone: userModel!.phone,
       isFavorite: isFavorite,
     );
     posts.doc('postId').update(postModel.toMap()).then((idValue) async {
@@ -316,7 +327,7 @@ class FoodCubit extends Cubit<FoodStates> {
   List<PostModel> postsList = [];
   List<PostModel> currentUserPostsList = [];
   List<PostModel> selectedUserPostsList = [];
-  List<PostModel> myReceivedFoodList = [];
+  List<PostModel> myHistoryTransactionsList = [];
   List<UserModel> userData = [];
   List<PostModel> favPosts = [];
 
@@ -362,25 +373,33 @@ class FoodCubit extends Cubit<FoodStates> {
     }
   }
 
-  void receiveFood({required PostModel postModel}) async {
+  void receiveFood(BuildContext context, {required PostModel postModel}) async {
     emit(FoodReceiveFoodLoadingState());
     await FirebaseFirestore.instance
         .collection('posts')
         .doc(postModel.postId)
         .update({'receiverId': uId}).then((value) {
       postModel.receiverId = uId!;
-      showToast(text: 'you got this item', states: ToastStates.SUCCESS);
+      showToast(text: AppLocalizations.of(context)!.requestItemToast, states: ToastStates.SUCCESS);
       emit(FoodReceiveFoodSuccessState());
     }).catchError((error) {
       emit(FoodReceiveFoodErrorState());
     });
   }
 
-  void getMyReceivedFood() async {
-    if (myReceivedFoodList.isEmpty) {
+  Future<void> makePhoneCall(String phone, BuildContext context) async {
+    if (await canLaunchUrl(Uri.parse("tel:$phone"))) {
+      await launchUrl(Uri.parse("tel:$phone"));
+    } else {
+      throw '${AppLocalizations.of(context)!.makePhoneCallFallback}$phone';
+    }
+  }
+
+  void getMyHistoryTransactions() {
+    if (myHistoryTransactionsList.isEmpty) {
       for (PostModel postModel in postsList) {
-        if (postModel.donorId! == uId || postModel.receiverId == uId) {
-          myReceivedFoodList.add(postModel);
+        if (postModel.receiverId == uId || postModel.donorId == uId) {
+          myHistoryTransactionsList.add(postModel);
         }
       }
       emit(FoodGetMyReceiveFoodSuccessState());

@@ -59,9 +59,13 @@
 
   "postDateHeader": "تم النشر في:",
 
-  "chatButton": "المحادثة",
+  "chatButton": "محادثة",
 
-  "getButton": "أخذ",
+  "phoneButton": "إتصال",
+
+  "requestButton": "طلب",
+
+  "requestItemToast": "لقد طلبت هذا العنصر",
 
   "profileScreenTitle": "الملف الشخصي",
 
@@ -122,5 +126,7 @@
 
   "drawerTermsAndConditionsRow": "البنود و الشروط",
 
-  "logoutButton": "تسجيل الخروج"
+  "logoutButton": "تسجيل الخروج",
+
+  "makePhoneCallFallback": "تعذر الإتصال ب: "
 }

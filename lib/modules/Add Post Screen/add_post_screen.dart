@@ -1,6 +1,5 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
@@ -14,7 +13,6 @@ class AddPosts extends StatelessWidget {
   final TextEditingController locationController = TextEditingController();
   final TextEditingController dateController = TextEditingController();
   final TextEditingController itemNameController = TextEditingController();
-  final TextEditingController quantityController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
@@ -49,31 +47,29 @@ class AddPosts extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           IconButton(
-                              onPressed: () {
-                                FoodCubit.get(context)
-                                    .minusItemCount(quantityController);
-                              },
-                              icon: const Icon(
+                              onPressed: FoodCubit.get(context).itemQuantity > 1 ? (){
+                                FoodCubit.get(context).minusItemCount();
+                              }: null,
+                              icon: Icon(
                                 Icons.remove,
                                 size: 15,
-                                color: defaultColor,
+                                color: FoodCubit.get(context).itemQuantity == 1 ? Colors.grey : defaultColor,
                               )),
                           Text(
-                            "${FoodCubit.get(context).itemCount}",
+                            "${FoodCubit.get(context).itemQuantity}",
                             style: const TextStyle(
                                 fontSize: 15,
-                                color: Colors.white,
                                 fontWeight: FontWeight.normal),
                           ),
                           IconButton(
-                              onPressed: () {
+                              onPressed:FoodCubit.get(context).itemQuantity < 5 ? () {
                                 FoodCubit.get(context)
-                                    .incrementItemCount(quantityController);
-                              },
-                              icon: const Icon(
+                                    .incrementItemCount();
+                              }:null,
+                              icon:  Icon(
                                 Icons.add,
                                 size: 15,
-                                color: defaultColor,
+                                color: FoodCubit.get(context).itemQuantity == 5 ? Colors.grey : defaultColor,
                               )),
                         ],
                       ),
@@ -174,32 +170,7 @@ class AddPosts extends StatelessWidget {
                       SizedBox(
                         height: size.height / 120,
                       ),
-                      /////////////////////////////////////Quantity/////////////////////////////////////
-                      rowTextAndFormInput(
-                          initialValue: null,
-                          validator: (value) {
-                            if (value == 0 || quantityController.text.isEmpty) {
-                              return AppLocalizations.of(context)!
-                                  .donateScreenQuantityFieldValidation;
-                            } else {
-                              return null;
-                            }
-                          },
-                          textEditingController: quantityController,
-                          textInputType: TextInputType.number,
-                          inputFormatters: <TextInputFormatter>[
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
-                          rowText: AppLocalizations.of(context)!
-                              .donateScreenQuantityFieldHeader,
-                          fontSize: 19,
-                          fontWeight: FontWeight.normal,
-                          icon: Icons.list_alt,
-                          hintTextForm: AppLocalizations.of(context)!
-                              .donateScreenQuantityFieldHint),
-                      SizedBox(
-                        height: size.height / 65,
-                      ),
+
                       /////////////////////////////////////Description/////////////////////////////////////
 
                       rowTextAndFormInput(
@@ -394,15 +365,34 @@ class AddPosts extends StatelessWidget {
                       SizedBox(
                         height: size.height / 60,
                       ),
-                      /////////////////////////////////////FoodDonor And FoodType/////////////////////////////////////
+                      ///////////////////////////////////// FoodType/////////////////////////////////////
+                      const Text("Food Type:"),
                       RadioGroup<String>.builder(
                         activeColor: defaultColor,
                         direction: Axis.horizontal,
                         groupValue: FoodCubit.get(context).foodType,
                         horizontalAlignment: MainAxisAlignment.spaceBetween,
                         onChanged: (value) => FoodCubit.get(context)
-                            .changeVerticalGroupValue(value),
-                        items: FoodCubit.get(context).status,
+                            .changeFoodTypeValue(value),
+                        items: FoodCubit.get(context).foodTypeList,
+                        textStyle: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                        ),
+                        itemBuilder: (item) => RadioButtonBuilder(
+                          item,
+                        ),
+                      ),
+                      const SizedBox(height: 5.0,),
+                      const Text("Contact Method"),
+                      RadioGroup<String>.builder(
+                        activeColor: defaultColor,
+                        direction: Axis.horizontal,
+                        groupValue: FoodCubit.get(context).contactMethod,
+                        horizontalAlignment: MainAxisAlignment.spaceBetween,
+                        onChanged: (value) => FoodCubit.get(context)
+                            .changeContactMethodValue(value),
+                        items: FoodCubit.get(context).contactMethodList,
                         textStyle: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12,
@@ -420,7 +410,7 @@ class AddPosts extends StatelessWidget {
                         children: [
                           InkWell(
                             onTap: () {
-                              FoodCubit.get(context).check();
+                              FoodCubit.get(context).donatePolicyCheck();
                             },
                             child: Icon(
                               FoodCubit.get(context).addPostPolicyIsChecked ==
@@ -489,30 +479,29 @@ class AddPosts extends StatelessWidget {
                                             .addPostPolicyIsChecked ==
                                         true) {
                                   FoodCubit.get(context).addPost(
-                                      postDate:
-                                          "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
+                                      postDate: "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
                                       location: locationController.text,
                                       itemName: itemNameController.text,
                                       pickupDate: FoodCubit.get(context).date,
-                                      quantity: quantityController.text,
+                                      foodQuantity: FoodCubit.get(context).itemQuantity.toString(),
                                       description: descriptionController.text,
                                       imageUrl1: "imageUrl1",
                                       imageUrl2: "imageUrl2",
                                       foodType: FoodCubit.get(context).foodType,
+                                      contactMethod: FoodCubit.get(context).contactMethod,
                                       foodDonor: FoodCubit.get(context)
                                           .userModel!
                                           .type!);
                                   FoodCubit.get(context).currentIndex = 0;
                                   FoodCubit.get(context).date =
                                       "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
-                                  FoodCubit.get(context)
-                                      .changeVerticalGroupValue("Main dishes");
+                                  FoodCubit.get(context).foodType = "Main dishes";
                                   FoodCubit.get(context)
                                       .addPostPolicyIsChecked = false;
                                   locationController.text = '';
                                   itemNameController.text = '';
-                                  quantityController.text = '';
                                   descriptionController.text = '';
+                                  FoodCubit.get(context).itemQuantity = 1;
                                 }
                               },
                               child: state is CreatePostLoadingState

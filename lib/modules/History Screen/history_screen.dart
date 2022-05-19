@@ -43,19 +43,19 @@ class HistoryScreen extends StatelessWidget {
                                 isInHistory: true,
                                 viewPost: false,
                                 postModel: FoodCubit.get(context)
-                                    .myReceivedFoodList[index],
+                                    .myHistoryTransactionsList[index],
                               ),
                           separatorBuilder: (context, index) => const SizedBox(
                                 height: 20.0,
                               ),
                           itemCount:
-                              FoodCubit.get(context).myReceivedFoodList.length),
+                              FoodCubit.get(context).myHistoryTransactionsList.length),
                     )
                   ],
                 ),
               ),
-              condition: FoodCubit.get(context).myReceivedFoodList.isNotEmpty,
-              fallback: (context) =>FoodCubit.get(context).myReceivedFoodList.isEmpty? Padding(
+              condition: FoodCubit.get(context).myHistoryTransactionsList.isNotEmpty,
+              fallback: (context) =>FoodCubit.get(context).myHistoryTransactionsList.isEmpty? Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Center(
                   child: Text(

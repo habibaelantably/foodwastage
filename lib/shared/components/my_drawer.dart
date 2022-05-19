@@ -150,7 +150,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         ),
                       ),
                       onTap: () {
-                        FoodCubit.get(context).getMyReceivedFood();
+                        FoodCubit.get(context).getMyHistoryTransactions();
                         Navigator.pop(context);
                         navigateTo(context, const HistoryScreen());
                       },

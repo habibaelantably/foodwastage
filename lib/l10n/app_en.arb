@@ -152,13 +152,23 @@
   },
 
   "chatButton": "Chat",
-  "@chatNowButton": {
-    "description": "chatNowButton"
+  "@chatButton": {
+    "description": "chatButton"
   },
 
-  "getButton": "Get",
-  "@Get": {
-    "description": "Get"
+  "phoneButton": "Call",
+  "@phoneButton": {
+    "description": "Call"
+  },
+
+  "requestButton": "Request",
+  "@Request": {
+    "description": "Request"
+  },
+
+  "requestItemToast": "You requested this item",
+  "@requestItemToast": {
+    "description": "requestItemToast"
   },
 
   "profileScreenTitle": "Profile",
@@ -305,5 +315,10 @@
   "logoutButton": "Logout",
   "@logoutButton": {
     "description": "logoutButton"
+  },
+
+  "makePhoneCallFallback": "Couldn't call: ",
+  "@makePhoneCallFallback": {
+    "description": "makePhoneCallFallback"
   }
 }
