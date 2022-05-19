@@ -1,6 +1,9 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodwastage/models/post_model.dart';
+import 'package:foodwastage/modules/Profile%20Screen/profile_screen.dart';
+import 'package:foodwastage/modules/postRequestsScreen/post_requests_screen.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import '../../shared/constants.dart';
 import 'package:foodwastage/shared/components/reusable_components.dart';
@@ -11,7 +14,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class PostOverview extends StatelessWidget {
   const PostOverview({Key? key, required this.postModel}) : super(key: key);
   final PostModel postModel;
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<FoodCubit, FoodStates>(
@@ -142,7 +144,7 @@ class PostOverview extends StatelessWidget {
                     ? Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20.0, vertical: 10.0),
-                        child: postModel.receiverId == uId
+                        child: postModel.receiversId!.contains(uId)
                             ? postModel.contactMethod == 'Chat'
                                 ? Row(
                                     children: [
@@ -243,7 +245,11 @@ class PostOverview extends StatelessWidget {
                                 ],
                               ), // request item button
                       )
-                    : const SizedBox()
+                    : TextButton(onPressed: (){
+                      print(postModel.receiversId!.length);
+                      navigateTo(context, PostRequests(requests: postModel.receiversId!));
+                }, child: const Text("requests")
+                )
               ],
             ),
           ),

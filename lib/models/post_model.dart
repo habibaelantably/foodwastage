@@ -14,7 +14,7 @@ class PostModel {
   String? donorPhone;
   String? userName;
   String? userImage;
-  String? receiverId;
+  List? receiversId;
   bool? isFavorite;
 
   PostModel({
@@ -33,7 +33,7 @@ class PostModel {
     this.donorPhone,
     this.userName,
     this.userImage,
-    this.receiverId,
+    this.receiversId,
     this.isFavorite = false,
   });
 
@@ -54,7 +54,7 @@ class PostModel {
       'donorPhone': donorPhone,
       'userName': userName,
       'userImage': userImage,
-      'receiverId': receiverId,
+      'receiversId': receiversId,
       'isFavorite': isFavorite ??= false,
     };
   }
@@ -76,7 +76,7 @@ class PostModel {
       donorPhone: json['donorPhone'],
       userName: json['userName'],
       userImage: json['userImage'],
-      receiverId: json['receiverId'],
+      receiversId: json['receiversId'],
       isFavorite: json['isFavorite'] ??= false,
     );
   }

@@ -277,6 +277,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         ),
                       ),
                       onTap: () {
+
                         FoodCubit.get(context).logout();
                         FoodCubit.get(context).currentIndex = 0;
                         navigateAndKill(context, LoginScreen());
