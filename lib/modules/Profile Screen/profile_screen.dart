@@ -23,7 +23,6 @@ class ProfileScreen extends StatelessWidget {
       listener: (BuildContext context, state) {},
       builder: (BuildContext context, Object? state) {
         return Scaffold(
-          backgroundColor: Colors.white,
           appBar: AppBar(
             elevation: 0.0,
             leading: IconButton(
@@ -39,10 +38,6 @@ class ProfileScreen extends StatelessWidget {
             ),
             title: Text(
               AppLocalizations.of(context)!.profileScreenTitle,
-              style: const TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
             ),
             actions: [
               selectedUserId != uId
@@ -94,8 +89,8 @@ class ProfileScreen extends StatelessWidget {
                                               fontWeight: FontWeight.w800)),
                                   TextSpan(
                                     text: "(${profileUserModel.type})",
-                                    style: const TextStyle(
-                                        color: Colors.black54,
+                                    style: TextStyle(
+                                        color: Colors.grey[400],
                                         fontSize: 14,
                                         fontWeight: FontWeight.w900),
                                   ),

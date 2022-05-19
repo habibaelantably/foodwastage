@@ -63,7 +63,6 @@ class PostOverview extends StatelessWidget {
                                   .donateScreenNameFieldHeader,
                               initialValue: postModel.itemName!,
                               fontSize: 19,
-                              color: KBlack,
                               isEnabled: false,
                               fontWeight: FontWeight.normal,
                               icon: Icons.fastfood_outlined,
@@ -79,7 +78,6 @@ class PostOverview extends StatelessWidget {
                               initialValue: postModel.location!,
                               isEnabled: false,
                               fontSize: 19,
-                              color: KBlack,
                               fontWeight: FontWeight.normal,
                               icon: Icons.add_location_alt_outlined,
                               hintTextForm: AppLocalizations.of(context)!
@@ -95,7 +93,6 @@ class PostOverview extends StatelessWidget {
                                   text: AppLocalizations.of(context)!
                                       .donateScreenDateFieldHeader,
                                   fontSize: 19,
-                                  color: KBlack,
                                   fontWeight: FontWeight.normal),
                               const Icon(Icons.date_range_outlined,
                                   color: defaultColor),
@@ -116,7 +113,6 @@ class PostOverview extends StatelessWidget {
                                   .donateScreenQuantityFieldHeader,
                               initialValue: postModel.quantity!,
                               fontSize: 19,
-                              color: KBlack,
                               fontWeight: FontWeight.normal,
                               icon: Icons.list_alt,
                               hintTextForm: AppLocalizations.of(context)!
@@ -133,7 +129,6 @@ class PostOverview extends StatelessWidget {
                                   .donateScreenDescriptionFieldHeader,
                               initialValue: postModel.description!,
                               fontSize: 19,
-                              color: KBlack,
                               fontWeight: FontWeight.normal,
                               icon: Icons.description,
                               hintTextForm: AppLocalizations.of(context)!

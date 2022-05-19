@@ -1,6 +1,5 @@
 class PostModel {
   String? postId;
-  int? itemCount;
   String? location;
   String? itemName;
   String? pickupDate;
@@ -18,7 +17,6 @@ class PostModel {
 
   PostModel({
     this.postId,
-    this.itemCount,
     this.location,
     this.itemName,
     this.pickupDate,
@@ -37,7 +35,6 @@ class PostModel {
 
   Map<String, dynamic> toMap() {
     return {
-      'itemCount': itemCount,
       'location': location,
       'itemName': itemName,
       'pickupDate': pickupDate,
@@ -58,7 +55,6 @@ class PostModel {
   factory PostModel.fromJson(json) {
     return PostModel(
       postId: json['postId'],
-      itemCount: json['itemCount'],
       location: json['location'],
       itemName: json['itemName'],
       pickupDate: json['pickupDate'],

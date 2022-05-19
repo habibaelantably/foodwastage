@@ -44,10 +44,9 @@ class LoginScreen extends StatelessWidget {
                         AppLocalizations.of(context)!.welcome,
                         style: Theme.of(context)
                             .textTheme
-                            .headline6!
-                            .copyWith(color: Colors.black),
+                            .headline6!,
                       ),
-                      // SizedBox(height: 3.0,),
+                      const SizedBox(height: 8.0,),
                       Text(
                         AppLocalizations.of(context)!.loginToContinue,
                         style: Theme.of(context)
@@ -161,7 +160,6 @@ class LoginScreen extends StatelessWidget {
                           const SizedBox(
                             width: 40.0,
                           ),
-                          //Image.asset('assets/images/googleLogo.png',width: 50,height: 50,),
                           const Icon(
                             Icons.facebook_rounded,
                             color: Colors.blue,
@@ -172,7 +170,8 @@ class LoginScreen extends StatelessWidget {
                       const SizedBox(
                         height: 13.0,
                       ),
-                      Column(
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(AppLocalizations.of(context)!
                               .loginScreenRegisterHint),

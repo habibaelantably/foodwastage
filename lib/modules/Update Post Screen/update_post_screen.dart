@@ -31,10 +31,8 @@ class UpdatePost extends StatelessWidget {
         //هنا بنخزن القيم اللي جايه علشان نظهرها ونعدل عليها
         locationController.text = postModel.location!;
         foodNameController.text = postModel.itemName!;
-        quantityController.text = postModel.itemCount!.toString();
+        quantityController.text = postModel.quantity!;
         descriptionController.text = postModel.description!;
-        FoodCubit.get(context).itemCount = postModel.itemCount!;
-        FoodCubit.get(context).itemCount = postModel.itemCount!;
         FoodCubit.get(context).foodType = postModel.foodType!;
 
         return Scaffold(
@@ -53,7 +51,6 @@ class UpdatePost extends StatelessWidget {
                           text: AppLocalizations.of(context)!
                               .layoutAppBarTitleDonate,
                           fontWeight: FontWeight.normal,
-                          color: KBlack,
                           fontSize: 26),
                       Card(
                         child: Row(
@@ -72,7 +69,6 @@ class UpdatePost extends StatelessWidget {
                             defaultText(
                                 text: "${FoodCubit.get(context).itemCount}",
                                 fontSize: 15,
-                                color: KBlack,
                                 fontWeight: FontWeight.normal),
                             IconButton(
                                 onPressed: () {
@@ -109,7 +105,6 @@ class UpdatePost extends StatelessWidget {
                             rowText: AppLocalizations.of(context)!
                                 .donateScreenLocationFieldHeader,
                             fontSize: 19,
-                            color: KBlack,
                             fontWeight: FontWeight.normal,
                             icon: Icons.add_location_alt_outlined,
                             hintTextForm: AppLocalizations.of(context)!
@@ -130,7 +125,6 @@ class UpdatePost extends StatelessWidget {
                             rowText: AppLocalizations.of(context)!
                                 .donateScreenNameFieldHeader,
                             fontSize: 19,
-                            color: KBlack,
                             fontWeight: FontWeight.normal,
                             icon: Icons.fastfood_outlined,
                             hintTextForm: AppLocalizations.of(context)!
@@ -146,7 +140,6 @@ class UpdatePost extends StatelessWidget {
                                 text: AppLocalizations.of(context)!
                                     .donateScreenDateFieldHeader,
                                 fontSize: 19,
-                                color: KBlack,
                                 fontWeight: FontWeight.normal),
                             const Icon(Icons.date_range_outlined,
                                 color: defaultColor),
@@ -216,7 +209,6 @@ class UpdatePost extends StatelessWidget {
                             rowText: AppLocalizations.of(context)!
                                 .donateScreenQuantityFieldHeader,
                             fontSize: 19,
-                            color: KBlack,
                             fontWeight: FontWeight.normal,
                             icon: Icons.list_alt,
                             hintTextForm: AppLocalizations.of(context)!
@@ -241,7 +233,6 @@ class UpdatePost extends StatelessWidget {
                             rowText: AppLocalizations.of(context)!
                                 .donateScreenDescriptionFieldHeader,
                             fontSize: 19,
-                            color: KBlack,
                             fontWeight: FontWeight.normal,
                             icon: Icons.description,
                             hintTextForm: AppLocalizations.of(context)!
@@ -477,7 +468,6 @@ class UpdatePost extends StatelessWidget {
                                 text: AppLocalizations.of(context)!
                                     .donateScreenPolicy,
                                 fontSize: size.width * 0.03,
-                                color: KBlack,
                                 fontWeight: FontWeight.normal)
                           ],
                         ),
@@ -516,7 +506,6 @@ class UpdatePost extends StatelessWidget {
                                                             context)!
                                                         .dialogOkButton,
                                                     fontSize: 20,
-                                                    color: KBlack,
                                                     fontWeight:
                                                         FontWeight.bold))
                                           ],
@@ -527,8 +516,6 @@ class UpdatePost extends StatelessWidget {
                                         FoodCubit.get(context).addPostPolicyIsChecked ==
                                             true) {
                                       FoodCubit.get(context).updatePost(
-                                        itemCount:
-                                            FoodCubit.get(context).itemCount,
                                         location: locationController.text,
                                         itemName: foodNameController.text,
                                         postDate: FoodCubit.get(context).date,
@@ -558,7 +545,6 @@ class UpdatePost extends StatelessWidget {
                                       : defaultText(
                                           text: "Update",
                                           fontSize: 26,
-                                          color: Colors.white,
                                           fontWeight: FontWeight.w400)),
                             ),
                           ],
