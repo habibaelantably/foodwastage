@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodwastage/shared/components/reusable_components.dart';
 import 'package:foodwastage/layout/Food_Layout.dart';
 import 'package:foodwastage/modules/register_Screen.dart';
+import 'package:foodwastage/shared/constants.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Login/food_login_cubit.dart';
 import 'package:foodwastage/shared/cubit/Login/food_login_states.dart';
@@ -201,29 +202,18 @@ class LoginScreen extends StatelessWidget {
           showToast(text: state.error.toString(), states: ToastStates.ERROR);
         }
 
-        if (state is FoodLoginSuccessState) {
-          FoodCubit.getLoggedInUser();
-          navigateAndKill(context, const FoodLayout());
-        }
-
-        if(state is FoodLoginGoogleSuccessState){
-          FoodCubit.getLoggedInUser();
-          navigateAndKill(context, const FoodLayout());
-        }
-
-        if(state is FoodSuccessCreateGoogleUserState) {
-          FoodCubit.getLoggedInUser();
-          navigateAndKill(context, const FoodLayout());
-        }
-
-        if(state is FoodLoginFacebookSuccessState){
-          FoodCubit.getLoggedInUser();
-          navigateAndKill(context, const FoodLayout());
-        }
-
-        if(state is FoodSuccessCreateFacebookUserState) {
-          FoodCubit.getLoggedInUser();
-          navigateAndKill(context, const FoodLayout());
+        if (state is FoodLoginSuccessState || state is FoodLoginGoogleSuccessState||
+            state is FoodSuccessCreateGoogleUserState||
+            state is FoodLoginFacebookSuccessState||state is FoodSuccessCreateFacebookUserState) {
+          if (uId != null) {
+            FoodCubit.getLoggedInUser();
+            FoodCubit.get(context).getUserdata(context: context);
+            FoodCubit.get(context).getPosts();
+            navigateAndKill(context, const FoodLayout());
+          } else {
+            FoodCubit.getLoggedInUser();
+            navigateAndKill(context, const FoodLayout());
+          }
         }
       }
 //
