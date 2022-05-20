@@ -166,6 +166,7 @@
     "description": "Request"
   },
 
+
   "requestItemToast": "You requested this item",
   "@requestItemToast": {
     "description": "requestItemToast"
@@ -179,6 +180,11 @@
   "profileScreenPostsFallBack": "You haven't donated any food yet...",
   "@profileScreenPostsFallBack": {
     "description": "profileScreenPostsFallBack"
+  },
+
+  "selectedUserProfileScreenPostsFallBack": "This user hasn't donated any food yet...",
+  "@selectedUserProfileScreenPostsFallBack": {
+    "description": "selectedUserProfileScreenPostsFallBack"
   },
 
   "rateButton": "Rate",
@@ -315,6 +321,11 @@
   "logoutButton": "Logout",
   "@logoutButton": {
     "description": "logoutButton"
+  },
+
+  "postRequestsScreenTitle": "Requests",
+  "@postRequestsScreenTitle": {
+    "description": "postRequestsScreenTitle"
   },
 
   "makePhoneCallFallback": "Couldn't call: ",

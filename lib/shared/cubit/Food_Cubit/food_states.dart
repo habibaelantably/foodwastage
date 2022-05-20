@@ -92,6 +92,14 @@ class FoodGetMyReceiveFoodSuccessState extends FoodStates {}
 
 class FoodGetMyReceiveFoodErrorState extends FoodStates {}
 
+class FoodGetPostRequestsUsersLoadingState extends FoodStates {}
+
+class FoodGetPostRequestsUsersSuccessState extends FoodStates {}
+
+class FoodGetPostRequestsUsersErrorState extends FoodStates {}
+
+class FoodConfirmDonationSuccessState extends FoodStates {}
+
 class FoodFavoriteState extends FoodStates {}
 
 class ChangeLoginState extends FoodStates {}

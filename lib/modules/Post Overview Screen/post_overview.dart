@@ -1,8 +1,6 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodwastage/models/post_model.dart';
-import 'package:foodwastage/modules/Profile%20Screen/profile_screen.dart';
 import 'package:foodwastage/modules/postRequestsScreen/post_requests_screen.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import '../../shared/constants.dart';
@@ -14,6 +12,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class PostOverview extends StatelessWidget {
   const PostOverview({Key? key, required this.postModel}) : super(key: key);
   final PostModel postModel;
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<FoodCubit, FoodStates>(
@@ -144,7 +143,7 @@ class PostOverview extends StatelessWidget {
                     ? Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20.0, vertical: 10.0),
-                        child: postModel.receiversId!.contains(uId)
+                        child: postModel.requestsUsersId!.contains(uId)
                             ? postModel.contactMethod == 'Chat'
                                 ? Row(
                                     children: [
@@ -166,7 +165,10 @@ class PostOverview extends StatelessWidget {
                                           Expanded(
                                             child: defaultButton(
                                               function: () {
-                                                FoodCubit.get(context).makePhoneCall(postModel.donorPhone!,context);
+                                                FoodCubit.get(context)
+                                                    .makePhoneCall(
+                                                        postModel.donorPhone!,
+                                                        context);
                                               },
                                               text:
                                                   AppLocalizations.of(context)!
@@ -182,7 +184,10 @@ class PostOverview extends StatelessWidget {
                                         children: [
                                           Expanded(
                                             child: defaultButton(
-                                              function: () {},
+                                              function: () {
+                                                FoodCubit.get(context)
+                                                    .getPostRequests(postModel);
+                                              },
                                               text:
                                                   AppLocalizations.of(context)!
                                                       .chatButton
@@ -197,7 +202,10 @@ class PostOverview extends StatelessWidget {
                                           Expanded(
                                             child: defaultButton(
                                               function: () {
-                                                FoodCubit.get(context).makePhoneCall(postModel.donorPhone!,context);
+                                                FoodCubit.get(context)
+                                                    .makePhoneCall(
+                                                        postModel.donorPhone!,
+                                                        context);
                                               },
                                               text:
                                                   AppLocalizations.of(context)!
@@ -209,47 +217,85 @@ class PostOverview extends StatelessWidget {
                                           ), //phone button
                                         ],
                                       ) //both contact methods buttons
-                            : Row(
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      height: 50.0,
-                                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                                      decoration: BoxDecoration(
-                                        color: defaultColor,
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
+                            : postModel.receiverId == null
+                                ? Row(
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                          height: 50.0,
+                                          clipBehavior:
+                                              Clip.antiAliasWithSaveLayer,
+                                          decoration: BoxDecoration(
+                                            color: defaultColor,
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                          child: MaterialButton(
+                                            onPressed: () {
+                                              FoodCubit.get(context)
+                                                  .requestFood(context,
+                                                      postModel: postModel);
+                                            },
+                                            child: state
+                                                    is FoodReceiveFoodLoadingState
+                                                ? const CircularProgressIndicator(
+                                                    color: Colors.white,
+                                                  )
+                                                : Text(
+                                                    AppLocalizations.of(
+                                                            context)!
+                                                        .requestButton,
+                                                    style: const TextStyle(
+                                                        fontSize: 22,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.white),
+                                                  ),
+                                          ),
+                                        ),
                                       ),
-                                      child: MaterialButton(
-                                        onPressed: () {
-                                          FoodCubit.get(context).receiveFood(
-                                              context,
-                                              postModel: postModel);
-                                        },
-                                        child: state
-                                                is FoodReceiveFoodLoadingState
-                                            ? const CircularProgressIndicator(
-                                                color: Colors.white,
-                                              )
-                                            : Text(
-                                                AppLocalizations.of(context)!
-                                                    .requestButton,
-                                                style: const TextStyle(
-                                                    fontSize: 22,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.white),
-                                              ),
+                                    ],
+                                  )
+                                : Row(
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                          height: 50,
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            AppLocalizations.of(context)!
+                                                .historyScreenPostStatusReceived
+                                                .toUpperCase(),
+                                            style: const TextStyle(
+                                                fontSize: 22.0,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white),
+                                          ),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                            color: Colors.grey,
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                ],
-                              ), // request item button
+                                    ],
+                                  ), // request item button
                       )
-                    : TextButton(onPressed: (){
-                      print(postModel.receiversId!.length);
-                      navigateTo(context, PostRequests(requests: postModel.receiversId!));
-                }, child: const Text("requests")
-                )
+                    : postModel.requestsUsers!.isNotEmpty
+                        ? Expanded(
+                            child: defaultButton(
+                              function: () {
+                                navigateTo(context,
+                                    PostRequests(postModel: postModel));
+                              },
+                              text: AppLocalizations.of(context)!
+                                  .requestButton
+                                  .toUpperCase(),
+                              height: 50.0,
+                              context: context,
+                            ),
+                          )
+                        : const SizedBox(),
               ],
             ),
           ),

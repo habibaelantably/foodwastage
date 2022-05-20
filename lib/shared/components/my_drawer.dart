@@ -55,7 +55,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         text: "${_userModel.name} ",
                         style: TextStyle(
                           fontSize: 22,
-                          color: PreferencesCubit.get(context).darkModeSwitchIsOn ? Colors.white:Colors.black,
+                          color:
+                              PreferencesCubit.get(context).darkModeSwitchIsOn
+                                  ? Colors.white
+                                  : Colors.black,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -150,7 +153,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         ),
                       ),
                       onTap: () {
-                        FoodCubit.get(context).getMyHistoryTransactions();
                         Navigator.pop(context);
                         navigateTo(context, const HistoryScreen());
                       },
@@ -175,8 +177,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                 .darkModeSwitchIsOn,
                             onChanged: (newValue) {
                               setState(() {
-                                PreferencesCubit.get(context)
-                                    .changeAppTheme();
+                                PreferencesCubit.get(context).changeAppTheme();
                               });
                             })),
                     ListTile(
@@ -195,8 +196,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                           ),
                         ),
                         trailing: Switch(
-                            value: PreferencesCubit.get(context)
-                                .appLangSwitchIsOn,
+                            value:
+                                PreferencesCubit.get(context).appLangSwitchIsOn,
                             activeThumbImage: const NetworkImage(
                                 'https://lists.gnu.org/archive/html/emacs-devel/2015-10/pngR9b4lzUy39.png'),
                             inactiveThumbImage: const NetworkImage(
@@ -271,13 +272,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       ),
                       title: Text(
                         AppLocalizations.of(context)!.logoutButton,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          color: Colors.red
-                        ),
+                        style: const TextStyle(fontSize: 16, color: Colors.red),
                       ),
                       onTap: () {
-
                         FoodCubit.get(context).logout();
                         FoodCubit.get(context).currentIndex = 0;
                         navigateAndKill(context, LoginScreen());

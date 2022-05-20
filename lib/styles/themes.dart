@@ -26,7 +26,6 @@ ThemeData lightTheme = ThemeData(
       unselectedItemColor: Colors.black45,
       showUnselectedLabels: true,
       type: BottomNavigationBarType.fixed),
-
   listTileTheme: const ListTileThemeData(iconColor: Colors.black, textColor: Colors.black),
 );
 

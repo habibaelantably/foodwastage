@@ -483,7 +483,7 @@ class AddPosts extends StatelessWidget {
                                       location: locationController.text,
                                       itemName: itemNameController.text,
                                       pickupDate: FoodCubit.get(context).date,
-                                      foodQuantity: FoodCubit.get(context).itemQuantity.toString(),
+                                      itemQuantity: FoodCubit.get(context).itemQuantity.toString(),
                                       description: descriptionController.text,
                                       imageUrl1: "imageUrl1",
                                       imageUrl2: "imageUrl2",

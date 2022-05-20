@@ -40,7 +40,7 @@ class ProfileScreen extends StatelessWidget {
               AppLocalizations.of(context)!.profileScreenTitle,
             ),
             actions: [
-              selectedUserId != uId
+              selectedUserId == uId
                   ? IconButton(
                       icon: const Icon(
                         Icons.edit,
@@ -315,9 +315,10 @@ class ProfileScreen extends StatelessWidget {
                                                                 ratingValue!);
                                                   }
                                                 },
-                                                child: const Text(
-                                                  "Rate",
-                                                  style: TextStyle(
+                                                child: Text(
+                                                  AppLocalizations.of(context)!
+                                                      .rateButton,
+                                                  style: const TextStyle(
                                                       color: Colors.white),
                                                 ),
                                               ),
@@ -330,9 +331,10 @@ class ProfileScreen extends StatelessWidget {
                                           onPressed: () {},
                                           color: defaultColor,
                                           height: 24,
-                                          child: const Text(
-                                            'Chat',
-                                            style: TextStyle(
+                                          child: Text(
+                                            AppLocalizations.of(context)!
+                                                .chatButton,
+                                            style: const TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.white),
                                           ),
@@ -356,7 +358,148 @@ class ProfileScreen extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          AppLocalizations.of(context)!.profileScreenPostsFallBack,
+                          AppLocalizations.of(context)!
+                              .profileScreenPostsFallBack,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              fontSize: 24.0,
+                              fontWeight: FontWeight.w700,
+                              color: defaultColor),
+                        )
+                      ]);
+                } else if (selectedUserId != uId &&
+                    FoodCubit.get(context).selectedUserPostsList.isEmpty &&
+                    FoodCubit.get(context).selectedUserModel != null) {
+                  profileUserModel = FoodCubit.get(context).selectedUserModel!;
+                  return Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              CircleAvatar(
+                                radius: 40.0,
+                                backgroundImage:
+                                    NetworkImage(profileUserModel.image!),
+                              ),
+                              const SizedBox(
+                                width: 30.0,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    profileUserModel.name!,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1!
+                                        .copyWith(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w800),
+                                  ),
+                                  const SizedBox(
+                                    height: 7.0,
+                                  ),
+                                  Row(
+                                    children: [
+                                      RatingBar(
+                                        initialRating: profileUserModel.rating!,
+                                        itemSize: 20.0,
+                                        ignoreGestures: selectedUserId == uId
+                                            ? true
+                                            : false,
+                                        itemCount: 5,
+                                        direction: Axis.horizontal,
+                                        ratingWidget: RatingWidget(
+                                          full: const Icon(
+                                            Icons.star,
+                                            color: defaultColor,
+                                          ),
+                                          half: const Icon(
+                                            Icons.star_half,
+                                            color: defaultColor,
+                                          ),
+                                          empty: const Icon(
+                                            Icons.star_border,
+                                            color: defaultColor,
+                                          ),
+                                        ),
+                                        minRating: 1,
+                                        maxRating: 5,
+                                        onRatingUpdate: (double value) {
+                                          ratingValue = value;
+                                        },
+                                      ),
+                                      const SizedBox(
+                                        width: 30.0,
+                                      ),
+                                      selectedUserId != uId
+                                          ? Container(
+                                              clipBehavior:
+                                                  Clip.antiAliasWithSaveLayer,
+                                              height: 29.0,
+                                              width: 45.0,
+                                              decoration: BoxDecoration(
+                                                  color: defaultColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          5.0)),
+                                              child: TextButton(
+                                                onPressed: () {
+                                                  if (ratingValue != 0) {
+                                                    FoodCubit.get(context)
+                                                        .updateUserRating(
+                                                            rating:
+                                                                ratingValue!);
+                                                  }
+                                                },
+                                                child: Text(
+                                                  AppLocalizations.of(context)!
+                                                      .rateButton,
+                                                  style: const TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                              ),
+                                            )
+                                          : const SizedBox()
+                                    ],
+                                  ),
+                                  selectedUserId != uId
+                                      ? MaterialButton(
+                                          onPressed: () {},
+                                          color: defaultColor,
+                                          height: 24,
+                                          child: Text(
+                                            AppLocalizations.of(context)!
+                                                .chatButton,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white),
+                                          ),
+                                          shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(12.0)),
+                                          ),
+                                        )
+                                      : const SizedBox(),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 15.0),
+                          child: Container(
+                            width: double.infinity,
+                            height: 2.0,
+                            color: Colors.grey[300],
+                          ),
+                        ),
+                        Text(
+                          AppLocalizations.of(context)!
+                              .selectedUserProfileScreenPostsFallBack,
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                               fontSize: 24.0,

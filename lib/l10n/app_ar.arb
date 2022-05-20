@@ -53,7 +53,7 @@
 
   "historyScreenPostStatusDonated": "متبرع به",
 
-  "historyScreenPostStatusReceived": "مؤخذ",
+  "historyScreenPostStatusReceived": "مأخوذ",
 
   "deleteButton": "حذف",
 
@@ -65,11 +65,14 @@
 
   "requestButton": "طلب",
 
+
   "requestItemToast": "لقد طلبت هذا العنصر",
 
   "profileScreenTitle": "الملف الشخصي",
 
-  "profileScreenPostsFallBack": "لم تتبرع بأي طعام بعد ...",
+  "profileScreenPostsFallBack": "لم تتبرع بأي طعام بعد...",
+
+  "selectedUserProfileScreenPostsFallBack": "هذا المستخدم لم يتبرع بأي طعام بعد...",
 
   "rateButton": "تقييم",
 
@@ -126,6 +129,8 @@
   "drawerTermsAndConditionsRow": "البنود و الشروط",
 
   "logoutButton": "تسجيل الخروج",
+
+  "postRequestsScreenTitle": "Requests",
 
   "makePhoneCallFallback": "تعذر الإتصال ب: "
 }

@@ -51,7 +51,7 @@ Widget defaultButton({
   Color background = defaultColor,
   bool isUpperCase = true,
   double radius = 0.0,
-  required Function function,
+  required Function? function,
   required String text,
   required BuildContext context,
 }) =>
@@ -60,15 +60,12 @@ Widget defaultButton({
       width: width,
       child: MaterialButton(
         onPressed: () {
-          function();
+          function!();
         },
         child: Text(
           isUpperCase ? text.toUpperCase() : text,
           style: const TextStyle(
-            fontSize: 22.0,
-            fontWeight: FontWeight.bold,
-            color: Colors.white
-          ),
+              fontSize: 22.0, fontWeight: FontWeight.bold, color: Colors.white),
         ),
       ),
       decoration: BoxDecoration(

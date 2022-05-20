@@ -71,6 +71,7 @@ class FoodCubit extends Cubit<FoodStates> {
 
   CollectionReference posts =
       FirebaseFirestore.instance.collection(postsCollectionKey);
+
   firebase_storage.FirebaseStorage storage =
       firebase_storage.FirebaseStorage.instance;
 
@@ -165,7 +166,7 @@ class FoodCubit extends Cubit<FoodStates> {
     required String location,
     required String itemName,
     required String pickupDate,
-    required String foodQuantity,
+    required String itemQuantity,
     required String description,
     required String imageUrl1,
     required String imageUrl2,
@@ -186,14 +187,15 @@ class FoodCubit extends Cubit<FoodStates> {
       itemName: itemName,
       location: location,
       pickupDate: pickupDate,
-      itemQuantity: foodQuantity,
+      itemQuantity: itemQuantity,
       donorId: uId,
       donorPhone: userModel!.phone,
       userName: userModel!.name,
       userImage: userModel!.image,
       isFavorite: isFavorite ??= false,
       postDate: postDate,
-      receiversId: [],
+      requestsUsersId: [],
+      requestsUsers: [],
     );
     posts.add(postModel.toMap()).then((idValue) async {
       if (imageFile1 != null) {
@@ -326,6 +328,7 @@ class FoodCubit extends Cubit<FoodStates> {
 
 //////////////////////////////////////////////////get posts at home and profile
   List<UserModel> userData = [];
+  List<UserModel> postRequestsList = [];
   List<PostModel> postsList = [];
   List<PostModel> currentUserPostsList = [];
   List<PostModel> selectedUserPostsList = [];
@@ -348,7 +351,7 @@ class FoodCubit extends Cubit<FoodStates> {
   }
 
   void getPosts() {
-    posts.snapshots().listen((event) {
+    posts.snapshots().listen((event) async {
       postsList = [];
       currentUserPostsList = [];
       myHistoryTransactionsList = [];
@@ -356,62 +359,91 @@ class FoodCubit extends Cubit<FoodStates> {
         PostModel post = PostModel.fromJson(element.data());
         post.postId = element.id;
         //this condition is for getting current user's posts & his transactions.
-        if (element.get('donorId') == uId ) {
+        if (post.donorId == uId) {
           currentUserPostsList.add(post);
         }
-        postsList.add(post);
+        if (post.receiverId == null) {
+          postsList.add(post);
+        }
+        if (post.receiverId != null &&
+            (post.receiverId == uId || post.donorId == uId)) {
+          myHistoryTransactionsList.add(post);
+        }
       }
       emit(FoodGetPostsSuccessState());
     });
   }
 
   void getSelectedUserPosts({required String selectedUserId}) async {
-    selectedUserPostsList = [];
-    for (PostModel postModel in postsList) {
-      if (postModel.donorId! == selectedUserId) {
-        selectedUserPostsList.add(postModel);
+    posts.get().then((value) {
+      for (var element in value.docs) {
+        if (element.get('donorId') == selectedUserId) {
+          selectedUserPostsList.add(PostModel.fromJson(element.data()));
+        }
       }
-      emit(FoodGetSelectedUserPostsSuccessState());
-    }
+    });
+    emit(FoodGetSelectedUserPostsSuccessState());
   }
 
-  void receiveFood(BuildContext context, {required PostModel postModel}) async {
+  void requestFood(BuildContext context, {required PostModel postModel}) {
     emit(FoodReceiveFoodLoadingState());
-    List receiversList = [];
-    posts.doc(postModel.postId).collection('requests').doc(userModel!.uId).set(userModel!.toMap()).then((value) async {
-        posts.doc(postModel.postId).collection('requests').get().then((value) async{
-          for(var element in value.docs){
-           receiversList.add(element.data()) ;
-          }
-          await FirebaseFirestore.instance
-              .collection('posts')
-              .doc(postModel.postId)
-              .update({
-            'receiversId': receiversList
-          }).then((value) {
-            postModel.receiversId = receiversList;
-            emit(FoodReceiveFoodSuccessState());
-            showToast(
-                text: AppLocalizations.of(context)!.requestItemToast,
-                states: ToastStates.SUCCESS);
-          });
-      }).catchError((error) {
-        emit(FoodReceiveFoodErrorState());
-      });
+
+    PostModel post = PostModel(
+      description: postModel.description,
+      foodType: foodType,
+      contactMethod: postModel.contactMethod,
+      imageUrl1: postModel.imageUrl1,
+      imageUrl2: postModel.imageUrl2,
+      itemName: postModel.itemName,
+      location: postModel.location,
+      pickupDate: postModel.pickupDate,
+      itemQuantity: postModel.itemQuantity,
+      donorId: postModel.donorId,
+      donorPhone: postModel.donorPhone,
+      userName: postModel.userName,
+      userImage: postModel.userImage,
+      isFavorite: postModel.isFavorite ??= false,
+      postDate: postModel.postDate,
+      requestsUsersId: postModel.requestsUsersId,
+      requestsUsers: postModel.requestsUsers,
+    );
+
+    post.requestsUsers!.add(userModel!.toMap());
+    post.requestsUsersId!.add(uId);
+
+    posts.doc(postModel.postId).set(post.toMap()).then((value) {
+      emit(FoodReceiveFoodSuccessState());
+      showToast(
+          text: AppLocalizations.of(context)!.requestItemToast,
+          states: ToastStates.SUCCESS);
+    }).catchError((error) {
+      print(error.toString());
     });
   }
 
-  void getMyHistoryTransactions() {
-    myHistoryTransactionsList = [];
-      for (PostModel postModel in postsList) {
-        if (postModel.receiversId!.contains(uId)|| postModel.donorId == uId) {
-          myHistoryTransactionsList.add(postModel);
-        }
+  void getPostRequests(PostModel postModel) {
+    postRequestsList = [];
+    emit(FoodGetPostRequestsUsersLoadingState());
+    posts.doc(postModel.postId).get().then((value) {
+      for (var element in value.get('requestsUsers')) {
+        postRequestsList.add(UserModel.fromJson(element));
       }
-      emit(FoodGetMyReceiveFoodSuccessState());
-
+      emit(FoodGetPostRequestsUsersSuccessState());
+    }).catchError((error) {
+      emit(FoodGetPostRequestsUsersErrorState());
+    });
   }
 
+  void confirmDonation(
+      {required PostModel postModel, required String receiverId}) {
+    posts.doc(postModel.postId).update({
+      'receiverId': receiverId,
+      'requestsUsers': [],
+      'requestsUsersId': []
+    }).then((value) {
+      emit(FoodConfirmDonationSuccessState());
+    });
+  }
 
   Future<void> makePhoneCall(String phone, BuildContext context) async {
     if (await canLaunchUrl(Uri.parse("tel:$phone"))) {
