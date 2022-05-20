@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:foodwastage/models/post_model.dart';
 import 'package:foodwastage/styles/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import '../../models/post_model.dart';
 import '../../modules/Post Overview Screen/post_overview.dart';
 import '../../modules/Profile Screen/profile_screen.dart';
 import '../constants.dart';

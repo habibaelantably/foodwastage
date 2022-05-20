@@ -8,7 +8,7 @@ class UserModel {
   String? type;
   double? rating;
 
-  UserModel({
+   UserModel({
     this.name,
     this.email,
     this.phone,

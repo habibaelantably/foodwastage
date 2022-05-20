@@ -44,9 +44,10 @@ class LoginScreen extends StatelessWidget {
                         AppLocalizations.of(context)!.welcome,
                         style: Theme.of(context)
                             .textTheme
-                            .headline6!,
+                            .headline6!
+                            .copyWith(color: Colors.black),
                       ),
-                      const SizedBox(height: 8.0,),
+                      // SizedBox(height: 3.0,),
                       Text(
                         AppLocalizations.of(context)!.loginToContinue,
                         style: Theme.of(context)
@@ -152,26 +153,31 @@ class LoginScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image.asset(
-                            'assets/images/googleLogo.png',
-                            width: 50,
-                            height: 50,
+                          InkWell(
+                            onTap: ()=>FoodLoginCubit.get(context).SignInWithGoogle(),
+                            child: Image.asset(
+                              'assets/images/googleLogo.png',
+                              width: 50,
+                              height: 50,
+                            ),
                           ),
                           const SizedBox(
                             width: 40.0,
                           ),
-                          const Icon(
-                            Icons.facebook_rounded,
-                            color: Colors.blue,
-                            size: 55,
+                           InkWell(
+                            onTap: ()=>FoodLoginCubit.get(context).SignInWithFacebook(),
+                            child: const Icon(
+                              Icons.facebook_rounded,
+                              color: Colors.blue,
+                              size: 55,
+                            ),
                           ),
                         ],
                       ),
                       const SizedBox(
                         height: 13.0,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      Column(
                         children: [
                           Text(AppLocalizations.of(context)!
                               .loginScreenRegisterHint),
@@ -190,11 +196,15 @@ class LoginScreen extends StatelessWidget {
             ),
           ),
         );
-      }, listener: (BuildContext context, Object? state) {
+      }, listener: (BuildContext context, Object? state)
+      {
         if (state is FoodLoginErrorState) {
           showToast(text: state.error.toString(), states: ToastStates.ERROR);
         }
-        if (state is FoodLoginSuccessState) {
+
+        if (state is FoodLoginSuccessState || state is FoodLoginGoogleSuccessState||
+            state is FoodSuccessCreateGoogleUserState||
+            state is FoodLoginFacebookSuccessState||state is FoodSuccessCreateFacebookUserState) {
           if (uId != null) {
             FoodCubit.getLoggedInUser();
             FoodCubit.get(context).getUserdata(context: context);
