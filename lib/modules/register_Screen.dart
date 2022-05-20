@@ -9,6 +9,8 @@ import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Register/food_register_cubit.dart';
 import 'package:foodwastage/shared/cubit/Register/food_register_state.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:foodwastage/styles/colors.dart';
+import '../shared/constants.dart';
 
 // ignore: must_be_immutable
 class RegisterScreen extends StatelessWidget {
@@ -47,7 +49,7 @@ class RegisterScreen extends StatelessWidget {
                             .registerButton
                             .toUpperCase(),
                         style: Theme.of(context).textTheme.headline5!.copyWith(
-                            color: Colors.black, fontWeight: FontWeight.bold),
+                            color: defaultColor,fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(
                         height: 30.0,
@@ -216,15 +218,12 @@ class RegisterScreen extends StatelessWidget {
                       const SizedBox(
                         height: 15.0,
                       ),
-                      Column(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
                             AppLocalizations.of(context)!
                                 .registerScreenLoginHint,
-                            style: const TextStyle(
-                              color: Colors.black,
-                            ),
                           ),
                           TextButton(
                               onPressed: () {
@@ -247,8 +246,15 @@ class RegisterScreen extends StatelessWidget {
         );
       }, listener: (BuildContext context, Object? state) {
         if (state is FoodSuccessCreateState) {
-          FoodCubit.getLoggedInUser();
-          navigateAndKill(context, const FoodLayout());
+          if(uId!=null) {
+            FoodCubit.getLoggedInUser();
+            FoodCubit.get(context).getUserdata(context: context);
+            FoodCubit.get(context).getPosts();
+            navigateAndKill(context, const FoodLayout());
+          }else{
+            FoodCubit.getLoggedInUser();
+            navigateAndKill(context, const FoodLayout());
+          }
         }
       }),
     );

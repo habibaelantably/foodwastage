@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:foodwastage/models/post_model.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_states.dart';
-import 'package:group_radio_button/group_radio_button.dart';
 import 'package:foodwastage/shared/components/reusable_components.dart';
 import '../../shared/cubit/Food_Cubit/food_cubit.dart';
 import '../../styles/colors.dart';
@@ -15,7 +14,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class UpdatePost extends StatelessWidget {
   final TextEditingController locationController = TextEditingController();
   final TextEditingController foodNameController = TextEditingController();
-  final TextEditingController quantityController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   String postId;
@@ -31,11 +29,7 @@ class UpdatePost extends StatelessWidget {
         //هنا بنخزن القيم اللي جايه علشان نظهرها ونعدل عليها
         locationController.text = postModel.location!;
         foodNameController.text = postModel.itemName!;
-        quantityController.text = postModel.itemCount!.toString();
         descriptionController.text = postModel.description!;
-        FoodCubit.get(context).itemCount = postModel.itemCount!;
-        FoodCubit.get(context).itemCount = postModel.itemCount!;
-        FoodCubit.get(context).foodDonor = postModel.donorType!;
         FoodCubit.get(context).foodType = postModel.foodType!;
 
         return Scaffold(
@@ -54,7 +48,6 @@ class UpdatePost extends StatelessWidget {
                           text: AppLocalizations.of(context)!
                               .layoutAppBarTitleDonate,
                           fontWeight: FontWeight.normal,
-                          color: KBlack,
                           fontSize: 26),
                       Card(
                         child: Row(
@@ -63,7 +56,7 @@ class UpdatePost extends StatelessWidget {
                             IconButton(
                                 onPressed: () {
                                   FoodCubit.get(context)
-                                      .minusItemCount(quantityController);
+                                      .minusItemCount();
                                 },
                                 icon: const Icon(
                                   Icons.remove,
@@ -71,14 +64,13 @@ class UpdatePost extends StatelessWidget {
                                   color: defaultColor,
                                 )),
                             defaultText(
-                                text: "${FoodCubit.get(context).itemCount}",
+                                text: "${FoodCubit.get(context).itemQuantity}",
                                 fontSize: 15,
-                                color: KBlack,
                                 fontWeight: FontWeight.normal),
                             IconButton(
                                 onPressed: () {
                                   FoodCubit.get(context)
-                                      .incrementItemCount(quantityController);
+                                      .incrementItemCount();
                                 },
                                 icon: const Icon(
                                   Icons.add,
@@ -110,7 +102,6 @@ class UpdatePost extends StatelessWidget {
                             rowText: AppLocalizations.of(context)!
                                 .donateScreenLocationFieldHeader,
                             fontSize: 19,
-                            color: KBlack,
                             fontWeight: FontWeight.normal,
                             icon: Icons.add_location_alt_outlined,
                             hintTextForm: AppLocalizations.of(context)!
@@ -131,7 +122,6 @@ class UpdatePost extends StatelessWidget {
                             rowText: AppLocalizations.of(context)!
                                 .donateScreenNameFieldHeader,
                             fontSize: 19,
-                            color: KBlack,
                             fontWeight: FontWeight.normal,
                             icon: Icons.fastfood_outlined,
                             hintTextForm: AppLocalizations.of(context)!
@@ -147,7 +137,6 @@ class UpdatePost extends StatelessWidget {
                                 text: AppLocalizations.of(context)!
                                     .donateScreenDateFieldHeader,
                                 fontSize: 19,
-                                color: KBlack,
                                 fontWeight: FontWeight.normal),
                             const Icon(Icons.date_range_outlined,
                                 color: defaultColor),
@@ -201,30 +190,6 @@ class UpdatePost extends StatelessWidget {
                         SizedBox(
                           height: size.height / 120,
                         ),
-                        //Quantity
-                        rowTextAndFormInput(
-                            validator: (value) {
-                              if (value == 0 ||
-                                  quantityController.text.isEmpty) {
-                                return AppLocalizations.of(context)!
-                                    .donateScreenQuantityFieldValidation;
-                              } else {
-                                return null;
-                              }
-                            },
-                            textEditingController: quantityController,
-                            textInputType: TextInputType.number,
-                            rowText: AppLocalizations.of(context)!
-                                .donateScreenQuantityFieldHeader,
-                            fontSize: 19,
-                            color: KBlack,
-                            fontWeight: FontWeight.normal,
-                            icon: Icons.list_alt,
-                            hintTextForm: AppLocalizations.of(context)!
-                                .donateScreenQuantityFieldHint),
-                        SizedBox(
-                          height: size.height / 65,
-                        ),
                         /////////////////////////////////////Description
                         rowTextAndFormInput(
                             textEditingController: descriptionController,
@@ -242,7 +207,6 @@ class UpdatePost extends StatelessWidget {
                             rowText: AppLocalizations.of(context)!
                                 .donateScreenDescriptionFieldHeader,
                             fontSize: 19,
-                            color: KBlack,
                             fontWeight: FontWeight.normal,
                             icon: Icons.description,
                             hintTextForm: AppLocalizations.of(context)!
@@ -306,18 +270,7 @@ class UpdatePost extends StatelessWidget {
                               Stack(
                                 children: [
                                   Container(
-                                      decoration: const BoxDecoration(
-                                          // boxShadow: [
-                                          //   BoxShadow(
-                                          //     color: Colors.grey
-                                          //         .withOpacity(0.5),
-                                          //     spreadRadius: 2,
-                                          //     blurRadius: 4,
-                                          //     offset: Offset(0,
-                                          //         3), // changes position of shadow
-                                          //   ),
-                                          // ],
-                                          ),
+                                      decoration: const BoxDecoration(),
                                       alignment: Alignment.center,
                                       width: size.width * .23,
                                       height: size.width * .23,
@@ -390,18 +343,7 @@ class UpdatePost extends StatelessWidget {
                               Stack(
                                 children: [
                                   Container(
-                                      decoration: const BoxDecoration(
-                                          // boxShadow: [
-                                          //   BoxShadow(
-                                          //     color: Colors.grey
-                                          //         .withOpacity(0.5),
-                                          //     spreadRadius: 2,
-                                          //     blurRadius: 4,
-                                          //     offset: Offset(0,
-                                          //         3), // changes position of shadow
-                                          //   ),
-                                          // ],
-                                          ),
+                                      decoration: const BoxDecoration(),
                                       alignment: Alignment.center,
                                       width: size.width * .23,
                                       height: size.width * .23,
@@ -442,62 +384,7 @@ class UpdatePost extends StatelessWidget {
                         SizedBox(
                           height: size.height / 60,
                         ),
-                        RadioGroup<String>.builder(
-                          activeColor: KBlack,
-                          direction: Axis.horizontal,
-                          groupValue: FoodCubit.get(context).foodType,
-                          horizontalAlignment: MainAxisAlignment.spaceAround,
-                          onChanged: (value) => FoodCubit.get(context)
-                              .changeVerticalGroupValue(value),
-                          items: FoodCubit.get(context).status,
-                          textStyle: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12,
-                          ),
-                          itemBuilder: (item) => RadioButtonBuilder(
-                            item,
-                          ),
-                        ),
-                        RadioGroup<String>.builder(
-                          activeColor: KBlack,
-                          direction: Axis.horizontal,
-                          groupValue: FoodCubit.get(context).foodDonor,
-                          horizontalAlignment: MainAxisAlignment.spaceAround,
-                          onChanged: (value) {
-                            FoodCubit.get(context)
-                                .changeVerticalGroupValue2(value);
-                          },
-                          items: FoodCubit.get(context).status2,
-                          textStyle: const TextStyle(
-                              fontSize: 12, fontWeight: FontWeight.bold),
-                          itemBuilder: (item) => RadioButtonBuilder(
-                            item,
-                          ),
-                        ),
-
                         //row text
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                FoodCubit.get(context).check();
-                              },
-                              child: Icon(
-                                FoodCubit.get(context).isChecked == false
-                                    ? Icons.radio_button_unchecked_outlined
-                                    : Icons.check_circle_outline,
-                                color: defaultColor,
-                              ),
-                            ),
-                            defaultText(
-                                text: AppLocalizations.of(context)!
-                                    .donateScreenPolicy,
-                                fontSize: size.width * 0.03,
-                                color: KBlack,
-                                fontWeight: FontWeight.normal)
-                          ],
-                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -512,56 +399,21 @@ class UpdatePost extends StatelessWidget {
                                     ),
                                   ),
                                   onPressed: () {
-                                    if (FoodCubit.get(context).isChecked ==
-                                        false) {
-                                      showDialog(
-                                        context: context,
-                                        builder: (_) => AlertDialog(
-                                          title: Text(AppLocalizations.of(
-                                                  context)!
-                                              .donateScreenPolicyValidationDialogTitle),
-                                          content: Text(AppLocalizations.of(
-                                                  context)!
-                                              .donateScreenPolicyValidationDialogDescription),
-                                          actions: [
-                                            TextButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                child: defaultText(
-                                                    text: AppLocalizations.of(
-                                                            context)!
-                                                        .dialogOkButton,
-                                                    fontSize: 20,
-                                                    color: KBlack,
-                                                    fontWeight:
-                                                        FontWeight.bold))
-                                          ],
-                                        ),
-                                      );
-                                    }
                                     if (formKey.currentState!.validate() &&
-                                        FoodCubit.get(context).isChecked ==
+                                        FoodCubit.get(context).addPostPolicyIsChecked ==
                                             true) {
                                       FoodCubit.get(context).updatePost(
-                                        itemCount:
-                                            FoodCubit.get(context).itemCount,
                                         location: locationController.text,
                                         itemName: foodNameController.text,
                                         postDate: FoodCubit.get(context).date,
-                                        quantity: quantityController.text,
+                                        foodQuantity: FoodCubit.get(context).itemQuantity.toString(),
                                         description: descriptionController.text,
                                         imageUrl1: postModel.imageUrl1!,
                                         imageUrl2: postModel.imageUrl2!,
-                                        foodType:
-                                            FoodCubit.get(context).foodType,
-                                        foodDonor:
-                                            FoodCubit.get(context).foodDonor,
-                                        postId: postId,
-
-                                        /// no isFavorite Variable !!!
-                                        ///
+                                        foodType: FoodCubit.get(context).foodType,
+                                        contactMethod: FoodCubit.get(context).contactMethod,
                                         isFavorite: false,
+
                                       );
                                     }
                                   },
@@ -577,7 +429,6 @@ class UpdatePost extends StatelessWidget {
                                       : defaultText(
                                           text: "Update",
                                           fontSize: 26,
-                                          color: Colors.white,
                                           fontWeight: FontWeight.w400)),
                             ),
                           ],

@@ -130,6 +130,7 @@
     "description": "History"
   },
 
+
   "historyScreenPostStatusDonated": "donated",
   "@donated": {
     "description": "donated"
@@ -145,19 +146,30 @@
     "description": "Delete"
   },
 
-  "postDateHeader": "PostedAt at:",
+  "postDateHeader": "Posted at:",
   "@postDateHeader": {
     "description": "postDateHeader"
   },
 
   "chatButton": "Chat",
-  "@chatNowButton": {
-    "description": "chatNowButton"
+  "@chatButton": {
+    "description": "chatButton"
   },
 
-  "getButton": "Get",
-  "@Get": {
-    "description": "Get"
+  "phoneButton": "Call",
+  "@phoneButton": {
+    "description": "Call"
+  },
+
+  "requestButton": "Request",
+  "@Request": {
+    "description": "Request"
+  },
+
+
+  "requestItemToast": "You requested this item",
+  "@requestItemToast": {
+    "description": "requestItemToast"
   },
 
   "profileScreenTitle": "Profile",
@@ -165,15 +177,21 @@
     "description": "Profile"
   },
 
+  "profileScreenPostsFallBack": "You haven't donated any food yet...",
+  "@profileScreenPostsFallBack": {
+    "description": "profileScreenPostsFallBack"
+  },
+
+  "selectedUserProfileScreenPostsFallBack": "This user hasn't donated any food yet...",
+  "@selectedUserProfileScreenPostsFallBack": {
+    "description": "selectedUserProfileScreenPostsFallBack"
+  },
+
   "rateButton": "Rate",
   "@Rate": {
     "description": "Rate"
   },
 
-  "profileScreenFallback": "You haven't donated any food yet...",
-  "@profileScreenFallback": {
-    "description": "profileScreenFallback"
-  },
 
   "welcome": "Welcome",
   "@Welcome": {
@@ -303,5 +321,15 @@
   "logoutButton": "Logout",
   "@logoutButton": {
     "description": "logoutButton"
+  },
+
+  "postRequestsScreenTitle": "Requests",
+  "@postRequestsScreenTitle": {
+    "description": "postRequestsScreenTitle"
+  },
+
+  "makePhoneCallFallback": "Couldn't call: ",
+  "@makePhoneCallFallback": {
+    "description": "makePhoneCallFallback"
   }
 }

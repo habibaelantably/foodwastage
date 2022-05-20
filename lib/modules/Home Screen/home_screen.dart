@@ -29,8 +29,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                 itemCount: FoodCubit.get(context).postsList.length),
           ),
-          fallback: (context) =>
-              const Center(child: CircularProgressIndicator()),
+          fallback: (context) => const Center(child: CircularProgressIndicator()),
         );
       },
       listener: (BuildContext context, Object? state) {},
