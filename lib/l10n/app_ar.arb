@@ -65,12 +65,15 @@
 
   "requestButton": "طلب",
 
+  "myRequestsScreenTitle": "طلباتي",
+
+  "myRequestStatusRequested": "تم الطلب",
 
   "requestItemToast": "لقد طلبت هذا العنصر",
 
   "profileScreenTitle": "الملف الشخصي",
 
-  "profileScreenPostsFallBack": "لم تتبرع بأي طعام بعد...",
+  "profileScreenPostsFallBack": "ليس لديك اي تبرعات في الوقت الحالي...",
 
   "selectedUserProfileScreenPostsFallBack": "هذا المستخدم لم يتبرع بأي طعام بعد...",
 

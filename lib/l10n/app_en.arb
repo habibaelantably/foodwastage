@@ -125,11 +125,20 @@
     "description": "favoritesScreenFallback"
   },
 
+  "myRequestsScreenTitle": "My Requests",
+  "@requestsScreenTitle": {
+    "description": "requestScreenTitle"
+  },
+
+  "myRequestStatusRequested": "requested",
+  "@myRequestStateReceived": {
+    "description": "myRequestStateReceived"
+  },
+
   "historyScreenTitle": "History",
   "@History": {
     "description": "History"
   },
-
 
   "historyScreenPostStatusDonated": "donated",
   "@donated": {
@@ -177,7 +186,7 @@
     "description": "Profile"
   },
 
-  "profileScreenPostsFallBack": "You haven't donated any food yet...",
+  "profileScreenPostsFallBack": "You have no donations right now...",
   "@profileScreenPostsFallBack": {
     "description": "profileScreenPostsFallBack"
   },

@@ -327,12 +327,14 @@ class FoodCubit extends Cubit<FoodStates> {
   }
 
 //////////////////////////////////////////////////get posts at home and profile
+
   List<UserModel> userData = [];
   List<UserModel> postRequestsList = [];
   List<PostModel> postsList = [];
   List<PostModel> currentUserPostsList = [];
   List<PostModel> selectedUserPostsList = [];
   List<PostModel> myHistoryTransactionsList = [];
+  List<PostModel> myRequestsList = [];
   List<PostModel> favPosts = [];
 
   bool? isItFav(PostModel postModel) {
@@ -354,21 +356,25 @@ class FoodCubit extends Cubit<FoodStates> {
     posts.snapshots().listen((event) async {
       postsList = [];
       currentUserPostsList = [];
-      myHistoryTransactionsList = [];
+      myRequestsList = [];
       for (var element in event.docs) {
         PostModel post = PostModel.fromJson(element.data());
         post.postId = element.id;
+
+        if (post.requestsUsersId!.contains(uId)) {
+          myRequestsList.add(PostModel.fromJson(element.data()));
+        }
+
         //this condition is for getting current user's posts & his transactions.
+
         if (post.donorId == uId) {
           currentUserPostsList.add(post);
         }
+
         if (post.receiverId == null) {
           postsList.add(post);
         }
-        if (post.receiverId != null &&
-            (post.receiverId == uId || post.donorId == uId)) {
-          myHistoryTransactionsList.add(post);
-        }
+
       }
       emit(FoodGetPostsSuccessState());
     });
@@ -386,33 +392,9 @@ class FoodCubit extends Cubit<FoodStates> {
   }
 
   void requestFood(BuildContext context, {required PostModel postModel}) {
-    emit(FoodReceiveFoodLoadingState());
-
-    PostModel post = PostModel(
-      description: postModel.description,
-      foodType: foodType,
-      contactMethod: postModel.contactMethod,
-      imageUrl1: postModel.imageUrl1,
-      imageUrl2: postModel.imageUrl2,
-      itemName: postModel.itemName,
-      location: postModel.location,
-      pickupDate: postModel.pickupDate,
-      itemQuantity: postModel.itemQuantity,
-      donorId: postModel.donorId,
-      donorPhone: postModel.donorPhone,
-      userName: postModel.userName,
-      userImage: postModel.userImage,
-      isFavorite: postModel.isFavorite ??= false,
-      postDate: postModel.postDate,
-      requestsUsersId: postModel.requestsUsersId,
-      requestsUsers: postModel.requestsUsers,
-    );
-
-    post.requestsUsers!.add(userModel!.toMap());
-    post.requestsUsersId!.add(uId);
-
-    posts.doc(postModel.postId).set(post.toMap()).then((value) {
-      emit(FoodReceiveFoodSuccessState());
+    postModel.requestsUsers!.add(userModel!.toMap());
+    postModel.requestsUsersId!.add(uId);
+    posts.doc(postModel.postId).update({'requestsUsers': postModel.requestsUsers, 'requestsUsersId': postModel.requestsUsersId}).then((value) {
       showToast(
           text: AppLocalizations.of(context)!.requestItemToast,
           states: ToastStates.SUCCESS);
@@ -434,14 +416,23 @@ class FoodCubit extends Cubit<FoodStates> {
     });
   }
 
-  void confirmDonation(
-      {required PostModel postModel, required String receiverId}) {
-    posts.doc(postModel.postId).update({
-      'receiverId': receiverId,
-      'requestsUsers': [],
-      'requestsUsersId': []
-    }).then((value) {
-      emit(FoodConfirmDonationSuccessState());
+  void confirmDonation({required PostModel postModel, required String receiverId})async{
+    posts.doc(postModel.postId).delete().then((value)async {
+      await FirebaseFirestore.instance.collection('users').doc(postModel.donorId).collection('history').doc(postModel.postId).set(postModel.toMap()).then((value) {
+        if(receiverId !=postModel.donorId ) {
+          FirebaseFirestore.instance.collection('users').doc(receiverId).collection('history').doc(postModel.postId).set(postModel.toMap());
+        }
+        emit(FoodConfirmDonationSuccessState());
+      });
+    });
+  }
+
+  void getMyHistoryTransactions(){
+    FirebaseFirestore.instance.collection('users').doc(uId).collection('history').snapshots().listen((event) {
+      for(var element in event.docs){
+        myHistoryTransactionsList.add(PostModel.fromJson(element.data()));
+      }
+      emit(FoodGetMyHistoryTransactionsSuccessState());
     });
   }
 

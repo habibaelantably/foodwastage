@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (BuildContext context)=> FoodCubit()..getUserdata(context: context)..getPosts()),
+        BlocProvider(create: (BuildContext context)=> FoodCubit()..getUserdata(context: context)..getPosts()..getMyHistoryTransactions()),
         BlocProvider(create: (BuildContext context)=> PreferencesCubit()..changeAppTheme(themeFromCache: isDark)..changeAppLanguage(appLangFromCache: isArabic)),
       ],
       child: BlocConsumer<PreferencesCubit, PreferencesStates>(

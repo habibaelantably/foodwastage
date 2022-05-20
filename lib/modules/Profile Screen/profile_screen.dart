@@ -204,6 +204,7 @@ class ProfileScreen extends StatelessWidget {
                                     : FoodCubit.get(context)
                                         .selectedUserPostsList[index],
                                 viewPost: true,
+                                isInMyRequests: false,
                                 isInHistory: false);
                           },
                           separatorBuilder: (context, index) => const SizedBox(

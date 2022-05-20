@@ -98,6 +98,12 @@ class FoodGetPostRequestsUsersSuccessState extends FoodStates {}
 
 class FoodGetPostRequestsUsersErrorState extends FoodStates {}
 
+class FoodGetMyHistoryTransactionsLoadingState extends FoodStates {}
+
+class FoodGetMyHistoryTransactionsSuccessState extends FoodStates {}
+
+class FoodGetMyHistoryTransactionsErrorState extends FoodStates {}
+
 class FoodConfirmDonationSuccessState extends FoodStates {}
 
 class FoodFavoriteState extends FoodStates {}

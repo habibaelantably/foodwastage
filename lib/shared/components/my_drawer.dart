@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:foodwastage/modules/MyRequests%20Screen/my_requests_screen.dart';
 import 'package:foodwastage/shared/components/reusable_components.dart';
 import 'package:foodwastage/modules/History%20Screen/history_screen.dart';
 import 'package:foodwastage/modules/login_Screen.dart';
@@ -155,6 +156,26 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       onTap: () {
                         Navigator.pop(context);
                         navigateTo(context, const HistoryScreen());
+                      },
+                    ),
+                    ListTile(
+                      dense: true,
+                      horizontalTitleGap: 1,
+                      contentPadding: const EdgeInsets.all(1),
+                      minVerticalPadding: 0,
+                      leading: const Icon(
+                        Icons.request_page,
+                        size: 20,
+                      ),
+                      title: Text(
+                        AppLocalizations.of(context)!.myRequestsScreenTitle,
+                        style: const TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                        navigateTo(context, const MyRequestsScreen());
                       },
                     ),
                     ListTile(

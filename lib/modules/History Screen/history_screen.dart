@@ -5,7 +5,6 @@ import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_states.dart';
 import '../../shared/components/reusable_components.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import '../../styles/colors.dart';
 
 class HistoryScreen extends StatelessWidget {
@@ -41,6 +40,7 @@ class HistoryScreen extends StatelessWidget {
                           itemBuilder: (context, index) => postBuilder(
                                 context: context,
                                 isInHistory: true,
+                                isInMyRequests: false,
                                 viewPost: false,
                                 postModel: FoodCubit.get(context)
                                     .myHistoryTransactionsList[index],

@@ -205,7 +205,8 @@ Widget postBuilder(
         {required BuildContext context,
         required PostModel postModel,
         required bool viewPost,
-        required bool isInHistory}) =>
+        required bool isInHistory,
+        required bool isInMyRequests}) =>
     Column(
       children: [
         InkWell(
@@ -340,13 +341,16 @@ Widget postBuilder(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      isInHistory
+                      isInHistory || isInMyRequests
                           ? Text(
-                              postModel.donorId == uId
+                        isInMyRequests && postModel.requestsUsersId!.contains(uId)
                                   ? AppLocalizations.of(context)!
-                                      .historyScreenPostStatusDonated
-                                  : AppLocalizations.of(context)!
-                                      .historyScreenPostStatusReceived,
+                                      .myRequestStatusRequested
+                                  : postModel.donorId == uId
+                                      ? AppLocalizations.of(context)!
+                                          .historyScreenPostStatusDonated
+                                      : AppLocalizations.of(context)!
+                                          .historyScreenPostStatusReceived,
                               style: const TextStyle(
                                   fontSize: 14.0,
                                   fontWeight: FontWeight.bold,

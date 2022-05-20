@@ -281,20 +281,27 @@ class PostOverview extends StatelessWidget {
                                     ],
                                   ), // request item button
                       )
-                    : postModel.requestsUsers!.isNotEmpty
-                        ? Expanded(
-                            child: defaultButton(
-                              function: () {
-                                navigateTo(context,
-                                    PostRequests(postModel: postModel));
-                              },
-                              text: AppLocalizations.of(context)!
-                                  .requestButton
-                                  .toUpperCase(),
-                              height: 50.0,
-                              context: context,
-                            ),
-                          )
+                    : postModel.requestsUsers!.isNotEmpty && postModel.receiverId ==null
+                        ? Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                  child: defaultButton(
+                                    function: () {
+                                      navigateTo(context,
+                                          PostRequests(postModel: postModel));
+                                    },
+                                    text: AppLocalizations.of(context)!
+                                        .myRequestsScreenTitle
+                                        .toUpperCase(),
+                                    height: 50.0,
+                                    context: context,
+                                  ),
+                                ),
+                            ],
+                          ),
+                        )
                         : const SizedBox(),
               ],
             ),

@@ -23,13 +23,15 @@ class HomeScreen extends StatelessWidget {
                     viewPost: true,
                     postModel: FoodCubit.get(context).postsList[index],
                     context: context,
-                    isInHistory: false),
+                    isInHistory: false,
+                    isInMyRequests: false),
                 separatorBuilder: (context, index) => const SizedBox(
                       height: 20.0,
                     ),
                 itemCount: FoodCubit.get(context).postsList.length),
           ),
-          fallback: (context) => const Center(child: CircularProgressIndicator()),
+          fallback: (context) =>
+              const Center(child: CircularProgressIndicator()),
         );
       },
       listener: (BuildContext context, Object? state) {},

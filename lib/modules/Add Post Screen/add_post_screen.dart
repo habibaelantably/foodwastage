@@ -496,6 +496,7 @@ class AddPosts extends StatelessWidget {
                                   FoodCubit.get(context).date =
                                       "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
                                   FoodCubit.get(context).foodType = "Main dishes";
+                                  FoodCubit.get(context).contactMethod = "Phone";
                                   FoodCubit.get(context)
                                       .addPostPolicyIsChecked = false;
                                   locationController.text = '';
