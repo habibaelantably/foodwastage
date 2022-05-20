@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodwastage/models/post_model.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
+import 'package:foodwastage/shared/cubit/Food_Cubit/food_states.dart';
 import '../../shared/constants.dart';
 import 'package:foodwastage/shared/components/reusable_components.dart';
-import '../../shared/cubit/Food_Cubit/food_states.dart';
 import '../../styles/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

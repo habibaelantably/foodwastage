@@ -152,19 +152,24 @@ class LoginScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image.asset(
-                            'assets/images/googleLogo.png',
-                            width: 50,
-                            height: 50,
+                          InkWell(
+                            onTap: ()=>FoodLoginCubit.get(context).SignInWithGoogle(),
+                            child: Image.asset(
+                              'assets/images/googleLogo.png',
+                              width: 50,
+                              height: 50,
+                            ),
                           ),
                           const SizedBox(
                             width: 40.0,
                           ),
-                          //Image.asset('assets/images/googleLogo.png',width: 50,height: 50,),
-                          const Icon(
-                            Icons.facebook_rounded,
-                            color: Colors.blue,
-                            size: 55,
+                           InkWell(
+                            onTap: ()=>FoodLoginCubit.get(context).SignInWithFacebook(),
+                            child: const Icon(
+                              Icons.facebook_rounded,
+                              color: Colors.blue,
+                              size: 55,
+                            ),
                           ),
                         ],
                       ),
@@ -190,11 +195,33 @@ class LoginScreen extends StatelessWidget {
             ),
           ),
         );
-      }, listener: (BuildContext context, Object? state) {
+      }, listener: (BuildContext context, Object? state)
+      {
         if (state is FoodLoginErrorState) {
           showToast(text: state.error.toString(), states: ToastStates.ERROR);
         }
+
         if (state is FoodLoginSuccessState) {
+          FoodCubit.getLoggedInUser();
+          navigateAndKill(context, const FoodLayout());
+        }
+
+        if(state is FoodLoginGoogleSuccessState){
+          FoodCubit.getLoggedInUser();
+          navigateAndKill(context, const FoodLayout());
+        }
+
+        if(state is FoodSuccessCreateGoogleUserState) {
+          FoodCubit.getLoggedInUser();
+          navigateAndKill(context, const FoodLayout());
+        }
+
+        if(state is FoodLoginFacebookSuccessState){
+          FoodCubit.getLoggedInUser();
+          navigateAndKill(context, const FoodLayout());
+        }
+
+        if(state is FoodSuccessCreateFacebookUserState) {
           FoodCubit.getLoggedInUser();
           navigateAndKill(context, const FoodLayout());
         }

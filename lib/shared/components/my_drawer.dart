@@ -43,13 +43,13 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         backgroundImage: NetworkImage(_userModel.image!),
                         backgroundColor: Colors.amber[900],
                       ),
-                    if (_userModel.image == null || _userModel.image == '')
-                      CircleAvatar(
-                        radius: 50,
-                        backgroundImage:
-                            const AssetImage('assets/images/profile.png'),
-                        backgroundColor: Colors.amber[900],
-                      ),
+                    // if (_userModel.image == null || _userModel.image == '')
+                    //   CircleAvatar(
+                    //     radius: 50,
+                    //     backgroundImage:
+                    //         const AssetImage('assets/images/profile.png'),
+                    //     backgroundColor: Colors.amber[900],
+                    //   ),
                     const SizedBox(
                       height: 12,
                     ),
@@ -76,8 +76,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     const SizedBox(
                       height: 7.0,
                     ),
-                    RatingBar(
-                      initialRating: _userModel.rating!,
+
+                      RatingBar(
+                      initialRating: _userModel.rating=0.0 ,
                       itemSize: 25.0,
                       ignoreGestures: _userModel.uId == uId ? true : false,
                       itemCount: 5,
@@ -100,6 +101,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       maxRating: 5,
                       onRatingUpdate: (double value) {},
                     ),
+
+
                   ],
                 ),
               ),
