@@ -18,18 +18,22 @@ void main() async {
   await CacheHelper.init();
 
   Widget? widget;
-  bool? isDark = CacheHelper.getData(key:'theme',);
-  bool? isArabic = CacheHelper.getData(key:'lang',);
+  bool? isDark = CacheHelper.getData(
+    key: 'theme',
+  );
+  bool? isArabic = CacheHelper.getData(
+    key: 'lang',
+  );
 
-  if(FoodCubit.getLoggedInUser()==null){
+  if (FoodCubit.getLoggedInUser() == null) {
     widget = LoginScreen();
-  }else{
-    widget = const FoodLayout();
+  } else {
+    widget = FoodLayout();
   }
 
   BlocOverrides.runZoned(
-        () {
-      runApp(MyApp(widget!,isDark ?? false, isArabic??false));
+    () {
+      runApp(MyApp(widget!, isDark ?? false, isArabic ?? false));
     },
     blocObserver: MyBlocObserver(),
   );
@@ -40,25 +44,33 @@ class MyApp extends StatelessWidget {
   final bool isDark;
   final bool isArabic;
 
-  const MyApp(this.startWidget, this.isDark, this.isArabic, {Key? key}): super(key: key);
+  const MyApp(this.startWidget, this.isDark, this.isArabic, {Key? key})
+      : super(key: key);
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (BuildContext context)=> FoodCubit()..getUserdata(context: context)..getPosts()..getMyHistoryTransactions()),
-        BlocProvider(create: (BuildContext context)=> PreferencesCubit()..changeAppTheme(themeFromCache: isDark)..changeAppLanguage(appLangFromCache: isArabic)),
+        BlocProvider(
+            create: (BuildContext context) => FoodCubit()
+              ..getUserdata(context: context)
+              ..getPosts()
+              ..getMyHistoryTransactions()),
+        BlocProvider(
+            create: (BuildContext context) => PreferencesCubit()
+              ..changeAppTheme(themeFromCache: isDark)
+              ..changeAppLanguage(appLangFromCache: isArabic)),
       ],
       child: BlocConsumer<PreferencesCubit, PreferencesStates>(
-        listener: (context, state){},
+        listener: (context, state) {},
         builder: (context, state) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             theme: PreferencesCubit.get(context).darkModeSwitchIsOn
                 ? darkTheme
                 : lightTheme,
-            home:startWidget,
+            home: startWidget,
             localizationsDelegates: const [
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
@@ -78,4 +90,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

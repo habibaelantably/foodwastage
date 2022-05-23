@@ -343,7 +343,8 @@ Widget postBuilder(
                     children: [
                       isInHistory || isInMyRequests
                           ? Text(
-                        isInMyRequests && postModel.requestsUsersId!.contains(uId)
+                              isInMyRequests &&
+                                      postModel.requestsUsersId!.contains(uId)
                                   ? AppLocalizations.of(context)!
                                       .myRequestStatusRequested
                                   : postModel.donorId == uId
@@ -417,3 +418,28 @@ Widget postBuilder(
         ),
       ],
     );
+
+Widget filterButton(
+    {required String filterValue,
+    required String text,
+    required Function onPressed}) {
+  return TextButton(
+    style: ButtonStyle(
+        elevation: MaterialStateProperty.all(3),
+        backgroundColor: MaterialStateProperty.all(filterValue == text
+            ? Colors.orange[700]!.withOpacity(0.5)
+            : Colors.white),
+        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50),
+            side: const BorderSide(width: 0.05, color: Colors.black)))),
+    onPressed: () {
+      onPressed();
+    },
+    child: Text(
+      text,
+      style: TextStyle(
+          color: filterValue == text ? Colors.white : defaultColor,
+          fontWeight: FontWeight.bold),
+    ),
+  );
+}

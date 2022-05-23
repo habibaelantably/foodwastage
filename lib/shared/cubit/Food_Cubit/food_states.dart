@@ -109,3 +109,14 @@ class FoodConfirmDonationSuccessState extends FoodStates {}
 class FoodFavoriteState extends FoodStates {}
 
 class ChangeLoginState extends FoodStates {}
+
+class ChangeSearchButtonIconState extends FoodStates {}
+
+class ChangeFilterValue extends FoodStates {}
+
+class ClearSearch extends FoodStates {}
+
+class Search extends FoodStates {}
+
+class GetFilteredPostsSuccessState extends FoodStates {}
+

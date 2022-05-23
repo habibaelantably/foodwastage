@@ -49,7 +49,7 @@ class RegisterScreen extends StatelessWidget {
                             .registerButton
                             .toUpperCase(),
                         style: Theme.of(context).textTheme.headline5!.copyWith(
-                            color: defaultColor,fontWeight: FontWeight.bold),
+                            color: defaultColor, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(
                         height: 30.0,
@@ -246,14 +246,14 @@ class RegisterScreen extends StatelessWidget {
         );
       }, listener: (BuildContext context, Object? state) {
         if (state is FoodSuccessCreateState) {
-          if(uId!=null) {
+          if (uId != null) {
             FoodCubit.getLoggedInUser();
             FoodCubit.get(context).getUserdata(context: context);
             FoodCubit.get(context).getPosts();
-            navigateAndKill(context, const FoodLayout());
-          }else{
+            navigateAndKill(context, FoodLayout());
+          } else {
             FoodCubit.getLoggedInUser();
-            navigateAndKill(context, const FoodLayout());
+            navigateAndKill(context, FoodLayout());
           }
         }
       }),
