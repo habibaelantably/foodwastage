@@ -52,6 +52,12 @@ class FoodCubit extends Cubit<FoodStates> {
 
   int currentIndex = 0;
 
+  bool isSearching = false;
+
+  String filterValue = 'All';
+
+  List searchedForPosts = [];
+
   List<Widget> screens = [
     const HomeScreen(),
     const MapScreen(),
@@ -82,7 +88,7 @@ class FoodCubit extends Cubit<FoodStates> {
 
   String foodType = "Main dishes";
 
-  List<String> foodTypeList = ["Main dishes", "Desert", "Sandwich"];
+  List<String> foodTypeList = ["Main dishes", "Deserts", "Sandwiches"];
 
   String contactMethod = "Phone";
 
@@ -336,6 +342,7 @@ class FoodCubit extends Cubit<FoodStates> {
   List<PostModel> myHistoryTransactionsList = [];
   List<PostModel> myRequestsList = [];
   List<PostModel> favPosts = [];
+  List<PostModel> filteredPosts = [];
 
   bool? isItFav(PostModel postModel) {
     return postModel.isFavorite;
@@ -374,7 +381,6 @@ class FoodCubit extends Cubit<FoodStates> {
         if (post.receiverId == null) {
           postsList.add(post);
         }
-
       }
       emit(FoodGetPostsSuccessState());
     });
@@ -394,7 +400,10 @@ class FoodCubit extends Cubit<FoodStates> {
   void requestFood(BuildContext context, {required PostModel postModel}) {
     postModel.requestsUsers!.add(userModel!.toMap());
     postModel.requestsUsersId!.add(uId);
-    posts.doc(postModel.postId).update({'requestsUsers': postModel.requestsUsers, 'requestsUsersId': postModel.requestsUsersId}).then((value) {
+    posts.doc(postModel.postId).update({
+      'requestsUsers': postModel.requestsUsers,
+      'requestsUsersId': postModel.requestsUsersId
+    }).then((value) {
       showToast(
           text: AppLocalizations.of(context)!.requestItemToast,
           states: ToastStates.SUCCESS);
@@ -416,20 +425,37 @@ class FoodCubit extends Cubit<FoodStates> {
     });
   }
 
-  void confirmDonation({required PostModel postModel, required String receiverId})async{
-    posts.doc(postModel.postId).delete().then((value)async {
-      await FirebaseFirestore.instance.collection('users').doc(postModel.donorId).collection('history').doc(postModel.postId).set(postModel.toMap()).then((value) {
-        if(receiverId !=postModel.donorId ) {
-          FirebaseFirestore.instance.collection('users').doc(receiverId).collection('history').doc(postModel.postId).set(postModel.toMap());
+  void confirmDonation(
+      {required PostModel postModel, required String receiverId}) async {
+    posts.doc(postModel.postId).delete().then((value) async {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(postModel.donorId)
+          .collection('history')
+          .doc(postModel.postId)
+          .set(postModel.toMap())
+          .then((value) {
+        if (receiverId != postModel.donorId) {
+          FirebaseFirestore.instance
+              .collection('users')
+              .doc(receiverId)
+              .collection('history')
+              .doc(postModel.postId)
+              .set(postModel.toMap());
         }
         emit(FoodConfirmDonationSuccessState());
       });
     });
   }
 
-  void getMyHistoryTransactions(){
-    FirebaseFirestore.instance.collection('users').doc(uId).collection('history').snapshots().listen((event) {
-      for(var element in event.docs){
+  void getMyHistoryTransactions() {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(uId)
+        .collection('history')
+        .snapshots()
+        .listen((event) {
+      for (var element in event.docs) {
         myHistoryTransactionsList.add(PostModel.fromJson(element.data()));
       }
       emit(FoodGetMyHistoryTransactionsSuccessState());
@@ -465,5 +491,47 @@ class FoodCubit extends Cubit<FoodStates> {
     User? currentUser = FirebaseAuth.instance.currentUser;
     currentUser != null ? uId = currentUser.uid : uId = null;
     return uId;
+  }
+
+  void changeSearchButtonIcon() {
+    isSearching = !isSearching;
+    emit(ChangeSearchButtonIconState());
+  }
+
+  //Search Bar in Home
+  void startSearch(
+      BuildContext context, TextEditingController searchController) {
+    ModalRoute.of(context)!.addLocalHistoryEntry(
+      LocalHistoryEntry(onRemove: () {
+        searchController.clear();
+        emit(ClearSearch());
+      }),
+    );
+  }
+
+  void addSearchedForItemsToSearchedList(String searchedCharacter) {
+    searchedForPosts = filteredPosts
+        .where((post) =>
+            post.itemName!.toLowerCase().startsWith(searchedCharacter))
+        .toList();
+    emit(Search());
+  }
+
+  //filters
+  void filterPosts() {
+    filteredPosts = [];
+    for (var post in postsList) {
+      if (filterValue == "All") {
+        filteredPosts = postsList;
+      } else if (post.foodType == filterValue) {
+        filteredPosts.add(post);
+      }
+    }
+    emit(GetFilteredPostsSuccessState());
+  }
+
+  void selectFilter(String value) {
+    filterValue = value;
+    emit(ChangeFilterValue());
   }
 }
