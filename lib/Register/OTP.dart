@@ -103,10 +103,10 @@ class OTP extends StatelessWidget
               FoodCubit.getLoggedInUser();
               FoodCubit.get(context).getUserdata(context: context);
               FoodCubit.get(context).getPosts();
-              navigateAndKill(context, const FoodLayout());
+              navigateAndKill(context,  FoodLayout());
             }else{
               FoodCubit.getLoggedInUser();
-              navigateAndKill(context, const FoodLayout());
+              navigateAndKill(context,  FoodLayout());
             }
 
 

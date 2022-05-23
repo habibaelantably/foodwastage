@@ -82,9 +82,6 @@ class FoodCubit extends Cubit<FoodStates> {
 
   String foodType = "Main dishes";
 
-  String donorType = "user";
-
-
   List<String> foodTypeList = ["Main dishes", "Desert", "Sandwich"];
 
   String contactMethod = "Phone";
@@ -174,7 +171,6 @@ class FoodCubit extends Cubit<FoodStates> {
     required String imageUrl1,
     required String imageUrl2,
     required String foodType,
-    required String donorType,
     required String contactMethod,
     required String foodDonor,
     required String postDate,
@@ -185,7 +181,7 @@ class FoodCubit extends Cubit<FoodStates> {
     PostModel postModel = PostModel(
       description: description,
       foodType: foodType,
-      donorType:donorType,
+      donorType:userModel!.type,
       contactMethod: contactMethod,
       imageUrl1: imageUrl1,
       imageUrl2: imageUrl2,
