@@ -1,11 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:email_auth/email_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foodwastage/Register/register_Screen.dart';
 import 'package:foodwastage/models/User_model.dart';
-import 'package:foodwastage/modules/register_Screen.dart';
-import 'package:foodwastage/shared/cubit/Register/food_register_state.dart';
+import 'food_register_state.dart';
 
 class FoodRegisterCubit extends Cubit<FoodRegisterStates> {
   FoodRegisterCubit() : super(FoodInitialRegisterState());
@@ -82,5 +83,30 @@ class FoodRegisterCubit extends Cubit<FoodRegisterStates> {
         isPassword ? Icons.visibility_outlined : Icons.visibility_off_outlined;
 
     emit(FoodChangePasswordVisibilityRegisterState());
+  }
+
+  EmailAuth emailAuth= EmailAuth(sessionName: 'test OTP session');
+  void sendOTP(String? email)async
+  {
+    emit(FoodSendOTPLoadingState());
+    var res= await emailAuth.sendOtp(recipientMail: email!,otpLength: 4);
+    if(res){
+      print('OTP Sent');
+      emit(FoodSuccessSentOTPState());
+    }else {
+      print('failed to send');
+      emit(FoodErrorSendOTPState());
+    }
+  }
+
+  void verifyOTP(String? email,String? UserOTP){
+    var res = emailAuth.validateOtp(recipientMail: email!, userOtp: UserOTP!);
+    if(res){
+      print('OTP verified');
+      emit(FoodSuccessVerifyOTPState());
+    }else{
+      print('Invalid OTP');
+      emit(FoodErrorVerifyOTPState());
+    }
   }
 }

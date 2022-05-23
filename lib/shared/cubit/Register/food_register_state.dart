@@ -18,4 +18,12 @@ class FoodErrorCreateState extends FoodRegisterStates {}
 
 class FoodChangePasswordVisibilityRegisterState extends FoodRegisterStates {}
 
-//
+class FoodErrorSendOTPState extends FoodRegisterStates {}
+
+class FoodErrorVerifyOTPState extends FoodRegisterStates {}
+
+class FoodSuccessSentOTPState extends FoodRegisterStates {}
+
+class FoodSuccessVerifyOTPState extends FoodRegisterStates {}
+
+class FoodSendOTPLoadingState extends FoodRegisterStates {}

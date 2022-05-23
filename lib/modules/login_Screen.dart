@@ -1,9 +1,9 @@
 import 'package:buildcondition/buildcondition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foodwastage/Register/register_Screen.dart';
 import 'package:foodwastage/shared/components/reusable_components.dart';
 import 'package:foodwastage/layout/Food_Layout.dart';
-import 'package:foodwastage/modules/register_Screen.dart';
 import 'package:foodwastage/shared/constants.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Login/food_login_cubit.dart';

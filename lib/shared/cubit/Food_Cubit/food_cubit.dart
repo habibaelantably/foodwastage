@@ -7,17 +7,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:foodwastage/models/User_model.dart';
 import 'package:foodwastage/models/post_model.dart';
+import 'package:foodwastage/modules/Add%20Post%20Screen/add_post_screen.dart';
+import 'package:foodwastage/modules/Chats%20Screen/chats_screen.dart';
+import 'package:foodwastage/modules/Favorites%20Screen/favorites_screen.dart';
+import 'package:foodwastage/modules/Home%20Screen/home_screen.dart';
+import 'package:foodwastage/modules/Maps%20Screen/maps_screen.dart';
+import 'package:foodwastage/shared/cubit/Food_Cubit/food_states.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../../modules/Add Post Screen/add_post_screen.dart';
-import '../../../modules/Chats Screen/chats_screen.dart';
-import '../../../modules/Favorites Screen/favorites_screen.dart';
-import '../../../modules/Home Screen/home_screen.dart';
-import '../../../modules/Maps Screen/maps_screen.dart';
 import '../../constants.dart';
 import 'package:foodwastage/shared/components/reusable_components.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'food_states.dart';
 
 class FoodCubit extends Cubit<FoodStates> {
   FoodCubit() : super(InitialFoodStates());
@@ -81,6 +81,9 @@ class FoodCubit extends Cubit<FoodStates> {
       "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
 
   String foodType = "Main dishes";
+
+  String donorType = "user";
+
 
   List<String> foodTypeList = ["Main dishes", "Desert", "Sandwich"];
 
@@ -171,6 +174,7 @@ class FoodCubit extends Cubit<FoodStates> {
     required String imageUrl1,
     required String imageUrl2,
     required String foodType,
+    required String donorType,
     required String contactMethod,
     required String foodDonor,
     required String postDate,
@@ -181,6 +185,7 @@ class FoodCubit extends Cubit<FoodStates> {
     PostModel postModel = PostModel(
       description: description,
       foodType: foodType,
+      donorType:donorType,
       contactMethod: contactMethod,
       imageUrl1: imageUrl1,
       imageUrl2: imageUrl2,

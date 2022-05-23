@@ -13,6 +13,7 @@ class PostModel {
   String? contactMethod;
   String? donorId;
   String? donorPhone;
+  String? donorType;
   String? userName;
   String? userImage;
   String? receiverId;
@@ -34,6 +35,7 @@ class PostModel {
     this.contactMethod,
     this.donorId,
     this.donorPhone,
+    this.donorType,
     this.userName,
     this.userImage,
     this.receiverId,
@@ -57,6 +59,7 @@ class PostModel {
       'contactMethod': contactMethod,
       'donorId': donorId,
       'donorPhone': donorPhone,
+      'donorType':donorType,
       'userName': userName,
       'userImage': userImage,
       'receiverId': receiverId,
@@ -81,6 +84,7 @@ class PostModel {
       contactMethod: json['contactMethod'],
       donorId: json['donorId'],
       donorPhone: json['donorPhone'],
+      donorType:json['donorType'],
       userName: json['userName'],
       userImage: json['userImage'],
       receiverId: json['receiverId'],

@@ -321,7 +321,7 @@ Widget postBuilder(
                                               fontWeight: FontWeight.w800)),
                                 ),
                                 Text(
-                                  '${FoodCubit.get(context).userModel!.type}',
+                                  '${postModel.donorType}',
                                   style: TextStyle(
                                       color: Colors.grey[400],
                                       fontSize: 12,

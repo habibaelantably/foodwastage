@@ -2,6 +2,7 @@ import 'package:buildcondition/buildcondition.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foodwastage/Register/OTP.dart';
 import 'package:foodwastage/shared/components/reusable_components.dart';
 import 'package:foodwastage/layout/Food_Layout.dart';
 import 'package:foodwastage/modules/login_Screen.dart';
@@ -192,28 +193,24 @@ class RegisterScreen extends StatelessWidget {
                         height: 40.0,
                       ),
                       BuildCondition(
-                        condition: state is! FoodLoadingRegisterState,
-                        builder: (context) => defaultButton(
-                          width: 250,
-                          radius: 40.0,
-                          function: () {
-                            if (formkey.currentState != null &&
-                                formkey.currentState!.validate()) {
-                              FoodRegisterCubit.get(context).userRegister(
-                                  name: nameController.text,
-                                  email: emailController.text,
-                                  password: passwordController.text,
-                                  phone: phoneController.text,
-                                  country: countryController.text);
-                            }
-                          },
-                          text: AppLocalizations.of(context)!
-                              .registerButton
-                              .toUpperCase(),
+                        condition: state is! FoodSendOTPLoadingState ,
+                        builder: (context)=>defaultButton(
+                            function:()
+                            {
+                              if(formkey.currentState != null && formkey.currentState!.validate())
+                              {
+                                FoodRegisterCubit.get(context).sendOTP(emailController.text);
+
+                              }
+                            },
+                            text: AppLocalizations.of(context)!
+                                .registerButton
+                                .toUpperCase(),
                           context: context,
                         ),
-                        fallback: (context) =>
-                            const Center(child: CircularProgressIndicator()),
+
+                        fallback: (context)=>Center(child: CircularProgressIndicator()),
+
                       ),
                       const SizedBox(
                         height: 15.0,
@@ -245,16 +242,16 @@ class RegisterScreen extends StatelessWidget {
           ),
         );
       }, listener: (BuildContext context, Object? state) {
-        if (state is FoodSuccessCreateState) {
-          if(uId!=null) {
-            FoodCubit.getLoggedInUser();
-            FoodCubit.get(context).getUserdata(context: context);
-            FoodCubit.get(context).getPosts();
-            navigateAndKill(context, const FoodLayout());
-          }else{
-            FoodCubit.getLoggedInUser();
-            navigateAndKill(context, const FoodLayout());
-          }
+        if(state is FoodSuccessSentOTPState)
+        {
+          navigateTo(context, OTP(
+            name: nameController.text,
+            email: emailController.text,
+            password: passwordController.text,
+            phone: phoneController.text,
+            country:countryController.text
+
+          ));
         }
       }),
     );
