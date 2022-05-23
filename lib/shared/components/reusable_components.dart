@@ -8,6 +8,8 @@ import '../../modules/Post Overview Screen/post_overview.dart';
 import '../../modules/Profile Screen/profile_screen.dart';
 import '../constants.dart';
 import '../cubit/Food_Cubit/food_cubit.dart';
+import 'package:foodwastage/modules/Update%20Post%20Screen/update_post_screen.dart';
+
 
 Widget defaultFormField(
         {required TextEditingController controller,
@@ -137,14 +139,16 @@ Color setToastColor(ToastStates states) {
   return color;
 }
 
-Widget defaultText(
-    {required String text,
-    required double fontSize,
-    required FontWeight fontWeight}) {
+Widget defaultText({required String text,
+  required double fontSize,
+  required FontWeight fontWeight,
+  Color? color}) {
   return Text(
     text,
     style: TextStyle(
-        fontSize: fontSize, fontWeight: fontWeight, color: defaultColor),
+        fontSize: fontSize,
+        fontWeight: fontWeight,
+        color: color ?? defaultColor),
   );
 }
 
@@ -201,19 +205,18 @@ Widget rowTextAndFormInput({
   );
 }
 
-Widget postBuilder(
-        {required BuildContext context,
-        required PostModel postModel,
-        required bool viewPost,
-        required bool isInHistory,
-        required bool isInMyRequests}) =>
+Widget postBuilder({required BuildContext context,
+  required PostModel postModel,
+  required bool viewPost,
+  required bool isInHistory,
+  required bool isInMyRequests}) =>
     Column(
       children: [
         InkWell(
           onTap: viewPost
               ? () {
-                  navigateTo(context, PostOverview(postModel: postModel));
-                }
+            navigateTo(context, PostOverview(postModel: postModel));
+          }
               : null,
           child: Card(
             shape: RoundedRectangleBorder(
@@ -256,7 +259,10 @@ Widget postBuilder(
                       ),
                       Text(
                         '${postModel.itemName}',
-                        style: Theme.of(context).textTheme.bodyText1,
+                        style: Theme
+                            .of(context)
+                            .textTheme
+                            .bodyText1,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                       ),
@@ -268,7 +274,7 @@ Widget postBuilder(
                           InkWell(
                             child: CircleAvatar(
                               backgroundImage:
-                                  NetworkImage('${postModel.userImage}'),
+                              NetworkImage('${postModel.userImage}'),
                             ),
                             onTap: () {
                               if (postModel.donorId != uId) {
@@ -313,15 +319,19 @@ Widget postBuilder(
                                   child: Text("${postModel.userName}",
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
-                                      style: Theme.of(context)
+                                      style: Theme
+                                          .of(context)
                                           .textTheme
                                           .bodyText1!
                                           .copyWith(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w800)),
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w800)),
                                 ),
                                 Text(
-                                  '${FoodCubit.get(context).userModel!.type}',
+                                  '${FoodCubit
+                                      .get(context)
+                                      .userModel!
+                                      .type}',
                                   style: TextStyle(
                                       color: Colors.grey[400],
                                       fontSize: 12,
@@ -343,57 +353,64 @@ Widget postBuilder(
                     children: [
                       isInHistory || isInMyRequests
                           ? Text(
-                              isInMyRequests &&
-                                      postModel.requestsUsersId!.contains(uId)
-                                  ? AppLocalizations.of(context)!
-                                      .myRequestStatusRequested
-                                  : postModel.donorId == uId
-                                      ? AppLocalizations.of(context)!
-                                          .historyScreenPostStatusDonated
-                                      : AppLocalizations.of(context)!
-                                          .historyScreenPostStatusReceived,
-                              style: const TextStyle(
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: defaultColor),
-                            )
+                        isInMyRequests &&
+                            postModel.requestsUsersId!.contains(uId)
+                            ? AppLocalizations.of(context)!
+                            .myRequestStatusRequested
+                            : postModel.donorId == uId
+                            ? AppLocalizations.of(context)!
+                            .historyScreenPostStatusDonated
+                            : AppLocalizations.of(context)!
+                            .historyScreenPostStatusReceived,
+                        style: const TextStyle(
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.bold,
+                            color: defaultColor),
+                      )
                           : postModel.donorId != uId
-                              ? IconButton(
-                                  onPressed: () {
-                                    FoodCubit.get(context)
-                                        .getFavPosts(postModel);
-                                  },
-                                  iconSize: 20,
-                                  constraints: BoxConstraints.tight(
-                                      const Size(35.0, 35.0)),
-                                  icon: Icon(
-                                    FoodCubit.get(context).isItFav(postModel) ??
-                                            false
-                                        ? Icons.favorite
-                                        : Icons.favorite_border,
-                                    color: Colors.orange,
-                                  ),
-                                )
-                              : PopupMenuButton<String>(
-                                  icon: const Icon(
-                                    Icons.more_horiz,
-                                  ),
-                                  onSelected: (value) {
-                                    if (value == "Delete") {
-                                      FoodCubit.get(context)
-                                          .deletePost(postModel.postId!);
-                                    }
-                                  },
-                                  itemBuilder: (BuildContext context) {
-                                    return <PopupMenuItem<String>>[
-                                      PopupMenuItem(
-                                        child: Text(
-                                            AppLocalizations.of(context)!
-                                                .deleteButton),
-                                        value: "Delete",
-                                      )
-                                    ];
-                                  }),
+                          ? IconButton(
+                        onPressed: () {
+                          FoodCubit.get(context)
+                              .getFavPosts(postModel);
+                        },
+                        iconSize: 20,
+                        constraints: BoxConstraints.tight(
+                            const Size(35.0, 35.0)),
+                        icon: Icon(
+                          FoodCubit.get(context).isItFav(postModel) ??
+                              false
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                          color: Colors.orange,
+                        ),
+                      )
+                          : PopupMenuButton<String>(
+                          icon: const Icon(
+                            Icons.more_horiz,
+                          ),
+                          onSelected: (value) {
+                            if (value == "Delete") {
+                              FoodCubit.get(context)
+                                  .deletePost(postModel.postId!);
+                            } else if (value == "Update") {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context)=>UpdatePost(postId: postModel.postId!,postModel: postModel,) ));
+                            }
+                          },
+                          itemBuilder: (BuildContext context) {
+                            return <PopupMenuItem<String>>[
+                              PopupMenuItem(
+                                child: Text(
+                                    AppLocalizations.of(context)!
+                                        .deleteButton),
+                                value: "Delete",
+                              ),
+                              PopupMenuItem(
+                                child: Text("Update"),
+                                value: "Update",
+                              ),
+                            ];
+                          }),
                       const Spacer(),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,

@@ -247,13 +247,17 @@ class FoodCubit extends Cubit<FoodStates> {
         .putFile(image)
         .then((url) {
       url.ref.getDownloadURL().then((value) {
-        updateImage(postId, {imageNum: value.toString()});
+        updateImage(postId, {imageNum: value.toString()},
+            {"postId": postId.toString()});
       });
     });
   }
 
-  updateImage(postId, Map<String, String> imageUrl) {
-    posts.doc(postId).update(imageUrl);
+  updateImage(
+      postId, Map<String, String> imageUrl, Map<String, String> postIdMap) {
+    posts.doc(postId).update(imageUrl).then((value) {
+      posts.doc(postId).update(postIdMap);
+    });
   }
 
   /////////////////////////////////////updatePost
@@ -266,9 +270,12 @@ class FoodCubit extends Cubit<FoodStates> {
     required String foodQuantity,
     required String description,
     required String imageUrl1,
+    required String postId,
     required String imageUrl2,
     required String foodType,
     required String contactMethod,
+    required String userName,
+    required String userImage,
     required bool isFavorite,
   }) async {
     emit(UpdatePostLoadingState());
@@ -285,52 +292,79 @@ class FoodCubit extends Cubit<FoodStates> {
       itemQuantity: foodQuantity,
       donorId: uId,
       donorPhone: userModel!.phone,
+      postId: postId,
+      postDate: postDate,
+      userName: userName,
+      userImage: userImage,
+      receiverId: null,
+      requestsUsers: [],
+      requestsUsersId: [],
       isFavorite: isFavorite,
     );
-    posts.doc("postId").update(postModel.toMap()).then((idValue) async {
-      if (imageFile1 != null) {
-        await uploadImage(imageFile1!, postModel.postId, imageUrl1)
-            .then((value) {
-          if (imageFile2 != null) {
-            uploadImage(imageFile2!, postModel.postId, imageUrl2).then((value) {
-              emit(UpdatePostSuccessState());
-            }).catchError((onError) {
-              emit(UpdatePostErrorState(onError.toString()));
-            });
-          }
-        }).catchError((onError) {
-          emit(UpdatePostErrorState(onError.toString()));
-        });
-      } else if (imageFile2 != null) {
-        await uploadImage(imageFile2!, postModel.postId, imageUrl2)
-            .then((value) {
-          if (imageFile1 != null) {
-            uploadImage(imageFile1!, postModel.postId, imageUrl1).then((value) {
-              emit(UpdatePostSuccessState());
-            }).catchError((onError) {
-              emit(UpdatePostErrorState(onError.toString()));
-            });
-          }
-        }).catchError((onError) {
-          emit(UpdatePostErrorState(onError.toString()));
-        });
-      }
-      emit(UpdatePostSuccessState());
-      Fluttertoast.showToast(
-        gravity: ToastGravity.TOP,
-        msg: "Post Updated Successfully",
-        backgroundColor: Colors.green,
-      );
-    }).catchError((onError) {
-      Fluttertoast.showToast(
-        gravity: ToastGravity.TOP,
-        msg: "$onError <<Please try again>>",
-        backgroundColor: Colors.green,
-      );
-      emit(UpdatePostErrorState(onError.toString()));
-    });
+    if (imageFile1 != null) {
+      posts
+          .doc(postId)
+          .update(postModel.toMap())
+          .then(
+              (value) => uploadImage(imageFile1!, postModel.postId, "imageUrl1"))
+          .then((value) => emit(UpdatePostSuccessState()))
+          .catchError((onError) {
+        emit(UpdatePostErrorState(onError.toString()));
+      }).then((value) => imageFile1 == null);
+    } else {
+      posts
+          .doc(postId)
+          .update(postModel.toMap())
+          .then((value) => emit(UpdatePostSuccessState()))
+          .catchError((onError) {
+        emit(UpdatePostErrorState(onError.toString()));
+      });
+    }
+    // posts.doc(postId).update(postModel.toMap()).then((idValue) async {
+    //   if (imageFile1 != null) {
+    //     await uploadImage(imageFile1!, postModel.postId, imageUrl1)
+    //         .then((value) {
+    //       if (imageFile2 != null) {
+    //         uploadImage(imageFile2!, postModel.postId, imageUrl2).then((value) {
+    //           emit(UpdatePostSuccessState());
+    //         }).catchError((onError) {
+    //           emit(UpdatePostErrorState(onError.toString()));
+    //         });
+    //       }
+    //     }).catchError((onError) {
+    //       emit(UpdatePostErrorState(onError.toString()));
+    //     });
+    //   } else if (imageFile2 != null) {
+    //     await uploadImage(imageFile2!, postModel.postId, imageUrl2)
+    //         .then((value) {
+    //       if (imageFile1 != null) {
+    //         uploadImage(imageFile1!, postModel.postId, imageUrl1).then((value) {
+    //           emit(UpdatePostSuccessState());
+    //         }).catchError((onError) {
+    //           emit(UpdatePostErrorState(onError.toString()));
+    //         });
+    //       }
+    //     }).catchError((onError) {
+    //       emit(UpdatePostErrorState(onError.toString()));
+    //     });
+    //   }
+    //   emit(UpdatePostSuccessState());
+    //   Fluttertoast.showToast(
+    //     gravity: ToastGravity.TOP,
+    //     msg: "Post Updated Successfully",
+    //     backgroundColor: Colors.green,
+    //   );
+    // }).catchError((onError) {
+    //   Fluttertoast.showToast(
+    //     gravity: ToastGravity.TOP,
+    //     msg: "$onError <<Please try again>>",
+    //     backgroundColor: Colors.green,
+    //   );
+    //   emit(UpdatePostErrorState(onError.toString()));
+    // });
     return;
   }
+
 
 //////////////////////////////////////////////////get posts at home and profile
 
