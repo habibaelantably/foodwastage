@@ -152,7 +152,7 @@ class PostRequests extends StatelessWidget {
                               Navigator.pop(context);
                             },
                             height: 35,
-                            color: defaultColor,
+                            color: Colors.green,
                             child: const Text(
                               "Accept",
                               style: TextStyle(

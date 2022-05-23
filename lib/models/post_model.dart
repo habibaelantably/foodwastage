@@ -44,7 +44,6 @@ class PostModel {
 
   Map<String, dynamic> toMap() {
     return {
-      'postId': postId,
       'location': location,
       'itemName': itemName,
       'pickupDate': pickupDate,
@@ -68,7 +67,6 @@ class PostModel {
 
   factory PostModel.fromJson(json) {
     return PostModel(
-      postId: json['postId'],
       location: json['location'],
       itemName: json['itemName'],
       pickupDate: json['pickupDate'],

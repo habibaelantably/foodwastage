@@ -13,10 +13,11 @@ class HomeScreen extends StatelessWidget {
     return BlocConsumer<FoodCubit, FoodStates>(
       builder: (BuildContext context, state) {
         return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            filtersButtons(context),
-            const SizedBox(
-              height: 15.0,
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: filtersButtons(context),
             ),
             BuildCondition(
               condition: FoodCubit.get(context).postsList.isNotEmpty &&

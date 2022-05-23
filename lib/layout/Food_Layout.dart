@@ -24,24 +24,18 @@ class FoodLayout extends StatelessWidget {
                       keyboardType: TextInputType.text,
                       autofocus: true,
                       obscureText: false,
-                      cursorHeight: 2,
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.symmetric(
                             vertical: 0.0, horizontal: 10.0),
                         hintText: 'Search...',
                         hintStyle:
-                            TextStyle(fontSize: 11.0, color: Colors.grey[700]),
+                            TextStyle(fontSize: 14.0, color: Colors.grey[700]),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(50),
                             borderSide: const BorderSide().copyWith(width: 0)),
                       ),
-                      onTap: () {
-                        FoodCubit.get(context)
-                            .startSearch(context, searchController);
-                      },
-                      onFieldSubmitted: (value) {
-                        FoodCubit.get(context)
-                            .addSearchedForItemsToSearchedList(value);
+                      onChanged: (value){
+                          FoodCubit.get(context).addSearchedForItemsToSearchedList(value);
                       },
                     )
                   : Text(cubit.currentIndex == 0

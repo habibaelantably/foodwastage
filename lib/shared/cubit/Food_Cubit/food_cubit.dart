@@ -364,12 +364,13 @@ class FoodCubit extends Cubit<FoodStates> {
       postsList = [];
       currentUserPostsList = [];
       myRequestsList = [];
+      filteredPosts = [];
       for (var element in event.docs) {
         PostModel post = PostModel.fromJson(element.data());
         post.postId = element.id;
 
         if (post.requestsUsersId!.contains(uId)) {
-          myRequestsList.add(PostModel.fromJson(element.data()));
+          myRequestsList.add(post);
         }
 
         //this condition is for getting current user's posts & his transactions.
@@ -381,6 +382,13 @@ class FoodCubit extends Cubit<FoodStates> {
         if (post.receiverId == null) {
           postsList.add(post);
         }
+
+        if (filterValue == "All") {
+          filteredPosts.add(post);
+        } else if (post.foodType == filterValue) {
+          filteredPosts.add(post);
+        }
+
       }
       emit(FoodGetPostsSuccessState());
     });
@@ -412,6 +420,21 @@ class FoodCubit extends Cubit<FoodStates> {
     });
   }
 
+  void cancelRequest(BuildContext context, {required PostModel postModel}) {
+    postModel.requestsUsers!.removeWhere((element) => element['uId'] == uId);
+    postModel.requestsUsersId!.remove(uId);
+    posts
+        .doc(postModel.postId)
+        .update({
+          'requestsUsers': postModel.requestsUsers,
+          'requestsUsersId': postModel.requestsUsersId
+        })
+        .then((value) {})
+        .catchError((error) {
+          print(error.toString());
+        });
+  }
+
   void getPostRequests(PostModel postModel) {
     postRequestsList = [];
     emit(FoodGetPostRequestsUsersLoadingState());
@@ -425,8 +448,7 @@ class FoodCubit extends Cubit<FoodStates> {
     });
   }
 
-  void confirmDonation(
-      {required PostModel postModel, required String receiverId}) async {
+  void confirmDonation({required PostModel postModel, required String receiverId}) async {
     posts.doc(postModel.postId).delete().then((value) async {
       await FirebaseFirestore.instance
           .collection('users')
@@ -449,6 +471,7 @@ class FoodCubit extends Cubit<FoodStates> {
   }
 
   void getMyHistoryTransactions() {
+    myHistoryTransactionsList =[];
     FirebaseFirestore.instance
         .collection('users')
         .doc(uId)
@@ -499,21 +522,15 @@ class FoodCubit extends Cubit<FoodStates> {
   }
 
   //Search Bar in Home
-  void startSearch(
-      BuildContext context, TextEditingController searchController) {
-    ModalRoute.of(context)!.addLocalHistoryEntry(
-      LocalHistoryEntry(onRemove: () {
-        searchController.clear();
-        emit(ClearSearch());
-      }),
-    );
-  }
-
   void addSearchedForItemsToSearchedList(String searchedCharacter) {
-    searchedForPosts = filteredPosts
-        .where((post) =>
-            post.itemName!.toLowerCase().startsWith(searchedCharacter))
-        .toList();
+    if(searchedCharacter.isEmpty){
+      searchedForPosts = [];
+    }else {
+      searchedForPosts = filteredPosts
+          .where((post) =>
+          post.itemName!.toLowerCase().startsWith(searchedCharacter))
+          .toList();
+    }
     emit(Search());
   }
 
