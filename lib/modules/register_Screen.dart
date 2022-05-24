@@ -3,7 +3,7 @@ import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodwastage/shared/components/reusable_components.dart';
-import 'package:foodwastage/layout/Food_Layout.dart';
+import 'package:foodwastage/layout/App_Layout.dart';
 import 'package:foodwastage/modules/login_Screen.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Register/food_register_cubit.dart';
@@ -250,10 +250,10 @@ class RegisterScreen extends StatelessWidget {
             FoodCubit.getLoggedInUser();
             FoodCubit.get(context).getUserdata(context: context);
             FoodCubit.get(context).getPosts();
-            navigateAndKill(context, FoodLayout());
+            navigateAndKill(context, AppLayout());
           } else {
             FoodCubit.getLoggedInUser();
-            navigateAndKill(context, FoodLayout());
+            navigateAndKill(context, AppLayout());
           }
         }
       }),

@@ -2,7 +2,7 @@ import 'package:buildcondition/buildcondition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodwastage/shared/components/reusable_components.dart';
-import 'package:foodwastage/layout/Food_Layout.dart';
+import 'package:foodwastage/layout/App_Layout.dart';
 import 'package:foodwastage/modules/register_Screen.dart';
 import 'package:foodwastage/shared/constants.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
@@ -212,10 +212,10 @@ class LoginScreen extends StatelessWidget {
             FoodCubit.getLoggedInUser();
             FoodCubit.get(context).getUserdata(context: context);
             FoodCubit.get(context).getPosts();
-            navigateAndKill(context, FoodLayout());
+            navigateAndKill(context, AppLayout());
           } else {
             FoodCubit.getLoggedInUser();
-            navigateAndKill(context, FoodLayout());
+            navigateAndKill(context, AppLayout());
           }
         }
       }

@@ -19,6 +19,7 @@ class PostModel {
   List? requestsUsers;
   List? requestsUsersId;
   bool? isFavorite;
+  bool? isRatted;
 
   PostModel({
     this.postId,
@@ -40,6 +41,7 @@ class PostModel {
     this.requestsUsers,
     this.requestsUsersId,
     this.isFavorite = false,
+    this.isRatted = false,
   });
 
   Map<String, dynamic> toMap() {
@@ -62,6 +64,7 @@ class PostModel {
       'requestsUsers': requestsUsers,
       'requestsUsersId': requestsUsersId,
       'isFavorite': isFavorite ??= false,
+      'isRatted': isRatted ??= false,
     };
   }
 
@@ -85,6 +88,7 @@ class PostModel {
       requestsUsers: json['requestsUsers'],
       requestsUsersId: json['requestsUsersId'],
       isFavorite: json['isFavorite'] ??= false,
+      isRatted: json['isRatted'] ??= false,
     );
   }
 }

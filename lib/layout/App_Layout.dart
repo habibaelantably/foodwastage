@@ -5,14 +5,18 @@ import '../shared/cubit/Food_Cubit/food_cubit.dart';
 import '../shared/cubit/Food_Cubit/food_states.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class FoodLayout extends StatelessWidget {
-  FoodLayout({Key? key}) : super(key: key);
+class AppLayout extends StatelessWidget {
+  AppLayout({Key? key}) : super(key: key);
   final TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<FoodCubit, FoodStates>(
-      listener: (BuildContext context, state) {},
+      listener: (BuildContext context, state) {
+        if(state is GetFilteredPostsSuccessState){
+          FoodCubit.get(context).addSearchedForItemsToSearchedList(searchController.text);
+        }
+      },
       builder: (BuildContext context, Object? state) {
         var cubit = FoodCubit.get(context);
         return Scaffold(
@@ -57,8 +61,10 @@ class FoodLayout extends StatelessWidget {
                             : const Icon(Icons.search),
                         onPressed: () {
                           FoodCubit.get(context).changeSearchButtonIcon();
+
                           if (FoodCubit.get(context).isSearching) {
                             FoodCubit.get(context).searchedForPosts = [];
+                            searchController.clear();
                           }
                         },
                       )

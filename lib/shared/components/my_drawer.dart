@@ -22,7 +22,6 @@ class CustomDrawer extends StatefulWidget {
 class _CustomDrawerState extends State<CustomDrawer> {
   @override
   Widget build(BuildContext context) {
-    final _userModel = FoodCubit.get(context).userModel;
     return Drawer(
       child: Padding(
         padding: const EdgeInsets.all(15),
@@ -34,13 +33,13 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  if (_userModel!.image != null && _userModel.image != '')
+                  if (FoodCubit.get(context).userModel!.image != null && FoodCubit.get(context).userModel!.image != '')
                     CircleAvatar(
                       radius: 50,
-                      backgroundImage: NetworkImage(_userModel.image!),
+                      backgroundImage: NetworkImage(FoodCubit.get(context).userModel!.image!),
                       backgroundColor: Colors.amber[900],
                     ),
-                  if (_userModel.image == null || _userModel.image == '')
+                  if (FoodCubit.get(context).userModel!.image == null || FoodCubit.get(context).userModel!.image == '')
                     CircleAvatar(
                       radius: 50,
                       backgroundImage:
@@ -53,7 +52,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   RichText(
                     text: TextSpan(children: [
                       TextSpan(
-                        text: "${_userModel.name} ",
+                        text: "${FoodCubit.get(context).userModel!.name} ",
                         style: TextStyle(
                           fontSize: 22,
                           color:
@@ -64,7 +63,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         ),
                       ),
                       TextSpan(
-                        text: "(${_userModel.type})",
+                        text: "(${FoodCubit.get(context).userModel!.type})",
                         style: TextStyle(
                           fontSize: 15,
                           color: Colors.grey[700],
@@ -77,9 +76,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     height: 7.0,
                   ),
                   RatingBar(
-                    initialRating: _userModel.rating!,
+                    initialRating: FoodCubit.get(context).userModel!.rating!,
                     itemSize: 25.0,
-                    ignoreGestures: _userModel.uId == uId ? true : false,
+                    ignoreGestures: FoodCubit.get(context).userModel!.uId == uId ? true : false,
                     itemCount: 5,
                     direction: Axis.horizontal,
                     ratingWidget: RatingWidget(
@@ -131,6 +130,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       ),
                       onTap: () {
                         Navigator.pop(context);
+                        FoodCubit.get(context).getSelectedUserPosts(selectedUserId: uId!);
+                        FoodCubit.get(context).getUserdata(context: context,selectedUserId: uId);
+                        print(FoodCubit.get(context).userModel!.rating);
                         navigateTo(
                             context,
                             ProfileScreen(

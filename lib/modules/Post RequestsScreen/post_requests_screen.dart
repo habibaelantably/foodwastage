@@ -4,9 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:foodwastage/models/User_model.dart';
 import 'package:foodwastage/models/post_model.dart';
+import 'package:foodwastage/modules/Home%20Screen/home_screen.dart';
+import 'package:foodwastage/shared/components/reusable_components.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_states.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../layout/App_Layout.dart';
 import '../../shared/constants.dart';
 import '../../styles/colors.dart';
 
@@ -149,7 +152,8 @@ class PostRequests extends StatelessWidget {
                               FoodCubit.get(context).confirmDonation(
                                   postModel: postModel,
                                   receiverId: userModel.uId!);
-                              Navigator.pop(context);
+                              FoodCubit.get(context).currentIndex = 0;
+                              navigateAndKill(context, AppLayout());
                             },
                             height: 35,
                             color: Colors.green,

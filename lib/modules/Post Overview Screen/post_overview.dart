@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodwastage/models/post_model.dart';
-import 'package:foodwastage/modules/postRequestsScreen/post_requests_screen.dart';
+import 'package:foodwastage/modules/Post RequestsScreen/post_requests_screen.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_states.dart';
 import '../../shared/constants.dart';

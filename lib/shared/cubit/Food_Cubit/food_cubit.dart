@@ -30,7 +30,6 @@ class FoodCubit extends Cubit<FoodStates> {
   void getUserdata(
       {String? selectedUserId, required BuildContext context}) async {
     //this condition to not do the method again if i clicked on current user because we already got his data at starting of application
-    if (selectedUserId == null || selectedUserId != uId) {
       await FirebaseFirestore.instance
           .collection('users')
           .doc(selectedUserId ?? uId)
@@ -38,17 +37,16 @@ class FoodCubit extends Cubit<FoodStates> {
           .then((value) {
         if (selectedUserId != uId && selectedUserId != null) {
           selectedUserModel = UserModel.fromJson(value.data()!);
-          emit(FoodGetSelectedUserSuccessState(selectedUserId));
-        } else if (selectedUserId == null) {
+          emit(GetSelectedUserDataSuccessState(selectedUserId));
+        } else if (selectedUserId == uId || selectedUserId == null) {
           userModel = UserModel.fromJson(value.data()!);
-          emit(FoodSuccessState());
+          emit(GetCurrentUserDataSuccessState());
         }
       }).catchError((error) {
         print(error.toString());
-        emit(FoodErrorState());
+        emit(GetCurrentUserDataErrorState());
       });
     }
-  }
 
   int currentIndex = 0;
 
@@ -395,13 +393,12 @@ class FoodCubit extends Cubit<FoodStates> {
   }
 
   void getSelectedUserPosts({required String selectedUserId}) async {
-    posts.get().then((value) {
-      for (var element in value.docs) {
-        if (element.get('donorId') == selectedUserId) {
-          selectedUserPostsList.add(PostModel.fromJson(element.data()));
-        }
+    selectedUserPostsList =[];
+    for(var element in postsList){
+      if(element.donorId == selectedUserId){
+        selectedUserPostsList.add(element);
       }
-    });
+    }
     emit(FoodGetSelectedUserPostsSuccessState());
   }
 
@@ -471,15 +468,17 @@ class FoodCubit extends Cubit<FoodStates> {
   }
 
   void getMyHistoryTransactions() {
-    myHistoryTransactionsList =[];
     FirebaseFirestore.instance
         .collection('users')
         .doc(uId)
         .collection('history')
         .snapshots()
         .listen((event) {
+      myHistoryTransactionsList =[];
       for (var element in event.docs) {
-        myHistoryTransactionsList.add(PostModel.fromJson(element.data()));
+        PostModel post = PostModel.fromJson(element.data());
+        post.postId = element.id;
+        myHistoryTransactionsList.add(post);
       }
       emit(FoodGetMyHistoryTransactionsSuccessState());
     });
@@ -498,12 +497,25 @@ class FoodCubit extends Cubit<FoodStates> {
     emit(FoodDeletePostSuccessState());
   }
 
-  void updateUserRating({required double rating}) async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(selectedUserModel!.uId)
-        .update({'rating': rating});
-    emit(FoodRatingUpdateSuccessState());
+  void rateUser({required double rating, required PostModel postModel}) async {
+    if(postModel.isRatted == false){
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(postModel.donorId).collection('ratings').add({'userId': uId, 'rate':rating}).then((value) async{
+        await FirebaseFirestore.instance.collection('users').doc(postModel.donorId).collection('ratings').get().then((value) async{
+          double rating = 0.0;
+          for(var element in value.docs){
+            rating += element.get('rate');
+          }
+          rating = rating/value.docs.length;
+          await FirebaseFirestore.instance.collection('users').doc(postModel.donorId).update({'rating': rating}).then((value)async {
+            await FirebaseFirestore.instance.collection('users').doc(uId).collection('history').doc(postModel.postId).update({'isRatted': true}).then((value) {
+              emit(FoodRatingUpdateSuccessState());
+            });
+          });
+        });
+      });
+    }
   }
 
   void logout() async {
@@ -535,7 +547,8 @@ class FoodCubit extends Cubit<FoodStates> {
   }
 
   //filters
-  void filterPosts() {
+  void filterPosts(String value) {
+    filterValue = value;
     filteredPosts = [];
     for (var post in postsList) {
       if (filterValue == "All") {
@@ -545,10 +558,5 @@ class FoodCubit extends Cubit<FoodStates> {
       }
     }
     emit(GetFilteredPostsSuccessState());
-  }
-
-  void selectFilter(String value) {
-    filterValue = value;
-    emit(ChangeFilterValue());
   }
 }

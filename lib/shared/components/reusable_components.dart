@@ -204,9 +204,7 @@ Widget rowTextAndFormInput({
 Widget postBuilder(
         {required BuildContext context,
         required PostModel postModel,
-        required bool viewPost,
-        required bool isInHistory,
-        required bool isInMyRequests}) =>
+        required bool viewPost,}) =>
     InkWell(
       onTap: viewPost
           ? () {
@@ -269,14 +267,12 @@ Widget postBuilder(
                               NetworkImage('${postModel.userImage}'),
                         ),
                         onTap: () {
-                          if (postModel.donorId != uId) {
                             FoodCubit.get(context).getUserdata(
                                 selectedUserId: postModel.donorId,
                                 context: context);
                             FoodCubit.get(context).getSelectedUserPosts(
                               selectedUserId: postModel.donorId!,
                             );
-                          }
                           navigateTo(
                             context,
                             ProfileScreen(
@@ -293,7 +289,6 @@ Widget postBuilder(
                           children: [
                             InkWell(
                               onTap: () {
-                                if (postModel.donorId != uId) {
                                   FoodCubit.get(context).getUserdata(
                                       selectedUserId: postModel.donorId,
                                       context: context);
@@ -301,7 +296,6 @@ Widget postBuilder(
                                       .getSelectedUserPosts(
                                     selectedUserId: postModel.donorId!,
                                   );
-                                }
                                 navigateTo(
                                     context,
                                     ProfileScreen(
@@ -338,24 +332,7 @@ Widget postBuilder(
               height: 145,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  isInHistory || isInMyRequests
-                      ? Text(
-                          isInMyRequests &&
-                                  postModel.requestsUsersId!.contains(uId)
-                              ? AppLocalizations.of(context)!
-                                  .myRequestStatusRequested
-                              : postModel.donorId == uId
-                                  ? AppLocalizations.of(context)!
-                                      .historyScreenPostStatusDonated
-                                  : AppLocalizations.of(context)!
-                                      .historyScreenPostStatusReceived,
-                          style: const TextStyle(
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.bold,
-                              color: defaultColor),
-                        )
-                      : postModel.donorId != uId
+                children: [postModel.donorId != uId
                           ? IconButton(
                               onPressed: () {
                                 FoodCubit.get(context)
@@ -424,7 +401,7 @@ Widget filterButton(
     style: ButtonStyle(
         elevation: MaterialStateProperty.all(3),
         backgroundColor: MaterialStateProperty.all(filterValue == text
-            ? Colors.orange!
+            ? Colors.orange
             : Colors.white),
         shape: MaterialStateProperty.all(RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50),

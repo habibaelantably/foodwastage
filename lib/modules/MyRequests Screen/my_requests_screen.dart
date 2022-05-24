@@ -38,7 +38,7 @@ class MyRequestsScreen extends StatelessWidget {
             ),
             body: BuildCondition(
               builder: (context) => ListView.separated(
-                  itemBuilder: (context, index) => buildRequestCard(context: context, postModel: FoodCubit.get(context).myRequestsList[index],userModel:FoodCubit.get(context).userModel!),
+                  itemBuilder: (context, index) => buildRequestPost(context: context, postModel: FoodCubit.get(context).myRequestsList[index],),
                   separatorBuilder: (context, index) => const SizedBox(
                         height: 20.0,
                       ),
@@ -64,8 +64,8 @@ class MyRequestsScreen extends StatelessWidget {
   }
 }
 
-Widget buildRequestCard(
-    {required UserModel userModel, required BuildContext context, required PostModel postModel}) {
+Widget buildRequestPost(
+    {required BuildContext context, required PostModel postModel}) {
   return InkWell(
     onTap: (){
       navigateTo(context, PostOverview(postModel: postModel));

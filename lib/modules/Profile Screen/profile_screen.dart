@@ -128,36 +128,6 @@ class ProfileScreen extends StatelessWidget {
                                       ratingValue = value;
                                     },
                                   ),
-                                  const SizedBox(
-                                    width: 30.0,
-                                  ),
-                                  selectedUserId != uId
-                                      ? Container(
-                                          clipBehavior:
-                                              Clip.antiAliasWithSaveLayer,
-                                          height: 29.0,
-                                          width: 45.0,
-                                          decoration: BoxDecoration(
-                                              color: defaultColor,
-                                              borderRadius:
-                                                  BorderRadius.circular(5.0)),
-                                          child: TextButton(
-                                            onPressed: () {
-                                              if (ratingValue != 0) {
-                                                FoodCubit.get(context)
-                                                    .updateUserRating(
-                                                        rating: ratingValue!);
-                                              }
-                                            },
-                                            child: Text(
-                                              AppLocalizations.of(context)!
-                                                  .rateButton,
-                                              style: const TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                          ),
-                                        )
-                                      : const SizedBox()
                                 ],
                               ),
                               selectedUserId != uId
@@ -203,9 +173,7 @@ class ProfileScreen extends StatelessWidget {
                                         .currentUserPostsList[index]
                                     : FoodCubit.get(context)
                                         .selectedUserPostsList[index],
-                                viewPost: true,
-                                isInMyRequests: false,
-                                isInHistory: false);
+                                viewPost: true,);
                           },
                           separatorBuilder: (context, index) => const SizedBox(
                                 height: 20.0,
@@ -293,38 +261,7 @@ class ProfileScreen extends StatelessWidget {
                                           ratingValue = value;
                                         },
                                       ),
-                                      const SizedBox(
-                                        width: 30.0,
-                                      ),
-                                      selectedUserId != uId
-                                          ? Container(
-                                              clipBehavior:
-                                                  Clip.antiAliasWithSaveLayer,
-                                              height: 29.0,
-                                              width: 45.0,
-                                              decoration: BoxDecoration(
-                                                  color: defaultColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          5.0)),
-                                              child: TextButton(
-                                                onPressed: () {
-                                                  if (ratingValue != 0) {
-                                                    FoodCubit.get(context)
-                                                        .updateUserRating(
-                                                            rating:
-                                                                ratingValue!);
-                                                  }
-                                                },
-                                                child: Text(
-                                                  AppLocalizations.of(context)!
-                                                      .rateButton,
-                                                  style: const TextStyle(
-                                                      color: Colors.white),
-                                                ),
-                                              ),
-                                            )
-                                          : const SizedBox()
+
                                     ],
                                   ),
                                   selectedUserId != uId
@@ -433,38 +370,6 @@ class ProfileScreen extends StatelessWidget {
                                           ratingValue = value;
                                         },
                                       ),
-                                      const SizedBox(
-                                        width: 30.0,
-                                      ),
-                                      selectedUserId != uId
-                                          ? Container(
-                                              clipBehavior:
-                                                  Clip.antiAliasWithSaveLayer,
-                                              height: 29.0,
-                                              width: 45.0,
-                                              decoration: BoxDecoration(
-                                                  color: defaultColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          5.0)),
-                                              child: TextButton(
-                                                onPressed: () {
-                                                  if (ratingValue != 0) {
-                                                    FoodCubit.get(context)
-                                                        .updateUserRating(
-                                                            rating:
-                                                                ratingValue!);
-                                                  }
-                                                },
-                                                child: Text(
-                                                  AppLocalizations.of(context)!
-                                                      .rateButton,
-                                                  style: const TextStyle(
-                                                      color: Colors.white),
-                                                ),
-                                              ),
-                                            )
-                                          : const SizedBox()
                                     ],
                                   ),
                                   selectedUserId != uId

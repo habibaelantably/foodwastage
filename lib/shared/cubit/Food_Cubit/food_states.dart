@@ -4,15 +4,15 @@ class InitialFoodStates extends FoodStates {}
 
 class FoodLoadingState extends FoodStates {}
 
-class FoodGetSelectedUserSuccessState extends FoodStates {
+class GetSelectedUserDataSuccessState extends FoodStates {
   final String selectedUserId;
 
-  FoodGetSelectedUserSuccessState(this.selectedUserId);
+  GetSelectedUserDataSuccessState(this.selectedUserId);
 }
 
-class FoodSuccessState extends FoodStates {}
+class GetCurrentUserDataSuccessState extends FoodStates {}
 
-class FoodErrorState extends FoodStates {}
+class GetCurrentUserDataErrorState extends FoodStates {}
 
 class ChangeBottomNavState extends FoodStates {}
 
