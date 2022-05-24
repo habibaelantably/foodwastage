@@ -420,22 +420,13 @@ class FoodCubit extends Cubit<FoodStates> {
   void cancelRequest(BuildContext context, {required PostModel postModel}) {
     postModel.requestsUsers!.removeWhere((element) => element['uId'] == uId);
     postModel.requestsUsersId!.remove(uId);
-    posts
-        .doc(postModel.postId)
-        .update({
-          'requestsUsers': postModel.requestsUsers,
-          'requestsUsersId': postModel.requestsUsersId
-        })
-        .then((value) {})
-        .catchError((error) {
-          print(error.toString());
-        });
+    posts.doc(postModel.postId).update({'requestsUsers': postModel.requestsUsers, 'requestsUsersId': postModel.requestsUsersId});
   }
 
-  void getPostRequests(PostModel postModel) {
+  void getPostRequests(String postId) {
     postRequestsList = [];
     emit(FoodGetPostRequestsUsersLoadingState());
-    posts.doc(postModel.postId).get().then((value) {
+    posts.doc(postId).get().then((value) {
       for (var element in value.get('requestsUsers')) {
         postRequestsList.add(UserModel.fromJson(element));
       }
@@ -445,7 +436,7 @@ class FoodCubit extends Cubit<FoodStates> {
     });
   }
 
-  void confirmDonation({required PostModel postModel, required String receiverId}) async {
+  void acceptRequest({required PostModel postModel, required String receiverId}) async {
     posts.doc(postModel.postId).delete().then((value) async {
       await FirebaseFirestore.instance
           .collection('users')
@@ -462,7 +453,7 @@ class FoodCubit extends Cubit<FoodStates> {
               .doc(postModel.postId)
               .set(postModel.toMap());
         }
-        emit(FoodConfirmDonationSuccessState());
+        emit(AcceptRequestSuccessState());
       });
     });
   }

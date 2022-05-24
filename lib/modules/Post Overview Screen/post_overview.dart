@@ -186,7 +186,7 @@ class PostOverview extends StatelessWidget {
                                             child: defaultButton(
                                               function: () {
                                                 FoodCubit.get(context)
-                                                    .getPostRequests(postModel);
+                                                    .getPostRequests(postModel.postId!);
                                               },
                                               text:
                                                   AppLocalizations.of(context)!

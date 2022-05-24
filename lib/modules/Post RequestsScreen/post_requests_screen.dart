@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:foodwastage/models/User_model.dart';
 import 'package:foodwastage/models/post_model.dart';
-import 'package:foodwastage/modules/Home%20Screen/home_screen.dart';
 import 'package:foodwastage/shared/components/reusable_components.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_states.dart';
@@ -19,10 +18,14 @@ class PostRequests extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    FoodCubit.get(context).getPostRequests(postModel);
+    FoodCubit.get(context).getPostRequests(postModel.postId!);
     return BlocConsumer<FoodCubit, FoodStates>(
-      listener: (context, state) {},
-      builder: (context, state) {
+      listener: (context, state) {
+        if(state is FoodGetPostsSuccessState){
+          FoodCubit.get(context).getPostRequests(postModel.postId!);
+        }
+      },
+      builder: (context, state){
         return Scaffold(
           appBar: AppBar(
             title: Text(AppLocalizations.of(context)!.postRequestsScreenTitle),
@@ -149,7 +152,7 @@ class PostRequests extends StatelessWidget {
                         Expanded(
                           child: MaterialButton(
                             onPressed: () {
-                              FoodCubit.get(context).confirmDonation(
+                              FoodCubit.get(context).acceptRequest(
                                   postModel: postModel,
                                   receiverId: userModel.uId!);
                               FoodCubit.get(context).currentIndex = 0;
