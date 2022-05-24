@@ -92,11 +92,15 @@ class FoodGetMyReceiveFoodSuccessState extends FoodStates {}
 
 class FoodGetMyReceiveFoodErrorState extends FoodStates {}
 
-class FoodGetPostRequestsUsersLoadingState extends FoodStates {}
+class GetPostRequestsLoadingState extends FoodStates {}
 
-class FoodGetPostRequestsUsersSuccessState extends FoodStates {}
+class GetPostRequestsSuccessState extends FoodStates {}
 
-class FoodGetPostRequestsUsersErrorState extends FoodStates {}
+class GetPostRequestsErrorState extends FoodStates {}
+
+class GetMyRequestsSuccessState extends FoodStates {}
+
+class RequestItemSuccessState extends FoodStates {}
 
 class CancelPostRequestSuccessState extends FoodStates {}
 

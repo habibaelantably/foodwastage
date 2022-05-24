@@ -16,8 +16,7 @@ class PostModel {
   String? userName;
   String? userImage;
   String? receiverId;
-  List? requestsUsers;
-  List? requestsUsersId;
+  List? requestsUsersId = [];
   bool? isFavorite;
   bool? isRatted;
 
@@ -38,7 +37,6 @@ class PostModel {
     this.userName,
     this.userImage,
     this.receiverId,
-    this.requestsUsers,
     this.requestsUsersId,
     this.isFavorite = false,
     this.isRatted = false,
@@ -61,7 +59,6 @@ class PostModel {
       'userName': userName,
       'userImage': userImage,
       'receiverId': receiverId,
-      'requestsUsers': requestsUsers,
       'requestsUsersId': requestsUsersId,
       'isFavorite': isFavorite ??= false,
       'isRatted': isRatted ??= false,
@@ -85,7 +82,6 @@ class PostModel {
       userName: json['userName'],
       userImage: json['userImage'],
       receiverId: json['receiverId'],
-      requestsUsers: json['requestsUsers'],
       requestsUsersId: json['requestsUsersId'],
       isFavorite: json['isFavorite'] ??= false,
       isRatted: json['isRatted'] ??= false,

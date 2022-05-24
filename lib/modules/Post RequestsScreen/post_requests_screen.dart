@@ -18,12 +18,8 @@ class PostRequests extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    FoodCubit.get(context).getPostRequests(postModel.postId!);
     return BlocConsumer<FoodCubit, FoodStates>(
       listener: (context, state) {
-        if(state is FoodGetPostsSuccessState){
-          FoodCubit.get(context).getPostRequests(postModel.postId!);
-        }
       },
       builder: (context, state){
         return Scaffold(
@@ -45,17 +41,26 @@ class PostRequests extends StatelessWidget {
                   itemCount: FoodCubit.get(context).postRequestsList.length);
             },
             condition: FoodCubit.get(context).postRequestsList.isNotEmpty,
-            fallback: (context) => const Center(
-              child: CircularProgressIndicator(),
-            ),
+            fallback: (context) => FoodCubit.get(context).postRequestsList.isEmpty? Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Center(
+                child: Text(
+                  AppLocalizations.of(context)!.postRequestsScreenFallBack,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.w700,
+                      color: defaultColor),
+                ),
+              ),
+            ) : const Center(child: CircularProgressIndicator())
           ),
         );
       },
     );
   }
 
-  Widget buildRequestCard(
-      {required UserModel userModel, required BuildContext context}) {
+  Widget buildRequestCard({required UserModel userModel, required BuildContext context}) {
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
@@ -160,9 +165,9 @@ class PostRequests extends StatelessWidget {
                             },
                             height: 35,
                             color: Colors.green,
-                            child: const Text(
-                              "Accept",
-                              style: TextStyle(
+                            child: Text(
+                              AppLocalizations.of(context)!.acceptButton,
+                              style: const TextStyle(
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white),

@@ -13,8 +13,10 @@ class AppLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<FoodCubit, FoodStates>(
       listener: (BuildContext context, state) {
-        if(state is GetFilteredPostsSuccessState){
-          FoodCubit.get(context).addSearchedForItemsToSearchedList(searchController.text);
+        if (state is GetFilteredPostsSuccessState &&
+            FoodCubit.get(context).isSearching) {
+          FoodCubit.get(context)
+              .addSearchedForItemsToSearchedList(searchController.text);
         }
       },
       builder: (BuildContext context, Object? state) {
@@ -31,15 +33,15 @@ class AppLayout extends StatelessWidget {
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.symmetric(
                             vertical: 0.0, horizontal: 10.0),
-                        hintText: 'Search...',
-                        hintStyle:
-                            TextStyle(fontSize: 14.0, color: Colors.grey[700]),
+                        hintText: AppLocalizations.of(context)!.searchBarHint,
+                        hintStyle: const TextStyle(fontSize: 14.0),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(50),
                             borderSide: const BorderSide().copyWith(width: 0)),
                       ),
-                      onChanged: (value){
-                          FoodCubit.get(context).addSearchedForItemsToSearchedList(value);
+                      onChanged: (value) {
+                        FoodCubit.get(context)
+                            .addSearchedForItemsToSearchedList(value);
                       },
                     )
                   : Text(cubit.currentIndex == 0

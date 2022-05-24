@@ -113,22 +113,19 @@ class HistoryScreen extends StatelessWidget {
             ),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.only(right: 8.0),
+                padding: const EdgeInsetsDirectional.only(end: 10.0),
                 child: Container(
-                  padding: const EdgeInsetsDirectional.only(top: 8.0),
+                  padding: const EdgeInsetsDirectional.only(top: 5.0),
                   height: 145,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         children: [
-                          SizedBox(
-                            height: 25,
-                            child: Text(
-                              "${postModel.postDate}",
-                              style: const TextStyle(
-                                fontSize: 12.0,
-                              ),
+                          Text(
+                            "${postModel.postDate}",
+                            style: const TextStyle(
+                              fontSize: 12.0,
                             ),
                           ),
                           const Spacer(),
@@ -144,6 +141,9 @@ class HistoryScreen extends StatelessWidget {
                                 color: defaultColor),
                           ),
                         ],
+                      ),
+                      const SizedBox(
+                        height: 8.0,
                       ),
                       Text(
                         '${postModel.itemName}',
@@ -220,74 +220,99 @@ class HistoryScreen extends StatelessWidget {
                           )
                         ],
                       ),
-                      if(postModel.donorId != uId)
-                      const Spacer(),
-                      if(postModel.donorId != uId)
-                        Row(
-                        children: [
-                          Expanded(
-                            child: MaterialButton(
-                              disabledColor: Colors.grey[500],
-                              onPressed:  postModel.isRatted!= true ?() {
-                                showDialog(context: context, builder: (context){
-                                  return AlertDialog(
-                                    title: Text('Rate ${postModel.userName}'),
-                                    content: RatingBar(
-                                      initialRating: 0,
-                                      itemSize: 25.0,
-                                      itemCount: 5,
-                                      direction: Axis.horizontal,
-                                      ratingWidget: RatingWidget(
-                                        full: const Icon(
-                                          Icons.star,
-                                          color: defaultColor,
-                                        ),
-                                        half: const Icon(
-                                          Icons.star_half,
-                                          color: defaultColor,
-                                        ),
-                                        empty: const Icon(
-                                          Icons.star_border,
-                                          color: defaultColor,
-                                        ),
-                                      ),
-                                      minRating: 1,
-                                      maxRating: 5,
-                                      onRatingUpdate: (double value) {
-                                        rating = value;
-                                      },
-                                    ),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: (){
-                                          FoodCubit.get(context).rateUser(rating: rating, postModel: postModel);
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text('Rate'),
-                                      ),
-                                      TextButton(
-                                        onPressed: (){
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text('Cancel'),
-                                      ),
-                                    ],
-                                  );
-                                });
-                              }:null,
-                              height: 30,
-                              color: defaultColor,
-                              child: const Text(
-                                "Rate",
-                                style: TextStyle(
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                              ),
-                            ),
+                      if (postModel.donorId != uId) const Spacer(),
+                      if (postModel.donorId != uId)
+                        Padding(
+                          padding: const EdgeInsetsDirectional.only(
+                            bottom: 10.0,
                           ),
-                        ],
-                      ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: MaterialButton(
+                                  materialTapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                  disabledColor: Colors.grey[500],
+                                  onPressed: postModel.isRatted != true
+                                      ? () {
+                                          showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return AlertDialog(
+                                                  title: Text(
+                                                      '${AppLocalizations.of(context)!.rateButton} ${postModel.userName}'),
+                                                  content: RatingBar(
+                                                    initialRating: 0,
+                                                    itemSize: 25.0,
+                                                    itemCount: 5,
+                                                    direction: Axis.horizontal,
+                                                    ratingWidget: RatingWidget(
+                                                      full: const Icon(
+                                                        Icons.star,
+                                                        color: defaultColor,
+                                                      ),
+                                                      half: const Icon(
+                                                        Icons.star_half,
+                                                        color: defaultColor,
+                                                      ),
+                                                      empty: const Icon(
+                                                        Icons.star_border,
+                                                        color: defaultColor,
+                                                      ),
+                                                    ),
+                                                    minRating: 1,
+                                                    maxRating: 5,
+                                                    onRatingUpdate:
+                                                        (double value) {
+                                                      rating = value;
+                                                    },
+                                                  ),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        FoodCubit.get(context)
+                                                            .rateUser(
+                                                                rating: rating,
+                                                                postModel:
+                                                                    postModel);
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Text(
+                                                          AppLocalizations.of(
+                                                                  context)!
+                                                              .rateButton),
+                                                    ),
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Text(
+                                                        AppLocalizations.of(
+                                                                context)!
+                                                            .cancelButton,
+                                                        style: const TextStyle(
+                                                            color: Colors.red),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                );
+                                              });
+                                        }
+                                      : null,
+                                  height: 30,
+                                  color: defaultColor,
+                                  child: Text(
+                                    AppLocalizations.of(context)!.rateButton,
+                                    style: const TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                     ],
                   ),
                 ),

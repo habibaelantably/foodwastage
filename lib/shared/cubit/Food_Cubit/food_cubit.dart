@@ -25,28 +25,29 @@ class FoodCubit extends Cubit<FoodStates> {
   static FoodCubit get(context) => BlocProvider.of(context);
 
   UserModel? userModel;
+
   UserModel? selectedUserModel;
 
   void getUserdata(
       {String? selectedUserId, required BuildContext context}) async {
     //this condition to not do the method again if i clicked on current user because we already got his data at starting of application
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(selectedUserId ?? uId)
-          .get()
-          .then((value) {
-        if (selectedUserId != uId && selectedUserId != null) {
-          selectedUserModel = UserModel.fromJson(value.data()!);
-          emit(GetSelectedUserDataSuccessState(selectedUserId));
-        } else if (selectedUserId == uId || selectedUserId == null) {
-          userModel = UserModel.fromJson(value.data()!);
-          emit(GetCurrentUserDataSuccessState());
-        }
-      }).catchError((error) {
-        print(error.toString());
-        emit(GetCurrentUserDataErrorState());
-      });
-    }
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(selectedUserId ?? uId)
+        .get()
+        .then((value) {
+      if (selectedUserId != uId && selectedUserId != null) {
+        selectedUserModel = UserModel.fromJson(value.data()!);
+        emit(GetSelectedUserDataSuccessState(selectedUserId));
+      } else if (selectedUserId == uId || selectedUserId == null) {
+        userModel = UserModel.fromJson(value.data()!);
+        emit(GetCurrentUserDataSuccessState());
+      }
+    }).catchError((error) {
+      print(error.toString());
+      emit(GetCurrentUserDataErrorState());
+    });
+  }
 
   int currentIndex = 0;
 
@@ -86,7 +87,7 @@ class FoodCubit extends Cubit<FoodStates> {
 
   String foodType = "Main dishes";
 
-  List<String> foodTypeList = ["Main dishes", "Deserts", "Sandwiches"];
+  List<String> foodTypeList = ["Main dishes", "Desserts", "Sandwiches"];
 
   String contactMethod = "Phone";
 
@@ -196,10 +197,9 @@ class FoodCubit extends Cubit<FoodStates> {
       donorPhone: userModel!.phone,
       userName: userModel!.name,
       userImage: userModel!.image,
+      requestsUsersId: [],
       isFavorite: isFavorite ??= false,
       postDate: postDate,
-      requestsUsersId: [],
-      requestsUsers: [],
     );
     posts.add(postModel.toMap()).then((idValue) async {
       if (imageFile1 != null) {
@@ -270,7 +270,6 @@ class FoodCubit extends Cubit<FoodStates> {
     required bool isFavorite,
   }) async {
     emit(UpdatePostLoadingState());
-
     PostModel postModel = PostModel(
       description: description,
       foodType: foodType,
@@ -283,6 +282,7 @@ class FoodCubit extends Cubit<FoodStates> {
       itemQuantity: foodQuantity,
       donorId: uId,
       donorPhone: userModel!.phone,
+      requestsUsersId: [],
       isFavorite: isFavorite,
     );
     posts.doc("postId").update(postModel.toMap()).then((idValue) async {
@@ -361,16 +361,10 @@ class FoodCubit extends Cubit<FoodStates> {
     posts.snapshots().listen((event) async {
       postsList = [];
       currentUserPostsList = [];
-      myRequestsList = [];
       filteredPosts = [];
       for (var element in event.docs) {
         PostModel post = PostModel.fromJson(element.data());
         post.postId = element.id;
-
-        if (post.requestsUsersId!.contains(uId)) {
-          myRequestsList.add(post);
-        }
-
         //this condition is for getting current user's posts & his transactions.
 
         if (post.donorId == uId) {
@@ -386,57 +380,75 @@ class FoodCubit extends Cubit<FoodStates> {
         } else if (post.foodType == filterValue) {
           filteredPosts.add(post);
         }
-
       }
       emit(FoodGetPostsSuccessState());
     });
   }
 
+  void getMyRequests() async {
+    myRequestsList = [];
+    await FirebaseFirestore.instance
+        .collection('posts')
+        .get()
+        .then((value) async {
+      for (var element in value.docs) {
+        PostModel post = PostModel.fromJson(element.data());
+        post.postId = element.id;
+        await element.reference.collection('requests').get().then((value) {
+          for (var request in value.docs) {
+            if (request.id == uId) {
+              myRequestsList.add(post);
+            }
+          }
+        });
+      }
+      emit(GetMyRequestsSuccessState());
+    });
+  }
+
   void getSelectedUserPosts({required String selectedUserId}) async {
-    selectedUserPostsList =[];
-    for(var element in postsList){
-      if(element.donorId == selectedUserId){
+    selectedUserPostsList = [];
+    for (var element in postsList) {
+      if (element.donorId == selectedUserId) {
         selectedUserPostsList.add(element);
       }
     }
     emit(FoodGetSelectedUserPostsSuccessState());
   }
 
-  void requestFood(BuildContext context, {required PostModel postModel}) {
-    postModel.requestsUsers!.add(userModel!.toMap());
+  void requestItem(BuildContext context, {required PostModel postModel}) async {
     postModel.requestsUsersId!.add(uId);
-    posts.doc(postModel.postId).update({
-      'requestsUsers': postModel.requestsUsers,
-      'requestsUsersId': postModel.requestsUsersId
-    }).then((value) {
+    await posts
+        .doc(postModel.postId)
+        .collection('requests')
+        .doc(uId)
+        .set(userModel!.toMap())
+        .then((value) async {
+      await posts
+          .doc(postModel.postId)
+          .update({'requestsUsersId': postModel.requestsUsersId});
       showToast(
           text: AppLocalizations.of(context)!.requestItemToast,
           states: ToastStates.SUCCESS);
+      emit(RequestItemSuccessState());
     }).catchError((error) {
       print(error.toString());
     });
   }
 
-  void cancelRequest(BuildContext context, {required PostModel postModel}) {
-    postModel.requestsUsers!.removeWhere((element) => element['uId'] == uId);
-    postModel.requestsUsersId!.remove(uId);
-    posts.doc(postModel.postId).update({'requestsUsers': postModel.requestsUsers, 'requestsUsersId': postModel.requestsUsersId});
-  }
-
   void getPostRequests(String postId) {
-    postRequestsList = [];
-    emit(FoodGetPostRequestsUsersLoadingState());
-    posts.doc(postId).get().then((value) {
-      for (var element in value.get('requestsUsers')) {
-        postRequestsList.add(UserModel.fromJson(element));
+    emit(GetPostRequestsLoadingState());
+    posts.doc(postId).collection('requests').snapshots().listen((event) {
+      postRequestsList = [];
+      for (var element in event.docs) {
+        postRequestsList.add(UserModel.fromJson(element.data()));
       }
-      emit(FoodGetPostRequestsUsersSuccessState());
-    }).catchError((error) {
-      emit(FoodGetPostRequestsUsersErrorState());
+      emit(GetPostRequestsSuccessState());
     });
   }
 
-  void acceptRequest({required PostModel postModel, required String receiverId}) async {
+  void acceptRequest(
+      {required PostModel postModel, required String receiverId}) async {
     posts.doc(postModel.postId).delete().then((value) async {
       await FirebaseFirestore.instance
           .collection('users')
@@ -453,8 +465,24 @@ class FoodCubit extends Cubit<FoodStates> {
               .doc(postModel.postId)
               .set(postModel.toMap());
         }
-        emit(AcceptRequestSuccessState());
       });
+    });
+  }
+
+  void cancelRequest(BuildContext context,
+      {required PostModel postModel}) async {
+    postModel.requestsUsersId!.remove(uId);
+    myRequestsList.remove(postModel);
+    await posts
+        .doc(postModel.postId)
+        .collection('requests')
+        .doc(uId)
+        .delete()
+        .then((value) async {
+      await posts
+          .doc(postModel.postId)
+          .update({'requestsUsersId': postModel.requestsUsersId}).then(
+              (value) async {});
     });
   }
 
@@ -465,7 +493,7 @@ class FoodCubit extends Cubit<FoodStates> {
         .collection('history')
         .snapshots()
         .listen((event) {
-      myHistoryTransactionsList =[];
+      myHistoryTransactionsList = [];
       for (var element in event.docs) {
         PostModel post = PostModel.fromJson(element.data());
         post.postId = element.id;
@@ -489,18 +517,33 @@ class FoodCubit extends Cubit<FoodStates> {
   }
 
   void rateUser({required double rating, required PostModel postModel}) async {
-    if(postModel.isRatted == false){
+    if (postModel.isRatted == false) {
       await FirebaseFirestore.instance
           .collection('users')
-          .doc(postModel.donorId).collection('ratings').add({'userId': uId, 'rate':rating}).then((value) async{
-        await FirebaseFirestore.instance.collection('users').doc(postModel.donorId).collection('ratings').get().then((value) async{
+          .doc(postModel.donorId)
+          .collection('ratings')
+          .add({'userId': uId, 'rate': rating}).then((value) async {
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(postModel.donorId)
+            .collection('ratings')
+            .get()
+            .then((value) async {
           double rating = 0.0;
-          for(var element in value.docs){
+          for (var element in value.docs) {
             rating += element.get('rate');
           }
-          rating = rating/value.docs.length;
-          await FirebaseFirestore.instance.collection('users').doc(postModel.donorId).update({'rating': rating}).then((value)async {
-            await FirebaseFirestore.instance.collection('users').doc(uId).collection('history').doc(postModel.postId).update({'isRatted': true}).then((value) {
+          rating = rating / value.docs.length;
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(postModel.donorId)
+              .update({'rating': rating}).then((value) async {
+            await FirebaseFirestore.instance
+                .collection('users')
+                .doc(uId)
+                .collection('history')
+                .doc(postModel.postId)
+                .update({'isRatted': true}).then((value) {
               emit(FoodRatingUpdateSuccessState());
             });
           });
@@ -526,12 +569,12 @@ class FoodCubit extends Cubit<FoodStates> {
 
   //Search Bar in Home
   void addSearchedForItemsToSearchedList(String searchedCharacter) {
-    if(searchedCharacter.isEmpty){
+    if (searchedCharacter.isEmpty) {
       searchedForPosts = [];
-    }else {
+    } else {
       searchedForPosts = filteredPosts
           .where((post) =>
-          post.itemName!.toLowerCase().startsWith(searchedCharacter))
+              post.itemName!.toLowerCase().startsWith(searchedCharacter))
           .toList();
     }
     emit(Search());

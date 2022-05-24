@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodwastage/shared/components/reusable_components.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_states.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -31,13 +32,14 @@ class HomeScreen extends StatelessWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemBuilder: (context, index) => postBuilder(
-                        viewPost: true,
-                        postModel: FoodCubit.get(context).isSearching
-                            ? FoodCubit.get(context).searchedForPosts[index]
-                            : FoodCubit.get(context).filterValue == 'All'
-                                ? FoodCubit.get(context).postsList[index]
-                                : FoodCubit.get(context).filteredPosts[index],
-                        context: context,),
+                          viewPost: true,
+                          postModel: FoodCubit.get(context).isSearching
+                              ? FoodCubit.get(context).searchedForPosts[index]
+                              : FoodCubit.get(context).filterValue == 'All'
+                                  ? FoodCubit.get(context).postsList[index]
+                                  : FoodCubit.get(context).filteredPosts[index],
+                          context: context,
+                        ),
                     separatorBuilder: (context, index) => const SizedBox(
                           height: 20.0,
                         ),
@@ -49,7 +51,8 @@ class HomeScreen extends StatelessWidget {
               ),
             ],
           ),
-          fallback: (context) => const Center(child: CircularProgressIndicator()),
+          fallback: (context) =>
+              const Center(child: CircularProgressIndicator()),
         );
       },
       listener: (BuildContext context, Object? state) {},
@@ -61,8 +64,10 @@ class HomeScreen extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         filterButton(
+            context: context,
             filterValue: FoodCubit.get(context).filterValue,
-            text: 'All',
+            text: AppLocalizations.of(context)!.filterButtonAll,
+            value: 'All',
             onPressed: () {
               FoodCubit.get(context).filterPosts('All');
             }),
@@ -70,8 +75,10 @@ class HomeScreen extends StatelessWidget {
           width: 7.0,
         ),
         filterButton(
+            context: context,
             filterValue: FoodCubit.get(context).filterValue,
-            text: 'Main dishes',
+            text: AppLocalizations.of(context)!.filterButtonMainDishes,
+            value: 'Main dishes',
             onPressed: () {
               FoodCubit.get(context).filterPosts('Main dishes');
             }),
@@ -79,17 +86,21 @@ class HomeScreen extends StatelessWidget {
           width: 7.0,
         ),
         filterButton(
+            context: context,
             filterValue: FoodCubit.get(context).filterValue,
-            text: 'Deserts',
+            text: AppLocalizations.of(context)!.filterButtonDesserts,
+            value: 'Desserts',
             onPressed: () {
-              FoodCubit.get(context).filterPosts('Deserts');
+              FoodCubit.get(context).filterPosts('Desserts');
             }),
         const SizedBox(
           width: 7.0,
         ),
         filterButton(
+            context: context,
             filterValue: FoodCubit.get(context).filterValue,
-            text: 'Sandwiches',
+            text: AppLocalizations.of(context)!.filterButtonSandwiches,
+            value: 'Sandwiches',
             onPressed: () {
               FoodCubit.get(context).filterPosts('Sandwiches');
             }),

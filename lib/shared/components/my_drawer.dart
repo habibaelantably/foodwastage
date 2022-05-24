@@ -3,10 +3,10 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:foodwastage/modules/MyRequests%20Screen/my_requests_screen.dart';
 import 'package:foodwastage/shared/components/reusable_components.dart';
-import 'package:foodwastage/modules/History%20Screen/history_screen.dart';
 import 'package:foodwastage/modules/login_Screen.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Prefrences%20Cubit/prefrences_cubit.dart';
+import '../../modules/History Screen/history_screen.dart';
 import '../../modules/Profile Screen/profile_screen.dart';
 import '../constants.dart';
 import '../../styles/colors.dart';
@@ -33,13 +33,16 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  if (FoodCubit.get(context).userModel!.image != null && FoodCubit.get(context).userModel!.image != '')
+                  if (FoodCubit.get(context).userModel!.image != null &&
+                      FoodCubit.get(context).userModel!.image != '')
                     CircleAvatar(
                       radius: 50,
-                      backgroundImage: NetworkImage(FoodCubit.get(context).userModel!.image!),
+                      backgroundImage: NetworkImage(
+                          FoodCubit.get(context).userModel!.image!),
                       backgroundColor: Colors.amber[900],
                     ),
-                  if (FoodCubit.get(context).userModel!.image == null || FoodCubit.get(context).userModel!.image == '')
+                  if (FoodCubit.get(context).userModel!.image == null ||
+                      FoodCubit.get(context).userModel!.image == '')
                     CircleAvatar(
                       radius: 50,
                       backgroundImage:
@@ -78,7 +81,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   RatingBar(
                     initialRating: FoodCubit.get(context).userModel!.rating!,
                     itemSize: 25.0,
-                    ignoreGestures: FoodCubit.get(context).userModel!.uId == uId ? true : false,
+                    ignoreGestures: FoodCubit.get(context).userModel!.uId == uId
+                        ? true
+                        : false,
                     itemCount: 5,
                     direction: Axis.horizontal,
                     ratingWidget: RatingWidget(
@@ -130,8 +135,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       ),
                       onTap: () {
                         Navigator.pop(context);
-                        FoodCubit.get(context).getSelectedUserPosts(selectedUserId: uId!);
-                        FoodCubit.get(context).getUserdata(context: context,selectedUserId: uId);
+                        FoodCubit.get(context)
+                            .getSelectedUserPosts(selectedUserId: uId!);
+                        FoodCubit.get(context)
+                            .getUserdata(context: context, selectedUserId: uId);
                         print(FoodCubit.get(context).userModel!.rating);
                         navigateTo(
                             context,
@@ -177,6 +184,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       ),
                       onTap: () {
                         Navigator.pop(context);
+                        FoodCubit.get(context).getMyRequests();
                         navigateTo(context, const MyRequestsScreen());
                       },
                     ),

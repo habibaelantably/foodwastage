@@ -4,10 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodwastage/models/post_model.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_states.dart';
-import '../../models/User_model.dart';
 import '../../shared/components/reusable_components.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import '../../shared/constants.dart';
 import '../../styles/colors.dart';
 import '../Post Overview Screen/post_overview.dart';
@@ -48,7 +46,7 @@ class MyRequestsScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(10.0),
                 child: Center(
                   child: Text(
-                    AppLocalizations.of(context)!.profileScreenPostsFallBack,
+                    AppLocalizations.of(context)!.myRequestsScreenFallBack,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                         fontSize: 24.0,
@@ -202,9 +200,9 @@ Widget buildRequestPost(
                             },
                             height: 30,
                             color: Colors.red,
-                            child: const Text(
-                              "Cancel",
-                              style: TextStyle(
+                            child: Text(
+                              AppLocalizations.of(context)!.cancelButton,
+                              style: const TextStyle(
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white),
