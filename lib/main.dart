@@ -11,7 +11,7 @@ import 'package:foodwastage/shared/cubit/Prefrences%20Cubit/prefrences_cubit.dar
 import 'package:foodwastage/shared/cubit/Prefrences%20Cubit/prefrences_states.dart';
 import 'package:foodwastage/styles/themes.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
+//from master
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
