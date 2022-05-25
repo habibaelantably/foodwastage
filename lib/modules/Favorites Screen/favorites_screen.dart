@@ -2,10 +2,10 @@ import 'package:buildcondition/buildcondition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
+import 'package:foodwastage/shared/cubit/Food_Cubit/food_states.dart';
 import '../../shared/components/reusable_components.dart';
 import '../../styles/colors.dart';
-import '/shared/cubit/Food_Cubit/food_cubit.dart';
-import '../../shared/cubit/Food_Cubit/food_states.dart';
 
 class FavoritesScreen extends StatelessWidget {
   const FavoritesScreen({Key? key}) : super(key: key);

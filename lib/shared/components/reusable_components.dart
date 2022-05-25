@@ -339,13 +339,13 @@ Widget postBuilder({
                   postModel.donorId != uId
                       ? IconButton(
                           onPressed: () {
-                            FoodCubit.get(context).getFavPosts(postModel);
+                            FoodCubit.get(context).changePostFavStatus(postModel);
                           },
                           iconSize: 20,
                           constraints:
                               BoxConstraints.tight(const Size(35.0, 35.0)),
                           icon: Icon(
-                            FoodCubit.get(context).isItFav(postModel) ?? false
+                            FoodCubit.get(context).userModel!.favPostsId!.contains(postModel.postId)
                                 ? Icons.favorite
                                 : Icons.favorite_border,
                             color: Colors.orange,

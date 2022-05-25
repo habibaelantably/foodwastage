@@ -7,6 +7,7 @@ class UserModel {
   String? image;
   String? type;
   double? rating;
+  List? favPostsId=[];
 
    UserModel({
     this.name,
@@ -17,6 +18,7 @@ class UserModel {
     this.image,
     this.type,
     this.rating,
+    this.favPostsId,
   });
 
   UserModel.fromJson(Map<String, dynamic> json) {

@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
             create: (BuildContext context) => FoodCubit()
               ..getUserdata(context: context)
               ..getPosts()
-              ..getMyHistoryTransactions()),
+              ..getMyHistoryTransactions()..getFavPosts()),
         BlocProvider(
             create: (BuildContext context) => PreferencesCubit()
               ..changeAppTheme(themeFromCache: isDark)

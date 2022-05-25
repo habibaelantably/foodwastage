@@ -58,18 +58,18 @@ class PostImagePickedSuccessState extends FoodStates {}
 
 class PostImagePickedErrorState extends FoodStates {}
 
-class FoodGetPostsSuccessState extends FoodStates {}
+class GetAllPostsSuccessState extends FoodStates {}
 
-class FoodGetPostsErrorState extends FoodStates {}
+class GetAllPostsErrorState extends FoodStates {}
 
-class FoodGetMyPostsLoadingState extends FoodStates {}
+class GetMyPostsLoadingState extends FoodStates {}
 
 class FoodGetMyPostsSuccessState extends FoodStates {}
 
-class FoodGetMyPostsErrorState extends FoodStates {
+class GetMyPostsErrorState extends FoodStates {
   final String error;
 
-  FoodGetMyPostsErrorState(this.error);
+  GetMyPostsErrorState(this.error);
 }
 
 class FoodGetSelectedUserPostsLoadingState extends FoodStates {}
@@ -125,4 +125,14 @@ class ClearSearch extends FoodStates {}
 class Search extends FoodStates {}
 
 class GetFilteredPostsSuccessState extends FoodStates {}
+
+class GetFavoritePostsSuccessState extends FoodStates {}
+
+class FavoritePostSuccessState extends FoodStates {}
+
+class FavoritePostErrorState extends FoodStates {}
+
+class UnFavoritePostSuccessState extends FoodStates {}
+
+class UnFavoritePostErrorState extends FoodStates {}
 

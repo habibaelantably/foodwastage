@@ -4,14 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodwastage/Register/OTP.dart';
 import 'package:foodwastage/shared/components/reusable_components.dart';
-import 'package:foodwastage/layout/Food_Layout.dart';
 import 'package:foodwastage/modules/login_Screen.dart';
-import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Register/food_register_cubit.dart';
 import 'package:foodwastage/shared/cubit/Register/food_register_state.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:foodwastage/styles/colors.dart';
-import '../shared/constants.dart';
 
 // ignore: must_be_immutable
 class RegisterScreen extends StatelessWidget {
@@ -21,7 +18,6 @@ class RegisterScreen extends StatelessWidget {
   var phoneController = TextEditingController();
   var confirmPasswordController = TextEditingController();
   var countryController = TextEditingController();
-
   var formkey = GlobalKey<FormState>();
 
   RegisterScreen({Key? key}) : super(key: key);

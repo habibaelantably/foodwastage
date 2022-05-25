@@ -8,13 +8,13 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:foodwastage/models/User_model.dart';
 import 'package:foodwastage/models/post_model.dart';
 import 'package:foodwastage/modules/Nearby%20Screen/nearby_screen.dart';
+import 'package:foodwastage/shared/constants.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../modules/Add Post Screen/add_post_screen.dart';
 import '../../../modules/Chats Screen/chats_screen.dart';
 import '../../../modules/Favorites Screen/favorites_screen.dart';
 import '../../../modules/Home Screen/home_screen.dart';
-import '../../constants.dart';
 import 'package:foodwastage/shared/components/reusable_components.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'food_states.dart';
@@ -179,7 +179,6 @@ class FoodCubit extends Cubit<FoodStates> {
     required String contactMethod,
     required String foodDonor,
     required String postDate,
-    bool? isFavorite,
   }) async {
     emit(CreatePostLoadingState());
 
@@ -195,10 +194,10 @@ class FoodCubit extends Cubit<FoodStates> {
       itemQuantity: itemQuantity,
       donorId: uId,
       donorPhone: userModel!.phone,
+      donorType: userModel!.type,
       userName: userModel!.name,
       userImage: userModel!.image,
       requestsUsersId: [],
-      isFavorite: isFavorite ??= false,
       postDate: postDate,
     );
     posts.add(postModel.toMap()).then((idValue) async {
@@ -283,7 +282,6 @@ class FoodCubit extends Cubit<FoodStates> {
       donorId: uId,
       donorPhone: userModel!.phone,
       requestsUsersId: [],
-      isFavorite: isFavorite,
     );
     posts.doc("postId").update(postModel.toMap()).then((idValue) async {
       if (imageFile1 != null) {
@@ -342,19 +340,52 @@ class FoodCubit extends Cubit<FoodStates> {
   List<PostModel> favPosts = [];
   List<PostModel> filteredPosts = [];
 
-  bool? isItFav(PostModel postModel) {
-    return postModel.isFavorite;
+  void changePostFavStatus(PostModel postModel) async {
+    if (userModel!.favPostsId!.contains(postModel.postId)) {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uId)
+          .collection('favorites')
+          .doc(postModel.postId)
+          .delete()
+          .then((value) {
+        userModel!.favPostsId!.remove(postModel.postId);
+        emit(UnFavoritePostSuccessState());
+      }).catchError((error) {
+        emit(UnFavoritePostErrorState());
+      });
+    } else {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uId)
+          .collection('favorites')
+          .doc(postModel.postId)
+          .set(postModel.toMap())
+          .then((value) {
+        emit(FavoritePostSuccessState());
+      }).catchError((error) {
+        emit(FavoritePostErrorState());
+      });
+    }
   }
 
-  void getFavPosts(PostModel postModel) async {
-    postModel.isFavorite ??= false;
-    postModel.isFavorite = !postModel.isFavorite!;
-    if (postModel.isFavorite == true) {
-      favPosts.add(postModel);
-    } else {
-      favPosts.remove(postModel);
-    }
-    emit(FoodFavoriteState());
+  void getFavPosts() {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(uId)
+        .collection('favorites')
+        .snapshots()
+        .listen((event) {
+      favPosts = [];
+      for (var element in event.docs) {
+        userModel!.favPostsId!.add(element.id);
+        PostModel post = PostModel.fromJson(element.data());
+        post.postId=  element.id;
+        favPosts.add(post);
+      }
+      print(userModel!.favPostsId!.length);
+      emit(GetFavoritePostsSuccessState());
+    });
   }
 
   void getPosts() {
@@ -381,7 +412,7 @@ class FoodCubit extends Cubit<FoodStates> {
           filteredPosts.add(post);
         }
       }
-      emit(FoodGetPostsSuccessState());
+      emit(GetAllPostsSuccessState());
     });
   }
 

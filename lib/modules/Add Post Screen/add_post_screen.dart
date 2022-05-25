@@ -488,7 +488,6 @@ class AddPosts extends StatelessWidget {
                                       imageUrl1: "imageUrl1",
                                       imageUrl2: "imageUrl2",
                                       foodType: FoodCubit.get(context).foodType,
-                                      donorType: FoodCubit.get(context).donorType,
                                       contactMethod: FoodCubit.get(context).contactMethod,
                                       foodDonor: FoodCubit.get(context)
                                           .userModel!
