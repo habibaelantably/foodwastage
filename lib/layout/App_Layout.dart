@@ -47,7 +47,7 @@ class AppLayout extends StatelessWidget {
                   : Text(cubit.currentIndex == 0
                       ? AppLocalizations.of(context)!.layoutAppBarTitleHome
                       : cubit.currentIndex == 1
-                          ? AppLocalizations.of(context)!.layoutAppBarTitleMap
+                          ? AppLocalizations.of(context)!.layoutAppBarTitleNearby
                           : cubit.currentIndex == 2
                               ? AppLocalizations.of(context)!
                                   .layoutAppBarTitleDonate
@@ -85,7 +85,7 @@ class AppLayout extends StatelessWidget {
                   label: AppLocalizations.of(context)!.layoutAppBarTitleHome),
               BottomNavigationBarItem(
                   icon: const Icon(Icons.location_on_outlined),
-                  label: AppLocalizations.of(context)!.layoutAppBarTitleMap),
+                  label: AppLocalizations.of(context)!.layoutAppBarTitleNearby),
               BottomNavigationBarItem(
                   icon: const Icon(Icons.upload_file),
                   label: AppLocalizations.of(context)!.layoutAppBarTitleDonate),

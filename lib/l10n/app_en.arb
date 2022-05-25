@@ -3,9 +3,9 @@
   "@Home": {
     "description": "Home"
   },
-  "layoutAppBarTitleMap": "Map",
-  "@Map": {
-    "description": "Map"
+  "layoutAppBarTitleNearby": "Nearby",
+  "@Nearby": {
+    "description": "Nearby"
   },
   "layoutAppBarTitleDonate": "Donate",
   "@Donate": {

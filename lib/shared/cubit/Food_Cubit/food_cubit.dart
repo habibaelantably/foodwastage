@@ -7,13 +7,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:foodwastage/models/User_model.dart';
 import 'package:foodwastage/models/post_model.dart';
+import 'package:foodwastage/modules/Nearby%20Screen/nearby_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../modules/Add Post Screen/add_post_screen.dart';
 import '../../../modules/Chats Screen/chats_screen.dart';
 import '../../../modules/Favorites Screen/favorites_screen.dart';
 import '../../../modules/Home Screen/home_screen.dart';
-import '../../../modules/Maps Screen/maps_screen.dart';
 import '../../constants.dart';
 import 'package:foodwastage/shared/components/reusable_components.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -59,7 +59,7 @@ class FoodCubit extends Cubit<FoodStates> {
 
   List<Widget> screens = [
     const HomeScreen(),
-    const MapScreen(),
+    const NearbyScreen(),
     AddPosts(),
     const FavoritesScreen(),
     const ChatsScreen()
