@@ -129,6 +129,7 @@ class FoodLoginCubit extends Cubit<FoodLoginStates> {
     });
 
   }
+
 ///////////////////////////////////////////////////
   void SignInWithFacebook()async{
     emit(FoodLoginWithFacebookLoadingState());
@@ -181,6 +182,7 @@ class FoodLoginCubit extends Cubit<FoodLoginStates> {
       }
     });
   }
+
   /////////////////////////////////////////////////////
   void CreateFacebookSignInUser({
     required String? name,

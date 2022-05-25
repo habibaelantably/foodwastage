@@ -4,15 +4,15 @@ class InitialFoodStates extends FoodStates {}
 
 class FoodLoadingState extends FoodStates {}
 
-class FoodGetSelectedUserSuccessState extends FoodStates {
+class GetSelectedUserDataSuccessState extends FoodStates {
   final String selectedUserId;
 
-  FoodGetSelectedUserSuccessState(this.selectedUserId);
+  GetSelectedUserDataSuccessState(this.selectedUserId);
 }
 
-class FoodSuccessState extends FoodStates {}
+class GetCurrentUserDataSuccessState extends FoodStates {}
 
-class FoodErrorState extends FoodStates {}
+class GetCurrentUserDataErrorState extends FoodStates {}
 
 class ChangeBottomNavState extends FoodStates {}
 
@@ -92,11 +92,17 @@ class FoodGetMyReceiveFoodSuccessState extends FoodStates {}
 
 class FoodGetMyReceiveFoodErrorState extends FoodStates {}
 
-class FoodGetPostRequestsUsersLoadingState extends FoodStates {}
+class GetPostRequestsLoadingState extends FoodStates {}
 
-class FoodGetPostRequestsUsersSuccessState extends FoodStates {}
+class GetPostRequestsSuccessState extends FoodStates {}
 
-class FoodGetPostRequestsUsersErrorState extends FoodStates {}
+class GetPostRequestsErrorState extends FoodStates {}
+
+class GetMyRequestsSuccessState extends FoodStates {}
+
+class RequestItemSuccessState extends FoodStates {}
+
+class CancelPostRequestSuccessState extends FoodStates {}
 
 class FoodGetMyHistoryTransactionsLoadingState extends FoodStates {}
 
@@ -104,7 +110,7 @@ class FoodGetMyHistoryTransactionsSuccessState extends FoodStates {}
 
 class FoodGetMyHistoryTransactionsErrorState extends FoodStates {}
 
-class FoodConfirmDonationSuccessState extends FoodStates {}
+class AcceptRequestSuccessState extends FoodStates {}
 
 class FoodFavoriteState extends FoodStates {}
 

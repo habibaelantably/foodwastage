@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:foodwastage/styles/colors.dart';
 
 ThemeData lightTheme = ThemeData(
+  hintColor: Colors.grey[700],
   primarySwatch: defaultColor,
   primaryTextTheme: Typography(platform: TargetPlatform.android).black,
   textTheme: Typography(platform: TargetPlatform.android).black,
@@ -26,36 +27,36 @@ ThemeData lightTheme = ThemeData(
       unselectedItemColor: Colors.black45,
       showUnselectedLabels: true,
       type: BottomNavigationBarType.fixed),
-  listTileTheme: const ListTileThemeData(iconColor: Colors.black, textColor: Colors.black),
+  listTileTheme:
+      const ListTileThemeData(iconColor: Colors.black, textColor: Colors.black),
 );
 
 ThemeData darkTheme = ThemeData(
-  hintColor: Colors.grey[500],
+  hintColor: Colors.grey[400],
   canvasColor: Colors.grey[800],
   primaryTextTheme: Typography(platform: TargetPlatform.android).white,
   textTheme: Typography(platform: TargetPlatform.android).white,
   primaryColor: Colors.red,
   primarySwatch: defaultColor,
   scaffoldBackgroundColor: Colors.black54,
-  radioTheme: RadioThemeData(
-    fillColor: MaterialStateProperty.resolveWith ((states) {
-      if (states.contains(MaterialState.pressed)) {
-        return Colors.white;
-      }else{
-        return defaultColor;
-      }
-    })
-  ),
+  radioTheme:
+      RadioThemeData(fillColor: MaterialStateProperty.resolveWith((states) {
+    if (states.contains(MaterialState.pressed)) {
+      return Colors.white;
+    } else {
+      return defaultColor;
+    }
+  })),
   cardTheme: CardTheme(
     color: Colors.grey[700],
-
   ),
   popupMenuTheme: PopupMenuThemeData(
       color: Colors.grey[800], textStyle: const TextStyle(color: Colors.white)),
   inputDecorationTheme: InputDecorationTheme(
-    disabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey[100]!)),
-      enabledBorder:
-          UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey[100]!)),
+      disabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey[100]!)),
+      enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey[100]!)),
       labelStyle: const TextStyle(color: Colors.white),
       prefixIconColor: Colors.white),
   appBarTheme: const AppBarTheme(
@@ -81,5 +82,6 @@ ThemeData darkTheme = ThemeData(
     backgroundColor: Colors.grey[700],
   ),
   iconTheme: const IconThemeData(color: Colors.white),
-  listTileTheme: const ListTileThemeData(iconColor: Colors.white, textColor: Colors.white),
+  listTileTheme:
+      const ListTileThemeData(iconColor: Colors.white, textColor: Colors.white),
 );

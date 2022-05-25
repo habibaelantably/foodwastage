@@ -17,9 +17,9 @@ class PostModel {
   String? userName;
   String? userImage;
   String? receiverId;
-  List? requestsUsers;
-  List? requestsUsersId;
+  List? requestsUsersId = [];
   bool? isFavorite;
+  bool? isRatted;
 
   PostModel({
     this.postId,
@@ -39,14 +39,13 @@ class PostModel {
     this.userName,
     this.userImage,
     this.receiverId,
-    this.requestsUsers,
     this.requestsUsersId,
     this.isFavorite = false,
+    this.isRatted = false,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'postId': postId,
       'location': location,
       'itemName': itemName,
       'pickupDate': pickupDate,
@@ -63,15 +62,14 @@ class PostModel {
       'userName': userName,
       'userImage': userImage,
       'receiverId': receiverId,
-      'requestsUsers': requestsUsers,
       'requestsUsersId': requestsUsersId,
       'isFavorite': isFavorite ??= false,
+      'isRatted': isRatted ??= false,
     };
   }
 
   factory PostModel.fromJson(json) {
     return PostModel(
-      postId: json['postId'],
       location: json['location'],
       itemName: json['itemName'],
       pickupDate: json['pickupDate'],
@@ -88,9 +86,9 @@ class PostModel {
       userName: json['userName'],
       userImage: json['userImage'],
       receiverId: json['receiverId'],
-      requestsUsers: json['requestsUsers'],
       requestsUsersId: json['requestsUsersId'],
       isFavorite: json['isFavorite'] ??= false,
+      isRatted: json['isRatted'] ??= false,
     );
   }
 }

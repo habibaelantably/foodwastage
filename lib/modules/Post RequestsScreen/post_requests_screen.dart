@@ -4,9 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:foodwastage/models/User_model.dart';
 import 'package:foodwastage/models/post_model.dart';
+import 'package:foodwastage/shared/components/reusable_components.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_states.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../layout/App_Layout.dart';
 import '../../shared/constants.dart';
 import '../../styles/colors.dart';
 
@@ -16,10 +18,10 @@ class PostRequests extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    FoodCubit.get(context).getPostRequests(postModel);
     return BlocConsumer<FoodCubit, FoodStates>(
-      listener: (context, state) {},
-      builder: (context, state) {
+      listener: (context, state) {
+      },
+      builder: (context, state){
         return Scaffold(
           appBar: AppBar(
             title: Text(AppLocalizations.of(context)!.postRequestsScreenTitle),
@@ -39,17 +41,26 @@ class PostRequests extends StatelessWidget {
                   itemCount: FoodCubit.get(context).postRequestsList.length);
             },
             condition: FoodCubit.get(context).postRequestsList.isNotEmpty,
-            fallback: (context) => const Center(
-              child: CircularProgressIndicator(),
-            ),
+            fallback: (context) => FoodCubit.get(context).postRequestsList.isEmpty? Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Center(
+                child: Text(
+                  AppLocalizations.of(context)!.postRequestsScreenFallBack,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.w700,
+                      color: defaultColor),
+                ),
+              ),
+            ) : const Center(child: CircularProgressIndicator())
           ),
         );
       },
     );
   }
 
-  Widget buildRequestCard(
-      {required UserModel userModel, required BuildContext context}) {
+  Widget buildRequestCard({required UserModel userModel, required BuildContext context}) {
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
@@ -146,16 +157,17 @@ class PostRequests extends StatelessWidget {
                         Expanded(
                           child: MaterialButton(
                             onPressed: () {
-                              FoodCubit.get(context).confirmDonation(
+                              FoodCubit.get(context).acceptRequest(
                                   postModel: postModel,
                                   receiverId: userModel.uId!);
-                              Navigator.pop(context);
+                              FoodCubit.get(context).currentIndex = 0;
+                              navigateAndKill(context, AppLayout());
                             },
                             height: 35,
-                            color: defaultColor,
-                            child: const Text(
-                              "Accept",
-                              style: TextStyle(
+                            color: Colors.green,
+                            child: Text(
+                              AppLocalizations.of(context)!.acceptButton,
+                              style: const TextStyle(
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white),

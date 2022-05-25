@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodwastage/shared/components/reusable_components.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_states.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -12,21 +13,25 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<FoodCubit, FoodStates>(
       builder: (BuildContext context, state) {
-        return Column(
-          children: [
-            filtersButtons(context),
-            const SizedBox(
-              height: 15.0,
-            ),
-            BuildCondition(
-              condition: FoodCubit.get(context).postsList.isNotEmpty &&
-                  FoodCubit.get(context).userModel != null,
-              builder: (context) => Expanded(
+        return BuildCondition(
+          condition: FoodCubit.get(context).postsList.isNotEmpty &&
+              FoodCubit.get(context).userModel != null,
+          builder: (context) => Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(15.0),
                 child: SingleChildScrollView(
-                  child: ListView.separated(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) => postBuilder(
+                  physics: const BouncingScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  child: filtersButtons(context),
+                ),
+              ),
+              Expanded(
+                child: ListView.separated(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) => postBuilder(
                           viewPost: true,
                           postModel: FoodCubit.get(context).isSearching
                               ? FoodCubit.get(context).searchedForPosts[index]
@@ -34,22 +39,20 @@ class HomeScreen extends StatelessWidget {
                                   ? FoodCubit.get(context).postsList[index]
                                   : FoodCubit.get(context).filteredPosts[index],
                           context: context,
-                          isInHistory: false,
-                          isInMyRequests: false),
-                      separatorBuilder: (context, index) => const SizedBox(
-                            height: 20.0,
-                          ),
-                      itemCount: FoodCubit.get(context).isSearching
-                          ? FoodCubit.get(context).searchedForPosts.length
-                          : FoodCubit.get(context).filterValue == 'All'
-                              ? FoodCubit.get(context).postsList.length
-                              : FoodCubit.get(context).filteredPosts.length),
-                ),
+                        ),
+                    separatorBuilder: (context, index) => const SizedBox(
+                          height: 20.0,
+                        ),
+                    itemCount: FoodCubit.get(context).isSearching
+                        ? FoodCubit.get(context).searchedForPosts.length
+                        : FoodCubit.get(context).filterValue == 'All'
+                            ? FoodCubit.get(context).postsList.length
+                            : FoodCubit.get(context).filteredPosts.length),
               ),
-              fallback: (context) =>
-                  const Center(child: CircularProgressIndicator()),
-            ),
-          ],
+            ],
+          ),
+          fallback: (context) =>
+              const Center(child: CircularProgressIndicator()),
         );
       },
       listener: (BuildContext context, Object? state) {},
@@ -61,41 +64,45 @@ class HomeScreen extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         filterButton(
+            context: context,
             filterValue: FoodCubit.get(context).filterValue,
-            text: 'All',
+            text: AppLocalizations.of(context)!.filterButtonAll,
+            value: 'All',
             onPressed: () {
-              FoodCubit.get(context).selectFilter('All');
-              FoodCubit.get(context).filterPosts();
+              FoodCubit.get(context).filterPosts('All');
             }),
         const SizedBox(
           width: 7.0,
         ),
         filterButton(
+            context: context,
             filterValue: FoodCubit.get(context).filterValue,
-            text: 'Main dishes',
+            text: AppLocalizations.of(context)!.filterButtonMainDishes,
+            value: 'Main dishes',
             onPressed: () {
-              FoodCubit.get(context).selectFilter('Main dishes');
-              FoodCubit.get(context).filterPosts();
+              FoodCubit.get(context).filterPosts('Main dishes');
             }),
         const SizedBox(
           width: 7.0,
         ),
         filterButton(
+            context: context,
             filterValue: FoodCubit.get(context).filterValue,
-            text: 'Deserts',
+            text: AppLocalizations.of(context)!.filterButtonDesserts,
+            value: 'Desserts',
             onPressed: () {
-              FoodCubit.get(context).selectFilter('Deserts');
-              FoodCubit.get(context).filterPosts();
+              FoodCubit.get(context).filterPosts('Desserts');
             }),
         const SizedBox(
           width: 7.0,
         ),
         filterButton(
+            context: context,
             filterValue: FoodCubit.get(context).filterValue,
-            text: 'Sandwiches',
+            text: AppLocalizations.of(context)!.filterButtonSandwiches,
+            value: 'Sandwiches',
             onPressed: () {
-              FoodCubit.get(context).selectFilter('Sandwiches');
-              FoodCubit.get(context).filterPosts();
+              FoodCubit.get(context).filterPosts('Sandwiches');
             }),
       ],
     );

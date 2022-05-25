@@ -7,17 +7,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:foodwastage/models/User_model.dart';
 import 'package:foodwastage/models/post_model.dart';
-import 'package:foodwastage/modules/Add%20Post%20Screen/add_post_screen.dart';
-import 'package:foodwastage/modules/Chats%20Screen/chats_screen.dart';
-import 'package:foodwastage/modules/Favorites%20Screen/favorites_screen.dart';
-import 'package:foodwastage/modules/Home%20Screen/home_screen.dart';
-import 'package:foodwastage/modules/Maps%20Screen/maps_screen.dart';
-import 'package:foodwastage/shared/cubit/Food_Cubit/food_states.dart';
+import 'package:foodwastage/modules/Nearby%20Screen/nearby_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../../modules/Add Post Screen/add_post_screen.dart';
+import '../../../modules/Chats Screen/chats_screen.dart';
+import '../../../modules/Favorites Screen/favorites_screen.dart';
+import '../../../modules/Home Screen/home_screen.dart';
 import '../../constants.dart';
 import 'package:foodwastage/shared/components/reusable_components.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'food_states.dart';
 
 class FoodCubit extends Cubit<FoodStates> {
   FoodCubit() : super(InitialFoodStates());
@@ -25,36 +25,41 @@ class FoodCubit extends Cubit<FoodStates> {
   static FoodCubit get(context) => BlocProvider.of(context);
 
   UserModel? userModel;
+
   UserModel? selectedUserModel;
 
   void getUserdata(
       {String? selectedUserId, required BuildContext context}) async {
     //this condition to not do the method again if i clicked on current user because we already got his data at starting of application
-    if (selectedUserId == null || selectedUserId != uId) {
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(selectedUserId ?? uId)
-          .get()
-          .then((value) {
-        if (selectedUserId != uId && selectedUserId != null) {
-          selectedUserModel = UserModel.fromJson(value.data()!);
-          emit(FoodGetSelectedUserSuccessState(selectedUserId));
-        } else if (selectedUserId == null) {
-          userModel = UserModel.fromJson(value.data()!);
-          emit(FoodSuccessState());
-        }
-      }).catchError((error) {
-        print(error.toString());
-        emit(FoodErrorState());
-      });
-    }
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(selectedUserId ?? uId)
+        .get()
+        .then((value) {
+      if (selectedUserId != uId && selectedUserId != null) {
+        selectedUserModel = UserModel.fromJson(value.data()!);
+        emit(GetSelectedUserDataSuccessState(selectedUserId));
+      } else if (selectedUserId == uId || selectedUserId == null) {
+        userModel = UserModel.fromJson(value.data()!);
+        emit(GetCurrentUserDataSuccessState());
+      }
+    }).catchError((error) {
+      print(error.toString());
+      emit(GetCurrentUserDataErrorState());
+    });
   }
 
   int currentIndex = 0;
 
+  bool isSearching = false;
+
+  String filterValue = 'All';
+
+  List searchedForPosts = [];
+
   List<Widget> screens = [
     const HomeScreen(),
-    const MapScreen(),
+    const NearbyScreen(),
     AddPosts(),
     const FavoritesScreen(),
     const ChatsScreen()
@@ -82,7 +87,7 @@ class FoodCubit extends Cubit<FoodStates> {
 
   String foodType = "Main dishes";
 
-  List<String> foodTypeList = ["Main dishes", "Desert", "Sandwich"];
+  List<String> foodTypeList = ["Main dishes", "Desserts", "Sandwiches"];
 
   String contactMethod = "Phone";
 
@@ -181,7 +186,6 @@ class FoodCubit extends Cubit<FoodStates> {
     PostModel postModel = PostModel(
       description: description,
       foodType: foodType,
-      donorType:userModel!.type,
       contactMethod: contactMethod,
       imageUrl1: imageUrl1,
       imageUrl2: imageUrl2,
@@ -193,10 +197,9 @@ class FoodCubit extends Cubit<FoodStates> {
       donorPhone: userModel!.phone,
       userName: userModel!.name,
       userImage: userModel!.image,
+      requestsUsersId: [],
       isFavorite: isFavorite ??= false,
       postDate: postDate,
-      requestsUsersId: [],
-      requestsUsers: [],
     );
     posts.add(postModel.toMap()).then((idValue) async {
       if (imageFile1 != null) {
@@ -267,7 +270,6 @@ class FoodCubit extends Cubit<FoodStates> {
     required bool isFavorite,
   }) async {
     emit(UpdatePostLoadingState());
-
     PostModel postModel = PostModel(
       description: description,
       foodType: foodType,
@@ -280,6 +282,7 @@ class FoodCubit extends Cubit<FoodStates> {
       itemQuantity: foodQuantity,
       donorId: uId,
       donorPhone: userModel!.phone,
+      requestsUsersId: [],
       isFavorite: isFavorite,
     );
     posts.doc("postId").update(postModel.toMap()).then((idValue) async {
@@ -337,6 +340,7 @@ class FoodCubit extends Cubit<FoodStates> {
   List<PostModel> myHistoryTransactionsList = [];
   List<PostModel> myRequestsList = [];
   List<PostModel> favPosts = [];
+  List<PostModel> filteredPosts = [];
 
   bool? isItFav(PostModel postModel) {
     return postModel.isFavorite;
@@ -357,15 +361,10 @@ class FoodCubit extends Cubit<FoodStates> {
     posts.snapshots().listen((event) async {
       postsList = [];
       currentUserPostsList = [];
-      myRequestsList = [];
+      filteredPosts = [];
       for (var element in event.docs) {
         PostModel post = PostModel.fromJson(element.data());
         post.postId = element.id;
-
-        if (post.requestsUsersId!.contains(uId)) {
-          myRequestsList.add(PostModel.fromJson(element.data()));
-        }
-
         //this condition is for getting current user's posts & his transactions.
 
         if (post.donorId == uId) {
@@ -376,62 +375,129 @@ class FoodCubit extends Cubit<FoodStates> {
           postsList.add(post);
         }
 
+        if (filterValue == "All") {
+          filteredPosts.add(post);
+        } else if (post.foodType == filterValue) {
+          filteredPosts.add(post);
+        }
       }
       emit(FoodGetPostsSuccessState());
     });
   }
 
-  void getSelectedUserPosts({required String selectedUserId}) async {
-    posts.get().then((value) {
+  void getMyRequests() async {
+    myRequestsList = [];
+    await FirebaseFirestore.instance
+        .collection('posts')
+        .get()
+        .then((value) async {
       for (var element in value.docs) {
-        if (element.get('donorId') == selectedUserId) {
-          selectedUserPostsList.add(PostModel.fromJson(element.data()));
-        }
+        PostModel post = PostModel.fromJson(element.data());
+        post.postId = element.id;
+        await element.reference.collection('requests').get().then((value) {
+          for (var request in value.docs) {
+            if (request.id == uId) {
+              myRequestsList.add(post);
+            }
+          }
+        });
       }
+      emit(GetMyRequestsSuccessState());
     });
+  }
+
+  void getSelectedUserPosts({required String selectedUserId}) async {
+    selectedUserPostsList = [];
+    for (var element in postsList) {
+      if (element.donorId == selectedUserId) {
+        selectedUserPostsList.add(element);
+      }
+    }
     emit(FoodGetSelectedUserPostsSuccessState());
   }
 
-  void requestFood(BuildContext context, {required PostModel postModel}) {
-    postModel.requestsUsers!.add(userModel!.toMap());
+  void requestItem(BuildContext context, {required PostModel postModel}) async {
     postModel.requestsUsersId!.add(uId);
-    posts.doc(postModel.postId).update({'requestsUsers': postModel.requestsUsers, 'requestsUsersId': postModel.requestsUsersId}).then((value) {
+    await posts
+        .doc(postModel.postId)
+        .collection('requests')
+        .doc(uId)
+        .set(userModel!.toMap())
+        .then((value) async {
+      await posts
+          .doc(postModel.postId)
+          .update({'requestsUsersId': postModel.requestsUsersId});
       showToast(
           text: AppLocalizations.of(context)!.requestItemToast,
           states: ToastStates.SUCCESS);
+      emit(RequestItemSuccessState());
     }).catchError((error) {
       print(error.toString());
     });
   }
 
-  void getPostRequests(PostModel postModel) {
-    postRequestsList = [];
-    emit(FoodGetPostRequestsUsersLoadingState());
-    posts.doc(postModel.postId).get().then((value) {
-      for (var element in value.get('requestsUsers')) {
-        postRequestsList.add(UserModel.fromJson(element));
+  void getPostRequests(String postId) {
+    emit(GetPostRequestsLoadingState());
+    posts.doc(postId).collection('requests').snapshots().listen((event) {
+      postRequestsList = [];
+      for (var element in event.docs) {
+        postRequestsList.add(UserModel.fromJson(element.data()));
       }
-      emit(FoodGetPostRequestsUsersSuccessState());
-    }).catchError((error) {
-      emit(FoodGetPostRequestsUsersErrorState());
+      emit(GetPostRequestsSuccessState());
     });
   }
 
-  void confirmDonation({required PostModel postModel, required String receiverId})async{
-    posts.doc(postModel.postId).delete().then((value)async {
-      await FirebaseFirestore.instance.collection('users').doc(postModel.donorId).collection('history').doc(postModel.postId).set(postModel.toMap()).then((value) {
-        if(receiverId !=postModel.donorId ) {
-          FirebaseFirestore.instance.collection('users').doc(receiverId).collection('history').doc(postModel.postId).set(postModel.toMap());
+  void acceptRequest(
+      {required PostModel postModel, required String receiverId}) async {
+    posts.doc(postModel.postId).delete().then((value) async {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(postModel.donorId)
+          .collection('history')
+          .doc(postModel.postId)
+          .set(postModel.toMap())
+          .then((value) {
+        if (receiverId != postModel.donorId) {
+          FirebaseFirestore.instance
+              .collection('users')
+              .doc(receiverId)
+              .collection('history')
+              .doc(postModel.postId)
+              .set(postModel.toMap());
         }
-        emit(FoodConfirmDonationSuccessState());
       });
     });
   }
 
-  void getMyHistoryTransactions(){
-    FirebaseFirestore.instance.collection('users').doc(uId).collection('history').snapshots().listen((event) {
-      for(var element in event.docs){
-        myHistoryTransactionsList.add(PostModel.fromJson(element.data()));
+  void cancelRequest(BuildContext context,
+      {required PostModel postModel}) async {
+    postModel.requestsUsersId!.remove(uId);
+    myRequestsList.remove(postModel);
+    await posts
+        .doc(postModel.postId)
+        .collection('requests')
+        .doc(uId)
+        .delete()
+        .then((value) async {
+      await posts
+          .doc(postModel.postId)
+          .update({'requestsUsersId': postModel.requestsUsersId}).then(
+              (value) async {});
+    });
+  }
+
+  void getMyHistoryTransactions() {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(uId)
+        .collection('history')
+        .snapshots()
+        .listen((event) {
+      myHistoryTransactionsList = [];
+      for (var element in event.docs) {
+        PostModel post = PostModel.fromJson(element.data());
+        post.postId = element.id;
+        myHistoryTransactionsList.add(post);
       }
       emit(FoodGetMyHistoryTransactionsSuccessState());
     });
@@ -450,12 +516,40 @@ class FoodCubit extends Cubit<FoodStates> {
     emit(FoodDeletePostSuccessState());
   }
 
-  void updateUserRating({required double rating}) async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(selectedUserModel!.uId)
-        .update({'rating': rating});
-    emit(FoodRatingUpdateSuccessState());
+  void rateUser({required double rating, required PostModel postModel}) async {
+    if (postModel.isRatted == false) {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(postModel.donorId)
+          .collection('ratings')
+          .add({'userId': uId, 'rate': rating}).then((value) async {
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(postModel.donorId)
+            .collection('ratings')
+            .get()
+            .then((value) async {
+          double rating = 0.0;
+          for (var element in value.docs) {
+            rating += element.get('rate');
+          }
+          rating = rating / value.docs.length;
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(postModel.donorId)
+              .update({'rating': rating}).then((value) async {
+            await FirebaseFirestore.instance
+                .collection('users')
+                .doc(uId)
+                .collection('history')
+                .doc(postModel.postId)
+                .update({'isRatted': true}).then((value) {
+              emit(FoodRatingUpdateSuccessState());
+            });
+          });
+        });
+      });
+    }
   }
 
   void logout() async {
@@ -466,5 +560,37 @@ class FoodCubit extends Cubit<FoodStates> {
     User? currentUser = FirebaseAuth.instance.currentUser;
     currentUser != null ? uId = currentUser.uid : uId = null;
     return uId;
+  }
+
+  void changeSearchButtonIcon() {
+    isSearching = !isSearching;
+    emit(ChangeSearchButtonIconState());
+  }
+
+  //Search Bar in Home
+  void addSearchedForItemsToSearchedList(String searchedCharacter) {
+    if (searchedCharacter.isEmpty) {
+      searchedForPosts = [];
+    } else {
+      searchedForPosts = filteredPosts
+          .where((post) =>
+              post.itemName!.toLowerCase().startsWith(searchedCharacter))
+          .toList();
+    }
+    emit(Search());
+  }
+
+  //filters
+  void filterPosts(String value) {
+    filterValue = value;
+    filteredPosts = [];
+    for (var post in postsList) {
+      if (filterValue == "All") {
+        filteredPosts = postsList;
+      } else if (post.foodType == filterValue) {
+        filteredPosts.add(post);
+      }
+    }
+    emit(GetFilteredPostsSuccessState());
   }
 }

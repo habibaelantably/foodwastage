@@ -6,14 +6,14 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 // ignore: must_be_immutable
-class MapScreen extends StatefulWidget {
-  const MapScreen({Key? key}) : super(key: key);
+class NearbyScreen extends StatefulWidget {
+  const NearbyScreen({Key? key}) : super(key: key);
 
   @override
-  State<MapScreen> createState() => _MapScreenState();
+  State<NearbyScreen> createState() => _NearbyScreenState();
 }
 
-class _MapScreenState extends State<MapScreen> {
+class _NearbyScreenState extends State<NearbyScreen> {
   static Position? position;
   final Completer<GoogleMapController> _mapController = Completer();
 
@@ -43,6 +43,7 @@ class _MapScreenState extends State<MapScreen> {
 
   Widget buildMap() {
     return GoogleMap(
+
       initialCameraPosition: myCurrentLocationCameraPosition,
       zoomControlsEnabled: false,
       myLocationButtonEnabled: false,
@@ -50,6 +51,7 @@ class _MapScreenState extends State<MapScreen> {
       onMapCreated: (controller) {
         _mapController.complete(controller);
       },
+
     );
   }
 

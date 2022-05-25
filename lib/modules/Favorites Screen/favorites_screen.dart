@@ -23,8 +23,6 @@ class FavoritesScreen extends StatelessWidget {
                 shrinkWrap: true,
                 itemBuilder: (context, index) => postBuilder(
                   context: context,
-                  isInHistory: false,
-                  isInMyRequests: false,
                   postModel: FoodCubit.get(context).favPosts[index],
                   viewPost: true
                 ),

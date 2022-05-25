@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:foodwastage/models/post_model.dart';
+import 'package:foodwastage/shared/cubit/Prefrences%20Cubit/prefrences_cubit.dart';
+import 'package:foodwastage/shared/cubit/Prefrences%20Cubit/prefrences_states.dart';
 import 'package:foodwastage/styles/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../modules/Post Overview Screen/post_overview.dart';
@@ -201,245 +204,226 @@ Widget rowTextAndFormInput({
   );
 }
 
-Widget postBuilder(
-        {required BuildContext context,
-        required PostModel postModel,
-        required bool viewPost,
-        required bool isInHistory,
-        required bool isInMyRequests}) =>
-    Column(
-      children: [
-        InkWell(
-          onTap: viewPost
-              ? () {
-                  navigateTo(context, PostOverview(postModel: postModel));
-                }
-              : null,
-          child: Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15.0),
+Widget postBuilder({
+  required BuildContext context,
+  required PostModel postModel,
+  required bool viewPost,
+}) =>
+    InkWell(
+      onTap: viewPost
+          ? () {
+              navigateTo(context, PostOverview(postModel: postModel));
+            }
+          : null,
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        elevation: 5.0,
+        margin: const EdgeInsets.symmetric(horizontal: 15.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 145,
+              width: 155,
+              decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(10.0),
+                    bottomLeft: Radius.circular(10.0),
+                  ),
+                  image: DecorationImage(
+                    image: NetworkImage('${postModel.imageUrl1}'),
+                    fit: BoxFit.fill,
+                  )),
             ),
-            elevation: 5.0,
-            margin: const EdgeInsets.symmetric(horizontal: 15.0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: 145,
-                  width: 155,
-                  decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(10.0),
-                        bottomLeft: Radius.circular(10.0),
+            const SizedBox(
+              width: 10.0,
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 37,
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      "${postModel.postDate}",
+                      style: const TextStyle(
+                        fontSize: 12.0,
                       ),
-                      image: DecorationImage(
-                        image: NetworkImage('${postModel.imageUrl1}'),
-                        fit: BoxFit.fill,
-                      )),
-                ),
-                const SizedBox(
-                  width: 10.0,
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    ),
+                  ),
+                  Text(
+                    '${postModel.itemName}',
+                    style: Theme.of(context).textTheme.bodyText1,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                  const SizedBox(
+                    height: 7.0,
+                  ),
+                  Row(
                     children: [
-                      Container(
-                        height: 37,
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Text(
-                          "${postModel.postDate}",
-                          style: const TextStyle(
-                            fontSize: 12.0,
-                          ),
+                      InkWell(
+                        child: CircleAvatar(
+                          backgroundImage:
+                              NetworkImage('${postModel.userImage}'),
                         ),
-                      ),
-                      Text(
-                        '${postModel.itemName}',
-                        style: Theme.of(context).textTheme.bodyText1,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
+                        onTap: () {
+                          FoodCubit.get(context).getUserdata(
+                              selectedUserId: postModel.donorId,
+                              context: context);
+                          FoodCubit.get(context).getSelectedUserPosts(
+                            selectedUserId: postModel.donorId!,
+                          );
+                          navigateTo(
+                            context,
+                            ProfileScreen(
+                              selectedUserId: postModel.donorId!,
+                            ),
+                          );
+                        },
                       ),
                       const SizedBox(
-                        height: 7.0,
+                        width: 5.0,
                       ),
-                      Row(
-                        children: [
-                          InkWell(
-                            child: CircleAvatar(
-                              backgroundImage:
-                                  NetworkImage('${postModel.userImage}'),
-                            ),
-                            onTap: () {
-                              if (postModel.donorId != uId) {
+                      Expanded(
+                        child: Column(
+                          children: [
+                            InkWell(
+                              onTap: () {
                                 FoodCubit.get(context).getUserdata(
                                     selectedUserId: postModel.donorId,
                                     context: context);
                                 FoodCubit.get(context).getSelectedUserPosts(
                                   selectedUserId: postModel.donorId!,
                                 );
-                              }
-                              navigateTo(
-                                context,
-                                ProfileScreen(
-                                  selectedUserId: postModel.donorId!,
-                                ),
-                              );
-                            },
-                          ),
-                          const SizedBox(
-                            width: 5.0,
-                          ),
-                          Expanded(
-                            child: Column(
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    if (postModel.donorId != uId) {
-                                      FoodCubit.get(context).getUserdata(
-                                          selectedUserId: postModel.donorId,
-                                          context: context);
-                                      FoodCubit.get(context)
-                                          .getSelectedUserPosts(
-                                        selectedUserId: postModel.donorId!,
-                                      );
-                                    }
-                                    navigateTo(
-                                        context,
-                                        ProfileScreen(
-                                          selectedUserId: postModel.donorId!,
-                                        ));
-                                  },
-                                  child: Text("${postModel.userName}",
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1!
-                                          .copyWith(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w800)),
-                                ),
-                                Text(
-                                  '${postModel.donorType}',
-                                  style: TextStyle(
-                                      color: Colors.grey[400],
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w900),
-                                ),
-                              ],
+                                navigateTo(
+                                    context,
+                                    ProfileScreen(
+                                      selectedUserId: postModel.donorId!,
+                                    ));
+                              },
+                              child: Text("${postModel.userName}",
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1!
+                                      .copyWith(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w800)),
                             ),
-                          )
-                        ],
-                      ),
+                            Text(
+                              '${FoodCubit.get(context).userModel!.type}',
+                              style: TextStyle(
+                                  color: Colors.grey[400],
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w900),
+                            ),
+                          ],
+                        ),
+                      )
                     ],
                   ),
-                ),
-                Container(
-                  padding: const EdgeInsets.only(right: 2.0),
-                  height: 145,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      isInHistory || isInMyRequests
-                          ? Text(
-                              isInMyRequests &&
-                                      postModel.requestsUsersId!.contains(uId)
-                                  ? AppLocalizations.of(context)!
-                                      .myRequestStatusRequested
-                                  : postModel.donorId == uId
-                                      ? AppLocalizations.of(context)!
-                                          .historyScreenPostStatusDonated
-                                      : AppLocalizations.of(context)!
-                                          .historyScreenPostStatusReceived,
-                              style: const TextStyle(
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: defaultColor),
-                            )
-                          : postModel.donorId != uId
-                              ? IconButton(
-                                  onPressed: () {
-                                    FoodCubit.get(context)
-                                        .getFavPosts(postModel);
-                                  },
-                                  iconSize: 20,
-                                  constraints: BoxConstraints.tight(
-                                      const Size(35.0, 35.0)),
-                                  icon: Icon(
-                                    FoodCubit.get(context).isItFav(postModel) ??
-                                            false
-                                        ? Icons.favorite
-                                        : Icons.favorite_border,
-                                    color: Colors.orange,
-                                  ),
-                                )
-                              : PopupMenuButton<String>(
-                                  icon: const Icon(
-                                    Icons.more_horiz,
-                                  ),
-                                  onSelected: (value) {
-                                    if (value == "Delete") {
-                                      FoodCubit.get(context)
-                                          .deletePost(postModel.postId!);
-                                    }
-                                  },
-                                  itemBuilder: (BuildContext context) {
-                                    return <PopupMenuItem<String>>[
-                                      PopupMenuItem(
-                                        child: Text(
-                                            AppLocalizations.of(context)!
-                                                .deleteButton),
-                                        value: "Delete",
-                                      )
-                                    ];
-                                  }),
-                      const Spacer(),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        textBaseline: TextBaseline.alphabetic,
-                        children: const [
-                          Text(
-                            '13',
-                            style: TextStyle(color: Colors.orange),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(bottom: 5.0, right: 5.0),
-                            child: Icon(Icons.comment_outlined),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                )
-              ],
+                ],
+              ),
             ),
-          ),
+            Container(
+              padding: const EdgeInsets.only(right: 2.0),
+              height: 145,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  postModel.donorId != uId
+                      ? IconButton(
+                          onPressed: () {
+                            FoodCubit.get(context).getFavPosts(postModel);
+                          },
+                          iconSize: 20,
+                          constraints:
+                              BoxConstraints.tight(const Size(35.0, 35.0)),
+                          icon: Icon(
+                            FoodCubit.get(context).isItFav(postModel) ?? false
+                                ? Icons.favorite
+                                : Icons.favorite_border,
+                            color: Colors.orange,
+                          ),
+                        )
+                      : PopupMenuButton<String>(
+                          icon: const Icon(
+                            Icons.more_horiz,
+                          ),
+                          onSelected: (value) {
+                            if (value == "Delete") {
+                              FoodCubit.get(context)
+                                  .deletePost(postModel.postId!);
+                            }
+                          },
+                          itemBuilder: (BuildContext context) {
+                            return <PopupMenuItem<String>>[
+                              PopupMenuItem(
+                                child: Text(
+                                    AppLocalizations.of(context)!.deleteButton),
+                                value: "Delete",
+                              )
+                            ];
+                          }),
+                  const Spacer(),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: const [
+                      Text(
+                        '13',
+                        style: TextStyle(color: Colors.orange),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 5.0, right: 5.0),
+                        child: Icon(Icons.comment_outlined),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
 
 Widget filterButton(
     {required String filterValue,
     required String text,
-    required Function onPressed}) {
-  return TextButton(
-    style: ButtonStyle(
-        elevation: MaterialStateProperty.all(3),
-        backgroundColor: MaterialStateProperty.all(filterValue == text
-            ? Colors.orange[700]!.withOpacity(0.5)
-            : Colors.white),
-        shape: MaterialStateProperty.all(RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50),
-            side: const BorderSide(width: 0.05, color: Colors.black)))),
-    onPressed: () {
-      onPressed();
+    required String value,
+    required Function onPressed,
+    required BuildContext context}) {
+  return BlocConsumer<PreferencesCubit, PreferencesStates>(
+    listener: (context, state) {},
+    builder: (context, state) {
+      return TextButton(
+        style: ButtonStyle(
+            // elevation: MaterialStateProperty.all(3),
+            backgroundColor: MaterialStateProperty.all(
+                filterValue == value ? Colors.orange : Colors.transparent),
+            shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50),
+                side: BorderSide(
+                    width: 0.15,
+                    color: PreferencesCubit.get(context).darkModeSwitchIsOn
+                        ? Colors.white
+                        : Colors.black)))),
+        onPressed: () {
+          onPressed();
+        },
+        child: Text(
+          text,
+          style: TextStyle(
+              color: filterValue == value ? Colors.white : defaultColor,
+              fontWeight: FontWeight.bold),
+        ),
+      );
     },
-    child: Text(
-      text,
-      style: TextStyle(
-          color: filterValue == text ? Colors.white : defaultColor,
-          fontWeight: FontWeight.bold),
-    ),
   );
 }

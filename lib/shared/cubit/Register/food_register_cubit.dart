@@ -13,8 +13,6 @@ class FoodRegisterCubit extends Cubit<FoodRegisterStates> {
 
   static FoodRegisterCubit get(context) => BlocProvider.of(context);
 
-  // ShopLoginModel? loginModel;
-
   void userRegister(
       {required String name,
       required String email,
@@ -38,7 +36,6 @@ class FoodRegisterCubit extends Cubit<FoodRegisterStates> {
     });
   }
 
-//
   void createUser({
     required String name,
     required String email,

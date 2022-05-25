@@ -3,340 +3,306 @@
   "@Home": {
     "description": "Home"
   },
-
-  "layoutAppBarTitleMap": "Map",
-  "@Map": {
-    "description": "Map"
+  "layoutAppBarTitleNearby": "Nearby",
+  "@Nearby": {
+    "description": "Nearby"
   },
-
   "layoutAppBarTitleDonate": "Donate",
   "@Donate": {
     "description": "Donate"
   },
-
   "layoutAppBarTitleFavorites": "Favorites",
   "@Favorites": {
     "description": "Favorites"
   },
-
   "donateScreenNameFieldValidation": "Enter the food name",
   "@Enter the food name": {
     "description": "Enter the food name"
   },
-
   "donateScreenNameFieldHeader": "Item Name",
   "@Item Name": {
     "description": "Item Name"
   },
-
   "donateScreenNameFieldHint": "Name",
   "@Name": {
     "description": "Name"
   },
-
   "donateScreenLocationFieldValidation": "Enter the location",
   "@Enter the location": {
     "description": "Enter the location"
   },
-
   "donateScreenLocationFieldHeader": "Pickup place",
   "@Pickup place": {
     "description": "Pickup place"
   },
-
   "donateScreenLocationFieldHint": "Location",
   "@Location": {
     "description": "Location"
   },
-
-
   "donateScreenDateFieldHeader": "Pickup Day",
   "@Pickup Day": {
     "description": "Pickup Day"
   },
-
   "donateScreenQuantityFieldValidation": "Enter the quantity",
   "@Enter the quantity": {
     "description": "Enter the quantity"
   },
-
   "donateScreenQuantityFieldHeader": "Item's quantity",
   "@Item's quantity": {
     "description": "Item's quantity"
   },
-
   "donateScreenQuantityFieldHint": "Quantity",
   "@Item Quantity": {
     "description": "Quantity"
   },
-
   "donateScreenDescriptionFieldValidation": "Enter the description",
   "@Enter the description": {
     "description": "Enter the description"
   },
-
   "donateScreenDescriptionFieldValidation2": "Enter more details about this item",
   "@Enter more details about this item": {
     "description": "Enter more details about this item"
   },
-
   "donateScreenDescriptionFieldHeader": "Item's description",
   "@Item's description": {
     "description": "Item's description"
   },
-
   "donateScreenDescriptionFieldHint": "Description",
   "@Description": {
     "description": "Description"
   },
-
   "donateScreenPhotoFieldHeader": "Photo",
   "@Photo": {
     "description": "Photo"
   },
-
   "donateScreenPolicy": "I assure that food quality and hygiene has maintained",
   "@Policy": {
     "description": "I assure that food quality and hygiene has maintained"
   },
-
   "donateScreenPolicyValidationDialogTitle": "Confirm Rules",
   "@Confirm Rules": {
     "description": "Confirm Rules"
   },
-
   "donateScreenPolicyValidationDialogDescription": "Please Assure the food quality",
   "@Please Assure the food quality": {
     "description": "Please Assure the food quality"
   },
-
   "dialogOkButton": "Ok",
   "@Ok": {
     "description": "Ok"
   },
-
   "submitButton": "Submit",
   "@Submit": {
     "description": "Submit"
   },
-
   "favoritesScreenFallback": "You don't have any favorites",
   "@favoritesScreenFallback": {
     "description": "favoritesScreenFallback"
   },
-
   "myRequestsScreenTitle": "My Requests",
   "@requestsScreenTitle": {
     "description": "requestScreenTitle"
   },
-
   "myRequestStatusRequested": "requested",
   "@myRequestStateReceived": {
     "description": "myRequestStateReceived"
   },
-
   "historyScreenTitle": "History",
   "@History": {
     "description": "History"
   },
-
   "historyScreenPostStatusDonated": "donated",
   "@donated": {
     "description": "donated"
   },
-
   "historyScreenPostStatusReceived": "received",
   "@received": {
     "description": "received"
   },
-
   "deleteButton": "Delete",
   "@Delete": {
     "description": "Delete"
   },
-
   "postDateHeader": "Posted at:",
   "@postDateHeader": {
     "description": "postDateHeader"
   },
-
   "chatButton": "Chat",
   "@chatButton": {
     "description": "chatButton"
   },
-
   "phoneButton": "Call",
   "@phoneButton": {
     "description": "Call"
   },
-
   "requestButton": "Request",
   "@Request": {
     "description": "Request"
   },
-
-
   "requestItemToast": "You requested this item",
   "@requestItemToast": {
     "description": "requestItemToast"
   },
-
   "profileScreenTitle": "Profile",
   "@Profile": {
     "description": "Profile"
   },
-
   "profileScreenPostsFallBack": "You have no donations right now...",
   "@profileScreenPostsFallBack": {
     "description": "profileScreenPostsFallBack"
   },
-
+  "myRequestsScreenFallBack": "You haven't requested any item yet...",
+  "@myRequestsScreenFallBack": {
+    "description": "myRequestsScreenFallBack"
+  },
   "selectedUserProfileScreenPostsFallBack": "This user hasn't donated any food yet...",
   "@selectedUserProfileScreenPostsFallBack": {
     "description": "selectedUserProfileScreenPostsFallBack"
   },
-
   "rateButton": "Rate",
   "@Rate": {
     "description": "Rate"
   },
-
-
+  "searchBarHint": "Search for an item...",
+  "@searchBarHint": {
+    "description": "searchBarHint"
+  },
+  "filterButtonAll": "All",
+  "@filterButtonAll": {
+    "description": "filterButtonAll"
+  },
+  "filterButtonMainDishes": "Main dishes",
+  "@filterButtonMainDishes": {
+    "description": "filterButtonMainDishes"
+  },
+  "filterButtonDesserts": "Desserts",
+  "@filterButtonDeserts": {
+    "description": "filterButtonDeserts"
+  },
+  "filterButtonSandwiches": "Sandwiches",
+  "@filterButtonSandwiches": {
+    "description": "filterButtonSandwiches"
+  },
+  "acceptButton": "Accept",
+  "@acceptButton": {
+    "description": "acceptButton"
+  },
   "welcome": "Welcome",
   "@Welcome": {
     "description": "Welcome"
   },
-
   "loginToContinue": "Login To Continue",
   "@loginToContinue": {
     "description": "loginToContinue"
   },
-
   "loginScreenEmailFieldLabel": "Email address",
   "@Email address": {
     "description": "Email address"
   },
-
   "loginScreenEmailFieldValidation": "Please enter email address",
   "@loginScreenEmailFieldValidation": {
     "description": "loginScreenEmailFieldValidation"
   },
-
   "loginScreenPasswordFieldLabel": "Password",
   "@Password": {
     "description": "Password"
   },
-
   "loginScreenPasswordFieldValidation": "Please enter password",
   "@loginScreenPasswordFieldValidation": {
     "description": "loginScreenPasswordFieldValidation"
   },
-
   "loginButton": "Login",
   "@Login": {
     "description": "Login"
   },
-
   "or": "Or",
   "@Or": {
     "description": "Or"
   },
-
   "loginScreenRegisterHint": "Don`t have an account?",
   "@Don`t have an account?": {
     "description": "Don`t have an account?"
   },
-
   "registerButton": "Register",
   "@Register": {
     "description": "Register"
   },
-
   "registerScreenNameFieldValidation": "Please enter your name",
   "@registerScreenNameFieldValidation": {
     "description": "registerScreenNameFieldValidation"
   },
-
   "registerScreenPhoneFieldLabel": "Phone",
   "@Phone": {
     "description": "Phone"
   },
-
   "registerScreenPhoneFieldValidation": "Please enter phone number",
   "@registerScreenPhoneFieldValidation": {
     "description": "registerScreenPhoneFieldValidation"
   },
-
   "registerScreenConfirmPasswordFieldLabel": "Confirm password",
   "@Confirm password": {
     "description": "Confirm password"
   },
-
   "registerScreenConfirmPasswordFieldValidation": "Password does not match",
   "@registerScreenConfirmPasswordFieldValidation": {
     "description": "registerScreenConfirmPasswordFieldValidation"
   },
-
   "registerScreenCountryFieldValidation": "Please enter your country",
   "@registerScreenCountryFieldValidation": {
     "description": "registerScreenCountryFieldValidation"
   },
-
   "registerScreenCountryFieldLabel": "Country",
   "@Country": {
     "description": "Country"
   },
-
   "registerScreenCountryFieldSearchLabel": "Search",
   "@registerScreenCountryFieldSearchLabel": {
     "description": "registerScreenCountryFieldSearchLabel"
   },
-
   "registerScreenCountryFieldSearchHint": "Start typing to search",
   "@registerScreenCountryFieldSearchHint": {
     "description": "registerScreenCountryFieldSearchHint"
   },
-
   "registerScreenLoginHint": "Already have an account?",
   "@registerScreenLoginHint": {
     "description": "registerScreenLoginHint"
   },
-
   "drawerDarkModeRow": "Dark mode:",
   "@drawerDarkModeRow": {
     "description": "drawerDarkModeRow"
   },
-
   "drawerLanguageRow": "Language:",
   "@drawerLanguageRow": {
     "description": "drawerLanguageRow"
   },
-
   "drawerAboutUsRow": "About us",
   "@drawerAboutUsRow": {
     "description": "drawerAboutUsRow"
   },
-
   "drawerContactUsRow": "Contact us",
   "@drawerContactUsRow": {
     "description": "drawerContactUsRow"
   },
-
   "drawerTermsAndConditionsRow": "Terms & Conditions",
   "@drawerTermsAndConditionsRow": {
     "description": "drawerTermsAndConditionsRow"
   },
-
   "logoutButton": "Logout",
   "@logoutButton": {
     "description": "logoutButton"
   },
-
+  "cancelButton": "Cancel",
+  "@cancelButton": {
+    "description": "cancelButton"
+  },
   "postRequestsScreenTitle": "Requests",
   "@postRequestsScreenTitle": {
     "description": "postRequestsScreenTitle"
   },
-
+  "postRequestsScreenFallBack": "There is no requests yet...",
+  "@postRequestsScreenFallBack": {
+    "description": "postRequestsScreenFallBack"
+  },
   "makePhoneCallFallback": "Couldn't call: ",
   "@makePhoneCallFallback": {
     "description": "makePhoneCallFallback"

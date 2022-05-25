@@ -1,139 +1,80 @@
 {
   "layoutAppBarTitleHome": "الرئيسية",
-
-  "layoutAppBarTitleMap": "الخريطة",
-
+  "layoutAppBarTitleNearby": "القريبون",
   "layoutAppBarTitleDonate": "تبرع",
-
   "layoutAppBarTitleFavorites": "المفضلات",
-
   "donateScreenNameFieldValidation": "ادخل اسم الطعام",
-
   "donateScreenNameFieldHeader": "اسم العنصر",
-
   "donateScreenNameFieldHint": "الاسم",
-
   "donateScreenLocationFieldValidation": "ادخل الموقع",
-
   "donateScreenLocationFieldHeader": "مكان الالتقاط",
-
   "donateScreenLocationFieldHint": "الموقع",
-
   "donateScreenDateFieldHeader": "يوم الالتقاط",
-
   "donateScreenQuantityFieldValidation": "ادخل الكمية",
-
   "donateScreenQuantityFieldHeader": "كمية العنصر",
-
   "donateScreenQuantityFieldHint": "الكمية",
-
   "donateScreenDescriptionFieldValidation": "ادخل الوصف",
-
   "donateScreenDescriptionFieldValidation2": "أدخل مزيدًا من التفاصيل حول هذا العنصر",
-
   "donateScreenDescriptionFieldHeader": "وصف العنصر",
-
   "donateScreenDescriptionFieldHint": "الوصف",
-
   "donateScreenPhotoFieldHeader": "صورة",
-
   "donateScreenPolicy": "أؤكد أن جودة الطعام والنظافة قد تم الحفاظ عليها",
-
   "donateScreenPolicyValidationDialogTitle": "تأكيد القواعد",
-
   "donateScreenPolicyValidationDialogDescription": "من فضلك أكد جودة الطعام",
-
   "dialogOkButton": "موافق",
-
   "submitButton": "نشر",
-
   "favoritesScreenFallback": "ليس لديك أي مفضلات",
-
   "historyScreenTitle": "التاريخ",
-
   "historyScreenPostStatusDonated": "متبرع به",
-
   "historyScreenPostStatusReceived": "مأخوذ",
-
   "deleteButton": "حذف",
-
   "postDateHeader": "تم النشر في:",
-
   "chatButton": "محادثة",
-
   "phoneButton": "إتصال",
-
   "requestButton": "طلب",
-
   "myRequestsScreenTitle": "طلباتي",
-
   "myRequestStatusRequested": "تم الطلب",
-
   "requestItemToast": "لقد طلبت هذا العنصر",
-
   "profileScreenTitle": "الملف الشخصي",
-
   "profileScreenPostsFallBack": "ليس لديك اي تبرعات في الوقت الحالي...",
-
   "selectedUserProfileScreenPostsFallBack": "هذا المستخدم لم يتبرع بأي طعام بعد...",
-
   "rateButton": "تقييم",
-
   "profileScreenFallback": "لم تتبرع بأي طعام بعد ...",
-
   "welcome": "أهلا بك",
-
   "loginToContinue": "تسجيل الدخول للمتابعة",
-
   "loginScreenEmailFieldLabel": "عنوان بريد الكتروني",
-
   "loginScreenEmailFieldValidation": "من فضلك أدخل عنوان البريد الإلكتروني",
-
   "loginScreenPasswordFieldLabel": "كلمة السر",
-
   "loginScreenPasswordFieldValidation": "من فضلك أدخل كلمة السر",
-
   "loginButton": "تسجيل الدخول",
-
+  "cancelButton": "إلغاء",
+  "acceptButton": "موافقة",
+  "searchBarHint": "إبحث عن عنصر...",
+  "myRequestsScreenFallBack": "لم تقم بطلب اي عنصر بعد...",
+  "postRequestsScreenFallBack": "لا يوجد طلبات حتى الآن ...",
+  "filterButtonAll": "الكل",
+  "filterButtonMainDishes": "الأطباق الرئيسية",
+  "filterButtonDesserts": "الحلويات",
+  "filterButtonSandwiches": "شطائر",
   "or": "أو",
-
   "loginScreenRegisterHint": "لا تمتلك حساب ؟",
-
   "registerButton": "تسجيل",
-
   "registerScreenNameFieldValidation": "من فضلك أدخل إسمك",
-
   "registerScreenPhoneFieldLabel": "الهاتف",
-
   "registerScreenPhoneFieldValidation": "من فضلك أدخل رقم الهاتف",
-
   "registerScreenConfirmPasswordFieldLabel": "تأكيد كلمة السر",
-
   "registerScreenConfirmPasswordFieldValidation": "كلمة المرور غير متطابقة",
-
   "registerScreenCountryFieldLabel": "البلد",
-
   "registerScreenCountryFieldValidation": "من فضلك أدخل بلدك",
-
   "registerScreenCountryFieldSearchLabel": "بحث",
-
   "registerScreenCountryFieldSearchHint": "ابدأ الكتابة للبحث",
-
   "registerScreenLoginHint": "هل لديك حساب؟",
-
   "drawerDarkModeRow": "الوضع المظلم:",
-
   "drawerLanguageRow": "اللغة:",
-
   "drawerAboutUsRow": "من نحن",
-
   "drawerContactUsRow": "تواصل معنا",
-
   "drawerTermsAndConditionsRow": "البنود و الشروط",
-
   "logoutButton": "تسجيل الخروج",
-
-  "postRequestsScreenTitle": "Requests",
-
+  "postRequestsScreenTitle": "الطلبات",
   "makePhoneCallFallback": "تعذر الإتصال ب: "
 }

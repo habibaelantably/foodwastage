@@ -1,7 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodwastage/models/post_model.dart';
-import 'package:foodwastage/modules/postRequestsScreen/post_requests_screen.dart';
+import 'package:foodwastage/modules/Post RequestsScreen/post_requests_screen.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_states.dart';
 import '../../shared/constants.dart';
@@ -184,10 +185,7 @@ class PostOverview extends StatelessWidget {
                                         children: [
                                           Expanded(
                                             child: defaultButton(
-                                              function: () {
-                                                FoodCubit.get(context)
-                                                    .getPostRequests(postModel);
-                                              },
+                                              function: () {},
                                               text:
                                                   AppLocalizations.of(context)!
                                                       .chatButton
@@ -233,7 +231,7 @@ class PostOverview extends StatelessWidget {
                                           child: MaterialButton(
                                             onPressed: () {
                                               FoodCubit.get(context)
-                                                  .requestFood(context,
+                                                  .requestItem(context,
                                                       postModel: postModel);
                                             },
                                             child: state
@@ -279,30 +277,31 @@ class PostOverview extends StatelessWidget {
                                         ),
                                       ),
                                     ],
-                                  ), // request item button
-                      )
-                    : postModel.requestsUsers!.isNotEmpty && postModel.receiverId ==null
-                        ? Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                  child: defaultButton(
-                                    function: () {
-                                      navigateTo(context,
-                                          PostRequests(postModel: postModel));
-                                    },
-                                    text: AppLocalizations.of(context)!
-                                        .myRequestsScreenTitle
-                                        .toUpperCase(),
-                                    height: 50.0,
-                                    context: context,
                                   ),
-                                ),
-                            ],
-                          ),
-                        )
-                        : const SizedBox(),
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 10),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: defaultButton(
+                                function: () {
+                                  FoodCubit.get(context)
+                                      .getPostRequests(postModel.postId!);
+                                  navigateTo(context,
+                                      PostRequests(postModel: postModel));
+                                },
+                                text: AppLocalizations.of(context)!
+                                    .myRequestsScreenTitle
+                                    .toUpperCase(),
+                                height: 50.0,
+                                context: context,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
               ],
             ),
           ),
