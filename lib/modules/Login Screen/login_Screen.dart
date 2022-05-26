@@ -1,7 +1,6 @@
 import 'package:buildcondition/buildcondition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:foodwastage/Register/register_Screen.dart';
 import 'package:foodwastage/shared/components/reusable_components.dart';
 import 'package:foodwastage/layout/App_Layout.dart';
 import 'package:foodwastage/shared/constants.dart';
@@ -9,6 +8,8 @@ import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Login/food_login_cubit.dart';
 import 'package:foodwastage/shared/cubit/Login/food_login_states.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../Register/register_Screen.dart';
 
 // ignore: must_be_immutable
 class LoginScreen extends StatelessWidget {

@@ -369,7 +369,8 @@ class FoodCubit extends Cubit<FoodStates> {
     }
   }
 
-  void getFavPosts() {
+  void getFavPosts() async{
+    await Future.delayed(const Duration(seconds: 2));
     FirebaseFirestore.instance
         .collection('users')
         .doc(uId)
@@ -383,7 +384,6 @@ class FoodCubit extends Cubit<FoodStates> {
         post.postId=  element.id;
         favPosts.add(post);
       }
-      print(userModel!.favPostsId!.length);
       emit(GetFavoritePostsSuccessState());
     });
   }
@@ -543,8 +543,11 @@ class FoodCubit extends Cubit<FoodStates> {
   }
 
   void deletePost(String postId) async {
-    await FirebaseFirestore.instance.collection('posts').doc(postId).delete();
-    emit(FoodDeletePostSuccessState());
+    await FirebaseFirestore.instance.collection('posts').doc(postId).delete().then((value) async {
+      await FirebaseFirestore.instance.collection('users').doc(uId).collection('favorites').doc(postId).delete().then((value){
+        emit(FoodDeletePostSuccessState());
+      });
+    });
   }
 
   void rateUser({required double rating, required PostModel postModel}) async {

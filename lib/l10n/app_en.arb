@@ -7,6 +7,18 @@
   "@Nearby": {
     "description": "Nearby"
   },
+  "otpScreenHint": "Please enter the verification code that have been sent to your email",
+  "@otpScreenHintText": {
+    "description": "otpScreenHintText"
+  },
+  "otpScreenCountryFieldLabel": "Country",
+  "@otpScreenCountryFieldLabel": {
+    "description": "otpScreenCountryFieldLabel"
+  },
+  "continueRegisterButton": "Continue register",
+  "@continueRegisterButton": {
+    "description": "continueRegisterButton"
+  },
   "layoutAppBarTitleDonate": "Donate",
   "@Donate": {
     "description": "Donate"

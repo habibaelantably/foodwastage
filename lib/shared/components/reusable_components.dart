@@ -24,9 +24,11 @@ Widget defaultFormField(
         IconData? suffix,
         Function? suffixButton,
         String? hint,
+        bool readOnly = false,
         onTap}) =>
     TextFormField(
         controller: controller,
+        readOnly: readOnly,
         keyboardType: type,
         validator: (String? value) {
           return validator(value);
@@ -339,13 +341,17 @@ Widget postBuilder({
                   postModel.donorId != uId
                       ? IconButton(
                           onPressed: () {
-                            FoodCubit.get(context).changePostFavStatus(postModel);
+                            FoodCubit.get(context)
+                                .changePostFavStatus(postModel);
                           },
                           iconSize: 20,
                           constraints:
                               BoxConstraints.tight(const Size(35.0, 35.0)),
                           icon: Icon(
-                            FoodCubit.get(context).userModel!.favPostsId!.contains(postModel.postId)
+                            FoodCubit.get(context)
+                                    .userModel!
+                                    .favPostsId!
+                                    .contains(postModel.postId)
                                 ? Icons.favorite
                                 : Icons.favorite_border,
                             color: Colors.orange,

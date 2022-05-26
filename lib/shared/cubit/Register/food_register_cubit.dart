@@ -1,11 +1,10 @@
-import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_auth/email_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:foodwastage/Register/register_Screen.dart';
 import 'package:foodwastage/models/User_model.dart';
+import '../../../modules/Register/register_Screen.dart';
 import 'food_register_state.dart';
 
 class FoodRegisterCubit extends Cubit<FoodRegisterStates> {

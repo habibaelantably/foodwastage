@@ -2,13 +2,15 @@ import 'package:buildcondition/buildcondition.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:foodwastage/Register/OTP.dart';
 import 'package:foodwastage/shared/components/reusable_components.dart';
-import 'package:foodwastage/modules/login_Screen.dart';
+import 'package:foodwastage/modules/Login%20Screen/login_Screen.dart';
+import 'package:foodwastage/shared/cubit/Prefrences%20Cubit/prefrences_cubit.dart';
 import 'package:foodwastage/shared/cubit/Register/food_register_cubit.dart';
 import 'package:foodwastage/shared/cubit/Register/food_register_state.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:foodwastage/styles/colors.dart';
+
+import 'OTP.dart';
 
 // ignore: must_be_immutable
 class RegisterScreen extends StatelessWidget {
@@ -144,6 +146,7 @@ class RegisterScreen extends StatelessWidget {
                         height: 15,
                       ),
                       defaultFormField(
+                        readOnly: true,
                           controller: countryController,
                           type: TextInputType.text,
                           validator: (value) {
@@ -154,7 +157,8 @@ class RegisterScreen extends StatelessWidget {
                             return null;
                           },
                           prefix: Icons.vpn_lock,
-                          label: 'Country',
+                          label: AppLocalizations.of(context)!
+                              .otpScreenCountryFieldLabel,
                           onTap: () {
                             showCountryPicker(
                               context: context,
@@ -165,6 +169,7 @@ class RegisterScreen extends StatelessWidget {
                                     country.displayNameNoCountryCode.toString();
                               },
                               countryListTheme: CountryListThemeData(
+                                backgroundColor: PreferencesCubit.get(context).darkModeSwitchIsOn?Colors.grey[800]:Colors.white,
                                 borderRadius: const BorderRadius.only(
                                   topLeft: Radius.circular(40.0),
                                   topRight: Radius.circular(40.0),
@@ -205,7 +210,7 @@ class RegisterScreen extends StatelessWidget {
                           context: context,
                         ),
 
-                        fallback: (context)=>Center(child: CircularProgressIndicator()),
+                        fallback: (context)=>const Center(child: CircularProgressIndicator()),
 
                       ),
                       const SizedBox(

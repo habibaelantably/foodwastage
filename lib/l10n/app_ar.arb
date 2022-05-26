@@ -1,6 +1,9 @@
 {
   "layoutAppBarTitleHome": "الرئيسية",
   "layoutAppBarTitleNearby": "القريبون",
+  "otpScreenHint": "الرجاء إدخال رمز التحقق الذي تم إرساله إلى بريدك الإلكتروني",
+  "continueRegisterButton": "إكمال التسجيل",
+  "otpScreenCountryFieldLabel": "البلد",
   "layoutAppBarTitleDonate": "تبرع",
   "layoutAppBarTitleFavorites": "المفضلات",
   "donateScreenNameFieldValidation": "ادخل اسم الطعام",
