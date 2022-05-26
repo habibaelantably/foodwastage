@@ -29,7 +29,6 @@ class HomeScreen extends StatelessWidget {
               ),
               Expanded(
                 child: ListView.separated(
-                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemBuilder: (context, index) => postBuilder(
                           viewPost: true,
