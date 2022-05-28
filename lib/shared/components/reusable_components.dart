@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:foodwastage/models/post_model.dart';
+import 'package:foodwastage/modules/Update%20Post%20Screen/update_post_screen.dart';
 import 'package:foodwastage/shared/cubit/Prefrences%20Cubit/prefrences_cubit.dart';
 import 'package:foodwastage/shared/cubit/Prefrences%20Cubit/prefrences_states.dart';
 import 'package:foodwastage/styles/colors.dart';
@@ -142,14 +143,16 @@ Color setToastColor(ToastStates states) {
   return color;
 }
 
-Widget defaultText(
-    {required String text,
-    required double fontSize,
-    required FontWeight fontWeight}) {
+Widget defaultText({required String text,
+  required double fontSize,
+  required FontWeight fontWeight,
+  Color? color}) {
   return Text(
     text,
     style: TextStyle(
-        fontSize: fontSize, fontWeight: fontWeight, color: defaultColor),
+        fontSize: fontSize,
+        fontWeight: fontWeight,
+        color: color ?? defaultColor),
   );
 }
 
@@ -358,24 +361,32 @@ Widget postBuilder({
                           ),
                         )
                       : PopupMenuButton<String>(
-                          icon: const Icon(
-                            Icons.more_horiz,
+                      icon: const Icon(
+                        Icons.more_horiz,
+                      ),
+                      onSelected: (value) {
+                        if (value == "Delete") {
+                          FoodCubit.get(context)
+                              .deletePost(postModel.postId!);
+                        } else if (value == "Update") {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context)=>UpdatePost(postId: postModel.postId!,postModel: postModel,) ));
+                        }
+                      },
+                      itemBuilder: (BuildContext context) {
+                        return <PopupMenuItem<String>>[
+                          PopupMenuItem(
+                            child: Text(
+                                AppLocalizations.of(context)!
+                                    .deleteButton),
+                            value: "Delete",
                           ),
-                          onSelected: (value) {
-                            if (value == "Delete") {
-                              FoodCubit.get(context)
-                                  .deletePost(postModel.postId!);
-                            }
-                          },
-                          itemBuilder: (BuildContext context) {
-                            return <PopupMenuItem<String>>[
-                              PopupMenuItem(
-                                child: Text(
-                                    AppLocalizations.of(context)!.deleteButton),
-                                value: "Delete",
-                              )
-                            ];
-                          }),
+                          PopupMenuItem(
+                            child: Text("Update"),
+                            value: "Update",
+                          ),
+                        ];
+                      }),
                   const Spacer(),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
