@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:foodwastage/models/Comments_model.dart';
 import 'package:foodwastage/models/User_model.dart';
 import 'package:foodwastage/models/post_model.dart';
 import 'package:foodwastage/modules/Nearby%20Screen/nearby_screen.dart';
@@ -198,6 +199,7 @@ class FoodCubit extends Cubit<FoodStates> {
       userName: userModel!.name,
       userImage: userModel!.image,
       requestsUsersId: [],
+      CommentsCount: [],
       postDate: postDate,
     );
     posts.add(postModel.toMap()).then((idValue) async {
@@ -626,5 +628,50 @@ class FoodCubit extends Cubit<FoodStates> {
       }
     }
     emit(GetFilteredPostsSuccessState());
+  }
+
+  void AddComment(BuildContext context,
+      { PostModel? postModel,
+    String? text,required String? postId}) async {
+    CommentsModel model=CommentsModel(
+      name: userModel!.name,
+      image: userModel!.image,
+      text: text,
+    );
+    postModel!.CommentsCount!.add(uId);
+    await posts
+        .doc(postModel.postId)
+        .collection('Comments')
+        .add(model.toMap())
+        .then((value) async {
+      await posts
+          .doc(postModel.postId)
+          .update({'CommentsCount': postModel.CommentsCount});
+      emit(CommentSuccessState());
+    }).catchError((error) {
+      print(error.toString());
+      emit(CommentErrorState());
+    });
+  }
+
+  List<CommentsModel>comments=[];
+
+  void getComments(String? postId){
+    emit(GetCommentsLoadingState());
+    print(postId);
+
+    FirebaseFirestore.instance
+        .collection('posts')
+        .doc(postId)
+        .collection('Comments').snapshots().listen((event) {
+      comments.clear();
+      event.docs.forEach((element) {
+        comments.add(CommentsModel.fromJson(element.data()));
+
+      });
+      print(comments);
+      emit(GetCommentsSuccessState());
+    });
+
   }
 }
