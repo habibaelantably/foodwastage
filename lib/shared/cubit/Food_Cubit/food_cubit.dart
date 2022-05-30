@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:foodwastage/models/Comments_model.dart';
 import 'package:foodwastage/models/User_model.dart';
 import 'package:foodwastage/models/post_model.dart';
@@ -707,7 +706,7 @@ class FoodCubit extends Cubit<FoodStates> {
     });
   }
 
-  void AddComment(BuildContext context,
+  void addComment(BuildContext context,
       { PostModel? postModel,
     String? text,required String? postId}) async {
     CommentsModel model=CommentsModel(
@@ -735,18 +734,14 @@ class FoodCubit extends Cubit<FoodStates> {
 
   void getComments(String? postId){
     emit(GetCommentsLoadingState());
-    print(postId);
-
     FirebaseFirestore.instance
         .collection('posts')
         .doc(postId)
         .collection('Comments').snapshots().listen((event) {
       comments.clear();
-      event.docs.forEach((element) {
+      for (var element in event.docs) {
         comments.add(CommentsModel.fromJson(element.data()));
-
-      });
-      print(comments);
+      }
       emit(GetCommentsSuccessState());
     });
 
