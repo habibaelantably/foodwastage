@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:foodwastage/models/post_model.dart';
+import 'package:foodwastage/modules/AddComment/AddComment.dart';
 import 'package:foodwastage/shared/cubit/Prefrences%20Cubit/prefrences_cubit.dart';
 import 'package:foodwastage/shared/cubit/Prefrences%20Cubit/prefrences_states.dart';
+import 'package:foodwastage/shared/cubit/Register/food_register_state.dart';
 import 'package:foodwastage/styles/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../modules/Post Overview Screen/post_overview.dart';
@@ -377,19 +380,36 @@ Widget postBuilder({
                             ];
                           }),
                   const Spacer(),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    textBaseline: TextBaseline.alphabetic,
-                    children: const [
-                      Text(
-                        '13',
-                        style: TextStyle(color: Colors.orange),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 5.0, right: 5.0),
-                        child: Icon(Icons.comment_outlined),
-                      ),
-                    ],
+                  InkWell(
+                    onTap: (){
+                      FoodCubit.get(context).comments=[];
+                      navigateTo(
+                          context,
+                          CommentsScreen(
+                              postModel.postId,
+                              FoodCubit.get(context).userModel,
+                            postModel
+
+                          ));
+                      FoodCubit.get(context).getComments(postModel.postId);
+
+
+
+                    },
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      textBaseline: TextBaseline.alphabetic,
+                      children: [
+                        Text(
+                          '${postModel.CommentsCount!.length}',
+                          style: TextStyle(color: Colors.orange),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 5.0, right: 5.0),
+                          child: Icon(Icons.comment_outlined),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
