@@ -1,4 +1,5 @@
 import 'package:dotted_border/dotted_border.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -47,29 +48,36 @@ class AddPosts extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           IconButton(
-                              onPressed: FoodCubit.get(context).itemQuantity > 1 ? (){
-                                FoodCubit.get(context).minusItemCount();
-                              }: null,
+                              onPressed: FoodCubit.get(context).itemQuantity > 1
+                                  ? () {
+                                      FoodCubit.get(context).minusItemCount();
+                                    }
+                                  : null,
                               icon: Icon(
                                 Icons.remove,
                                 size: 15,
-                                color: FoodCubit.get(context).itemQuantity == 1 ? Colors.grey : defaultColor,
+                                color: FoodCubit.get(context).itemQuantity == 1
+                                    ? Colors.grey
+                                    : defaultColor,
                               )),
                           Text(
                             "${FoodCubit.get(context).itemQuantity}",
                             style: const TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.normal),
+                                fontSize: 15, fontWeight: FontWeight.normal),
                           ),
                           IconButton(
-                              onPressed:FoodCubit.get(context).itemQuantity < 5 ? () {
-                                FoodCubit.get(context)
-                                    .incrementItemCount();
-                              }:null,
-                              icon:  Icon(
+                              onPressed: FoodCubit.get(context).itemQuantity < 5
+                                  ? () {
+                                      FoodCubit.get(context)
+                                          .incrementItemCount();
+                                    }
+                                  : null,
+                              icon: Icon(
                                 Icons.add,
                                 size: 15,
-                                color: FoodCubit.get(context).itemQuantity == 5 ? Colors.grey : defaultColor,
+                                color: FoodCubit.get(context).itemQuantity == 5
+                                    ? Colors.grey
+                                    : defaultColor,
                               )),
                         ],
                       ),
@@ -174,7 +182,7 @@ class AddPosts extends StatelessWidget {
                       /////////////////////////////////////Description/////////////////////////////////////
 
                       rowTextAndFormInput(
-                        linesNumber: 5,
+                          linesNumber: 5,
                           initialValue: null,
                           textEditingController: descriptionController,
                           validator: (value) {
@@ -251,8 +259,7 @@ class AddPosts extends StatelessWidget {
                             Stack(
                               children: [
                                 Container(
-                                    decoration: const BoxDecoration(
-                                        ),
+                                    decoration: const BoxDecoration(),
                                     alignment: Alignment.center,
                                     width: size.width * .23,
                                     height: size.width * .23,
@@ -324,8 +331,7 @@ class AddPosts extends StatelessWidget {
                             Stack(
                               children: [
                                 Container(
-                                    decoration: const BoxDecoration(
-                                        ),
+                                    decoration: const BoxDecoration(),
                                     alignment: Alignment.center,
                                     width: size.width * .23,
                                     height: size.width * .23,
@@ -372,8 +378,8 @@ class AddPosts extends StatelessWidget {
                         direction: Axis.horizontal,
                         groupValue: FoodCubit.get(context).foodType,
                         horizontalAlignment: MainAxisAlignment.spaceBetween,
-                        onChanged: (value) => FoodCubit.get(context)
-                            .changeFoodTypeValue(value),
+                        onChanged: (value) =>
+                            FoodCubit.get(context).changeFoodTypeValue(value),
                         items: FoodCubit.get(context).foodTypeList,
                         textStyle: const TextStyle(
                           fontWeight: FontWeight.bold,
@@ -383,7 +389,9 @@ class AddPosts extends StatelessWidget {
                           item,
                         ),
                       ),
-                      const SizedBox(height: 5.0,),
+                      const SizedBox(
+                        height: 5.0,
+                      ),
                       const Text("Contact Method"),
                       RadioGroup<String>.builder(
                         activeColor: defaultColor,
@@ -424,12 +432,11 @@ class AddPosts extends StatelessWidget {
                             width: 8.0,
                           ),
                           Text(
-                               AppLocalizations.of(context)!
-                                  .donateScreenPolicy,
-                              style: TextStyle(
-                                  fontSize: size.width * 0.03,
-                                  fontWeight: FontWeight.normal
-                              ),)
+                            AppLocalizations.of(context)!.donateScreenPolicy,
+                            style: TextStyle(
+                                fontSize: size.width * 0.03,
+                                fontWeight: FontWeight.normal),
+                          )
                         ],
                       ),
                       const SizedBox(
@@ -441,62 +448,104 @@ class AddPosts extends StatelessWidget {
                           width: size.width / 2,
                           decoration: const BoxDecoration(),
                           child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(12), // <-- Radius
-                                ),
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.circular(12), // <-- Radius
                               ),
-                              onPressed: () {
-                                if (FoodCubit.get(context)
-                                        .addPostPolicyIsChecked ==
-                                    false) {
+                            ),
+                            onPressed: () {
+                              if (FoodCubit.get(context)
+                                      .addPostPolicyIsChecked ==
+                                  false) {
+                                showDialog(
+                                    context: context,
+                                    builder: (_) => AlertDialog(
+                                          title: Text(AppLocalizations.of(
+                                                  context)!
+                                              .donateScreenPolicyValidationDialogTitle),
+                                          content: Text(AppLocalizations.of(
+                                                  context)!
+                                              .donateScreenPolicyValidationDialogDescription),
+                                          actions: [
+                                            TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: defaultText(
+                                                    text: AppLocalizations.of(
+                                                            context)!
+                                                        .dialogOkButton,
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.bold))
+                                          ],
+                                        ));
+                              }
+                              if (formKey.currentState!.validate() &&
+                                  FoodCubit.get(context)
+                                          .addPostPolicyIsChecked ==
+                                      true) {
+                                if ((FoodCubit.get(context).contactMethod ==
+                                            'Phone' ||
+                                        FoodCubit.get(context).contactMethod ==
+                                            'Both') &&
+                                    FirebaseAuth.instance.currentUser!
+                                        .phoneNumber!.isEmpty) {
+                                  showToast(text: AppLocalizations.of(context)!.phoneNumberIsNotVerified, states: ToastStates.ERROR);
                                   showDialog(
                                       context: context,
-                                      builder: (_) => AlertDialog(
-                                            title: Text(AppLocalizations.of(
-                                                    context)!
-                                                .donateScreenPolicyValidationDialogTitle),
-                                            content: Text(AppLocalizations.of(
-                                                    context)!
-                                                .donateScreenPolicyValidationDialogDescription),
-                                            actions: [
-                                              TextButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: defaultText(
-                                                      text: AppLocalizations.of(
-                                                              context)!
-                                                          .dialogOkButton,
-                                                      fontSize: 20,
-                                                      fontWeight: FontWeight.bold))
-                                            ],
-                                          ));
-                                }
-                                if (formKey.currentState!.validate() &&
-                                    FoodCubit.get(context)
-                                            .addPostPolicyIsChecked ==
-                                        true) {
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: Text(
+                                              AppLocalizations.of(context)!.phoneNumberIsNotVerified),
+                                          content: Text(AppLocalizations.of(context)!.phoneNumberIsNotVerifiedDialogContent),
+                                          actions: [
+                                            state is PhoneVerificationCodeSendLoadingState?const Center(child: CircularProgressIndicator(),):
+                                            TextButton(
+                                                onPressed: () {
+                                                  FoodCubit.get(context).verifyPhoneNumber(FoodCubit.get(context).userModel!.phone!, context);
+                                                },
+                                                child: Text(AppLocalizations.of(
+                                                        context)!
+                                                    .verifyButton)),
+                                            TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text(AppLocalizations.of(
+                                                        context)!
+                                                    .cancelButton))
+                                          ],
+                                        );
+                                      });
+                                } else {
                                   FoodCubit.get(context).addPost(
-                                      postDate: "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
+                                      context: context,
+                                      postDate:
+                                          "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
                                       location: locationController.text,
                                       itemName: itemNameController.text,
                                       pickupDate: FoodCubit.get(context).date,
-                                      itemQuantity: FoodCubit.get(context).itemQuantity.toString(),
+                                      itemQuantity: FoodCubit.get(context)
+                                          .itemQuantity
+                                          .toString(),
                                       description: descriptionController.text,
                                       imageUrl1: "imageUrl1",
                                       imageUrl2: "imageUrl2",
                                       foodType: FoodCubit.get(context).foodType,
-                                      contactMethod: FoodCubit.get(context).contactMethod,
+                                      contactMethod:
+                                          FoodCubit.get(context).contactMethod,
                                       foodDonor: FoodCubit.get(context)
                                           .userModel!
                                           .type!);
                                   FoodCubit.get(context).currentIndex = 0;
                                   FoodCubit.get(context).date =
                                       "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
-                                  FoodCubit.get(context).foodType = "Main dishes";
-                                  FoodCubit.get(context).contactMethod = "Phone";
+                                  FoodCubit.get(context).foodType =
+                                      "Main dishes";
+                                  FoodCubit.get(context).contactMethod =
+                                      "Phone";
                                   FoodCubit.get(context)
                                       .addPostPolicyIsChecked = false;
                                   locationController.text = '';
@@ -504,24 +553,23 @@ class AddPosts extends StatelessWidget {
                                   descriptionController.text = '';
                                   FoodCubit.get(context).itemQuantity = 1;
                                 }
-                              },
-                              child: state is CreatePostLoadingState
-                                  ? SizedBox(
-                                      height: size.width * .05,
-                                      width: size.width * .05,
-                                      child: const CircularProgressIndicator(
+                              }
+                            },
+                            child: state is CreatePostLoadingState
+                                ? SizedBox(
+                                    height: size.width * .05,
+                                    width: size.width * .05,
+                                    child: const CircularProgressIndicator(
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                : Text(
+                                    AppLocalizations.of(context)!.submitButton,
+                                    style: const TextStyle(
+                                        fontSize: 26,
                                         color: Colors.white,
-                                      ),
-                                    )
-                                  : Text(
-                                       AppLocalizations.of(context)!
-                                          .submitButton,
-                                      style: const TextStyle(
-                                          fontSize: 26,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w400
-                                      ),
-                              ),
+                                        fontWeight: FontWeight.w400),
+                                  ),
                           ),
                         ),
                       ),

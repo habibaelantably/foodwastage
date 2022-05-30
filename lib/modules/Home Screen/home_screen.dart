@@ -1,10 +1,13 @@
 import 'package:buildcondition/buildcondition.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foodwastage/modules/Home%20Screen/phone_otp_screen.dart';
 import 'package:foodwastage/shared/components/reusable_components.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_states.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:foodwastage/styles/colors.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -20,13 +23,34 @@ class HomeScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.all(15.0),
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
                 child: SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   child: filtersButtons(context),
                 ),
               ),
+              if(FirebaseAuth.instance.currentUser!.phoneNumber==null||FirebaseAuth.instance.currentUser!.phoneNumber=='')
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0,vertical: 5.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(AppLocalizations.of(context)!.phoneNumberIsNotVerified,style: const TextStyle(color: Colors.red, fontSize: 16.0, fontWeight: FontWeight.bold),),
+                      state is PhoneVerificationCodeSendLoadingState?
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Center(child: CircularProgressIndicator(),),
+                      )
+                      :Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: TextButton(onPressed: (){
+                          FoodCubit.get(context).verifyPhoneNumber(FoodCubit.get(context).userModel!.phone!, context);
+                        }, child: Text(AppLocalizations.of(context)!.verifyButton,style: const TextStyle(color: defaultColor,fontSize: 16.0, fontWeight: FontWeight.bold),)),
+                      )
+                    ],
+                  ),
+                ),
               Expanded(
                 child: ListView.separated(
                     shrinkWrap: true,
@@ -54,7 +78,11 @@ class HomeScreen extends StatelessWidget {
               const Center(child: CircularProgressIndicator()),
         );
       },
-      listener: (BuildContext context, Object? state) {},
+      listener: (BuildContext context, Object? state) {
+        if(state is PhoneVerificationCodeSentSuccessState){
+          navigateTo(context, PhoneOtpScreen());
+        }
+      },
     );
   }
 
