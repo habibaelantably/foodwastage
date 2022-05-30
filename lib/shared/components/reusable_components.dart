@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:foodwastage/models/post_model.dart';
+import 'package:foodwastage/modules/Update%20Post%20Screen/update_post_screen.dart';
 import 'package:foodwastage/modules/AddComment/AddComment.dart';
 import 'package:foodwastage/shared/cubit/Prefrences%20Cubit/prefrences_cubit.dart';
 import 'package:foodwastage/shared/cubit/Prefrences%20Cubit/prefrences_states.dart';
@@ -369,9 +370,17 @@ Widget postBuilder({
                               FoodCubit.get(context)
                                   .deletePost(postModel.postId!);
                             }
+                            if(value =='Edit'){
+                              navigateTo(context, UpdatePostScreen(postModel: postModel));
+                            }
                           },
                           itemBuilder: (BuildContext context) {
                             return <PopupMenuItem<String>>[
+                              PopupMenuItem(
+                                child: Text(
+                                    AppLocalizations.of(context)!.editButton),
+                                value: "Edit",
+                              ),
                               PopupMenuItem(
                                 child: Text(
                                     AppLocalizations.of(context)!.deleteButton),

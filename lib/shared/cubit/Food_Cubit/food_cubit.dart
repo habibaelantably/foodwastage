@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:foodwastage/models/Comments_model.dart';
 import 'package:foodwastage/models/User_model.dart';
 import 'package:foodwastage/models/post_model.dart';
@@ -53,6 +52,8 @@ class FoodCubit extends Cubit<FoodStates> {
   int currentIndex = 0;
 
   bool isSearching = false;
+
+  bool editButtonIsEnabled = false;
 
   String filterValue = 'All';
 
@@ -169,6 +170,7 @@ class FoodCubit extends Cubit<FoodStates> {
 
   ///////////////////////////////////////upload post data
   Future<void> addPost({
+    required BuildContext context,
     required String location,
     required String itemName,
     required String pickupDate,
@@ -228,11 +230,14 @@ class FoodCubit extends Cubit<FoodStates> {
           emit(CreatePostErrorState(onError.toString()));
         });
       }
-      emit(CreatePostSuccessState());
       showToast(
-          text: "Post uploaded successfully", states: ToastStates.SUCCESS);
+          text: AppLocalizations.of(context)!.uploadPostSuccess,
+          states: ToastStates.SUCCESS);
+      emit(CreatePostSuccessState());
     }).catchError((onError) {
-      showToast(text: "Post uploaded successfully", states: ToastStates.ERROR);
+      showToast(
+          text: "$onError ${AppLocalizations.of(context)!.editPostFailed}",
+          states: ToastStates.ERROR);
       emit(CreatePostErrorState(onError.toString()));
     });
     return;
@@ -259,38 +264,34 @@ class FoodCubit extends Cubit<FoodStates> {
 
   //لازم تمرر id بتاع البوست علسان تعمل update بيه
   Future<void> updatePost({
-    required String location,
+    required BuildContext context,
+    required String postId,
+    required String pickUpLocation,
+    required String pickUpDate,
     required String itemName,
-    required String postDate,
-    required String foodQuantity,
+    required String itemQuantity,
     required String description,
     required String imageUrl1,
     required String imageUrl2,
     required String foodType,
     required String contactMethod,
-    required bool isFavorite,
   }) async {
     emit(UpdatePostLoadingState());
-    PostModel postModel = PostModel(
-      description: description,
-      foodType: foodType,
-      contactMethod: contactMethod,
-      imageUrl1: imageUrl1,
-      imageUrl2: imageUrl2,
-      itemName: itemName,
-      location: location,
-      pickupDate: postDate,
-      itemQuantity: foodQuantity,
-      donorId: uId,
-      donorPhone: userModel!.phone,
-      requestsUsersId: [],
-    );
-    posts.doc("postId").update(postModel.toMap()).then((idValue) async {
+    posts.doc(postId).update({
+      'location': pickUpLocation,
+      'pickupDate': pickUpDate,
+      'itemName': itemName,
+      'foodQuantity': itemQuantity,
+      'description': description,
+      'imageUrl1': imageUrl1,
+      'imageUrl2': imageUrl2,
+      'foodType': foodType,
+      'contactMethod': contactMethod
+    }).then((idValue) async {
       if (imageFile1 != null) {
-        await uploadImage(imageFile1!, postModel.postId, imageUrl1)
-            .then((value) {
+        await uploadImage(imageFile1!, postId, imageUrl1).then((value) {
           if (imageFile2 != null) {
-            uploadImage(imageFile2!, postModel.postId, imageUrl2).then((value) {
+            uploadImage(imageFile2!, postId, imageUrl2).then((value) {
               emit(UpdatePostSuccessState());
             }).catchError((onError) {
               emit(UpdatePostErrorState(onError.toString()));
@@ -300,10 +301,9 @@ class FoodCubit extends Cubit<FoodStates> {
           emit(UpdatePostErrorState(onError.toString()));
         });
       } else if (imageFile2 != null) {
-        await uploadImage(imageFile2!, postModel.postId, imageUrl2)
-            .then((value) {
+        await uploadImage(imageFile2!, postId, imageUrl2).then((value) {
           if (imageFile1 != null) {
-            uploadImage(imageFile1!, postModel.postId, imageUrl1).then((value) {
+            uploadImage(imageFile1!, postId, imageUrl1).then((value) {
               emit(UpdatePostSuccessState());
             }).catchError((onError) {
               emit(UpdatePostErrorState(onError.toString()));
@@ -314,17 +314,13 @@ class FoodCubit extends Cubit<FoodStates> {
         });
       }
       emit(UpdatePostSuccessState());
-      Fluttertoast.showToast(
-        gravity: ToastGravity.TOP,
-        msg: "Post Updated Successfully",
-        backgroundColor: Colors.green,
-      );
+      showToast(
+          text: AppLocalizations.of(context)!.editPostSuccess,
+          states: ToastStates.SUCCESS);
     }).catchError((onError) {
-      Fluttertoast.showToast(
-        gravity: ToastGravity.TOP,
-        msg: "$onError <<Please try again>>",
-        backgroundColor: Colors.green,
-      );
+      showToast(
+          text: "$onError ${AppLocalizations.of(context)!.editPostSuccess}",
+          states: ToastStates.ERROR);
       emit(UpdatePostErrorState(onError.toString()));
     });
     return;
@@ -371,7 +367,7 @@ class FoodCubit extends Cubit<FoodStates> {
     }
   }
 
-  void getFavPosts() async{
+  void getFavPosts() async {
     await Future.delayed(const Duration(seconds: 2));
     FirebaseFirestore.instance
         .collection('users')
@@ -383,7 +379,7 @@ class FoodCubit extends Cubit<FoodStates> {
       for (var element in event.docs) {
         userModel!.favPostsId!.add(element.id);
         PostModel post = PostModel.fromJson(element.data());
-        post.postId=  element.id;
+        post.postId = element.id;
         favPosts.add(post);
       }
       emit(GetFavoritePostsSuccessState());
@@ -545,9 +541,28 @@ class FoodCubit extends Cubit<FoodStates> {
   }
 
   void deletePost(String postId) async {
-    await FirebaseFirestore.instance.collection('posts').doc(postId).delete().then((value) async {
-      await FirebaseFirestore.instance.collection('users').doc(uId).collection('favorites').doc(postId).delete().then((value){
-        emit(FoodDeletePostSuccessState());
+    await FirebaseFirestore.instance
+        .collection('posts')
+        .doc(postId)
+        .delete()
+        .then((value) async {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uId)
+          .collection('favorites')
+          .doc(postId)
+          .delete()
+          .then((value) async {
+        await FirebaseFirestore.instance
+            .doc(postId)
+            .collection('requests')
+            .get()
+            .then((value) {
+          for (var request in value.docs) {
+            request.reference.delete();
+          }
+          emit(FoodDeletePostSuccessState());
+        });
       });
     });
   }
@@ -630,7 +645,68 @@ class FoodCubit extends Cubit<FoodStates> {
     emit(GetFilteredPostsSuccessState());
   }
 
-  void AddComment(BuildContext context,
+  void enableEditButton({required bool isEnabled}) {
+    editButtonIsEnabled = isEnabled;
+    emit(EnableEditButtonState());
+  }
+
+  late String verificationId;
+
+  Future<void> verifyPhoneNumber(
+      String phoneNumber, BuildContext context) async {
+    emit(PhoneVerificationCodeSendLoadingState());
+    await FirebaseAuth.instance.verifyPhoneNumber(
+      phoneNumber: "+2$phoneNumber",
+      timeout: const Duration(seconds: 30),
+      verificationCompleted: (PhoneAuthCredential credential) async {
+        await FirebaseAuth.instance.currentUser!
+            .updatePhoneNumber(credential)
+            .then((value) {
+          showToast(
+              text: AppLocalizations.of(context)!.phoneVerificationSuccessToast,
+              states: ToastStates.SUCCESS);
+          emit(PhoneVerifiedSuccessState());
+        }).catchError((error) {
+          showToast(text: error, states: ToastStates.ERROR);
+          emit(PhoneVerifiedErrorState());
+        });
+      },
+      verificationFailed: (FirebaseAuthException exception) {
+        showToast(
+            text: "${AppLocalizations.of(context)!.phoneVerificationFailedToast} $exception",
+            states: ToastStates.ERROR);
+        emit(PhoneVerifiedErrorState());
+      },
+      codeSent: codeSent,
+      codeAutoRetrievalTimeout: (timeout) {},
+    );
+  }
+
+  void codeSent(String verificationId, int? resendToken) {
+    this.verificationId = verificationId;
+    emit(PhoneVerificationCodeSentSuccessState());
+  }
+
+  Future<void> submitOTP(String otpCode, BuildContext context) async {
+    emit(PhoneVerifiedLoadingState());
+    PhoneAuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: verificationId, smsCode: otpCode);
+    await FirebaseAuth.instance.currentUser!
+        .updatePhoneNumber(credential)
+        .then((value) {
+      showToast(
+          text: AppLocalizations.of(context)!.phoneVerificationSuccessToast,
+          states: ToastStates.SUCCESS);
+      emit(PhoneVerifiedSuccessState());
+    }).catchError((error) {
+      showToast(
+          text: AppLocalizations.of(context)!.phoneVerificationFailedToast,
+          states: ToastStates.ERROR);
+      emit(PhoneVerifiedErrorState());
+    });
+  }
+
+  void addComment(BuildContext context,
       { PostModel? postModel,
     String? text,required String? postId}) async {
     CommentsModel model=CommentsModel(
@@ -658,18 +734,14 @@ class FoodCubit extends Cubit<FoodStates> {
 
   void getComments(String? postId){
     emit(GetCommentsLoadingState());
-    print(postId);
-
     FirebaseFirestore.instance
         .collection('posts')
         .doc(postId)
         .collection('Comments').snapshots().listen((event) {
       comments.clear();
-      event.docs.forEach((element) {
+      for (var element in event.docs) {
         comments.add(CommentsModel.fromJson(element.data()));
-
-      });
-      print(comments);
+      }
       emit(GetCommentsSuccessState());
     });
 

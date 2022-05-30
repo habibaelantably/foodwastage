@@ -1,6 +1,4 @@
-
 import 'package:buildcondition/buildcondition.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodwastage/models/Comments_model.dart';
@@ -12,13 +10,14 @@ import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_states.dart';
 
 
+// ignore: must_be_immutable
 class CommentsScreen extends StatefulWidget
 {
 
   String? postId;
   UserModel? model;
   PostModel? postModel ;
-  CommentsScreen(this.postId,this.model,this.postModel);
+  CommentsScreen(this.postId,this.model,this.postModel, {Key? key}) : super(key: key);
 
   @override
   State<CommentsScreen> createState() => _CommentsScreenState();
@@ -37,7 +36,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
               return Scaffold(
                 appBar: AppBar(),
                 body: BuildCondition(
-                  condition: FoodCubit.get(context).comments.length > 0 ,
+                  condition: FoodCubit.get(context).comments.isNotEmpty ,
                   builder:(context)=> Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Column(
@@ -50,7 +49,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
                               itemCount: FoodCubit.get(context).comments.length
                           ),
                         ),
-                        SizedBox(height: 5.0,),
+                        const SizedBox(height: 5.0,),
                         Container(
                           clipBehavior: Clip.antiAliasWithSaveLayer,
                           height: 50.0,
@@ -68,7 +67,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
                                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                   child: TextFormField(
                                     controller: commentController,
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                         border: InputBorder.none,
                                         hintText: 'type comment here...'
                                     ),
@@ -80,14 +79,14 @@ class _CommentsScreenState extends State<CommentsScreen> {
                                 ),
                               ),
 
-                              Container(
+                              SizedBox(
                                 height: 50.0,
                                 child: MaterialButton(
                                   onPressed:enableButton?(){
-                                    FoodCubit.get(context).AddComment(context,
+                                    FoodCubit.get(context).addComment(context,
                                         postId:widget.postId, text:commentController.text,postModel: widget.postModel );
                                   }:null,
-                                  child: Icon(Icons.send,
+                                  child: const Icon(Icons.send,
                                     color: Colors.white,
                                   ),
                                   color:enableButton?Colors.deepOrange:Colors.grey,
@@ -109,9 +108,9 @@ class _CommentsScreenState extends State<CommentsScreen> {
                           child: Column(
                             children: [
                               if(state is GetCommentsLoadingState )
-                                CircularProgressIndicator(),
+                                const CircularProgressIndicator(),
                               if(state is GetCommentsSuccessState)
-                                Center(
+                                const Center(
                                   child: Text('no comments yet',style: TextStyle(color: Colors.grey),),)
                             ],),
                         ),
@@ -132,7 +131,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
                                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                   child: TextFormField(
                                     controller: commentController,
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                         border: InputBorder.none,
                                         hintText: 'type comment here...'
                                     ),
@@ -143,15 +142,15 @@ class _CommentsScreenState extends State<CommentsScreen> {
                                   ),
                                 ),
                               ),
-                              Container(
+                              SizedBox(
                                 height: 50.0,
                                 child: MaterialButton(
                                   onPressed:enableButton?(){
-                                    FoodCubit.get(context).AddComment(
+                                    FoodCubit.get(context).addComment(
                                         context,postId:widget.postId,
                                         text:commentController.text,postModel: widget.postModel );
                                   }:null,
-                                  child: Icon(Icons.send,
+                                  child: const Icon(Icons.send,
                                     color: Colors.white,
                                   ),
                                   color:enableButton?Colors.deepOrange:Colors.grey,
@@ -188,11 +187,11 @@ class _CommentsScreenState extends State<CommentsScreen> {
               radius: 30.0,
               backgroundImage: NetworkImage('${_commentModel.image}'),
             ),
-            SizedBox(width: 5.0,),
+            const SizedBox(width: 5.0,),
             Text('${_commentModel.name}'),
           ],
         ),
-        SizedBox(height: 5.0,),
+        const SizedBox(height: 5.0,),
         Text(
             '${_commentModel.text}',
             style: Theme.of(context).textTheme.subtitle1!.copyWith(

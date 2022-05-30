@@ -135,6 +135,58 @@
   "@Delete": {
     "description": "Delete"
   },
+  "editButton": "Edit",
+  "@editButton": {
+    "description": "editButton"
+  },
+  "updateButton": "Update",
+  "@updateButton": {
+    "description": "updateButton"
+  },
+  "verifyButton": "Verify",
+  "@verifyButton": {
+    "description": "verifyButton"
+  },
+  "phoneVerificationSuccessToast": "Verified successfully",
+  "@phoneVerificationSuccessToast": {
+    "description": "phoneVerificationSuccessToast"
+  },
+  "phoneVerificationFailedToast": "Verification Failed",
+  "@phoneVerificationFailedToast": {
+    "description": "phoneVerificationFailedToast"
+  },
+  "phoneNumberIsNotVerified": "Your phone number is not verified:",
+  "@phoneNumberIsNotVerified": {
+    "description": "phoneNumberIsNotVerified"
+  },
+  "phoneNumberIsNotVerifiedDialogContent": "Please verify your phone number or choose chat as a contact method",
+  "@phoneNumberIsNotVerifiedDialogContent": {
+    "description": "phoneNumberIsNotVerifiedDialogContent"
+  },
+  "phoneOtpScreenText1": "Please verify your phone number",
+  "@phoneOtpScreenText1": {
+    "description": "phoneOtpScreenText1"
+  },
+  "phoneOtpScreenText2": "Please enter 6 digits code sent to ",
+  "@phoneOtpScreenText2": {
+    "description": "phoneOtpScreenText2"
+  },
+  "getStartedButton": "Get Started",
+  "@getStartedButton": {
+    "description": "getStartedButton"
+  },
+  "editPostSuccess": "Post edited Successfully",
+  "@editPostSuccess": {
+    "description": "editPostSuccess"
+  },
+  "editPostFailed": "Please try again",
+  "@editPostFailed": {
+    "description": "editPostFailed"
+  },
+  "uploadPostSuccess": "Post uploaded successfully",
+  "@uploadPostSuccess": {
+    "description": "uploadPostSuccess"
+  },
   "postDateHeader": "Posted at:",
   "@postDateHeader": {
     "description": "postDateHeader"

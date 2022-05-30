@@ -145,3 +145,21 @@ class GetCommentsSuccessState extends FoodStates{}
 class GetCommentsLoadingState extends FoodStates{}
 
 class CommentsButtonActivationState extends FoodStates{}
+class EnableEditButtonState extends FoodStates {}
+
+class DisableEditButtonState extends FoodStates {}
+
+class PhoneVerificationCodeSendLoadingState extends FoodStates {}
+
+class PhoneVerificationCodeSentSuccessState extends FoodStates {}
+
+class PhoneVerificationCodeSentErrorState extends FoodStates {}
+
+class PhoneVerifiedLoadingState extends FoodStates {}
+
+class PhoneVerifiedSuccessState extends FoodStates {}
+
+class PhoneVerifiedErrorState extends FoodStates {
+
+}
+

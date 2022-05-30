@@ -10,7 +10,7 @@ import 'package:foodwastage/shared/cubit/Register/food_register_state.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:foodwastage/styles/colors.dart';
 
-import 'OTP.dart';
+import 'email_otp_screen.dart';
 
 // ignore: must_be_immutable
 class RegisterScreen extends StatelessWidget {

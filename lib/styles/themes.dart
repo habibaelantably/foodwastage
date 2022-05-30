@@ -39,8 +39,7 @@ ThemeData darkTheme = ThemeData(
   primaryColor: Colors.red,
   primarySwatch: defaultColor,
   scaffoldBackgroundColor: Colors.black54,
-  radioTheme:
-      RadioThemeData(fillColor: MaterialStateProperty.resolveWith((states) {
+  radioTheme: RadioThemeData(fillColor: MaterialStateProperty.resolveWith((states) {
     if (states.contains(MaterialState.pressed)) {
       return Colors.white;
     } else {
@@ -82,6 +81,5 @@ ThemeData darkTheme = ThemeData(
     backgroundColor: Colors.grey[700],
   ),
   iconTheme: const IconThemeData(color: Colors.white),
-  listTileTheme:
-      const ListTileThemeData(iconColor: Colors.white, textColor: Colors.white),
+  listTileTheme: const ListTileThemeData(iconColor: Colors.white, textColor: Colors.white),
 );
