@@ -136,6 +136,15 @@ class UnFavoritePostSuccessState extends FoodStates {}
 
 class UnFavoritePostErrorState extends FoodStates {}
 
+class CommentSuccessState extends FoodStates{}
+
+class CommentErrorState extends FoodStates{}
+
+class GetCommentsSuccessState extends FoodStates{}
+
+class GetCommentsLoadingState extends FoodStates{}
+
+class CommentsButtonActivationState extends FoodStates{}
 class EnableEditButtonState extends FoodStates {}
 
 class DisableEditButtonState extends FoodStates {}

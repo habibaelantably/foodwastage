@@ -19,6 +19,7 @@ class PostModel {
   String? receiverId;
   List? requestsUsersId = [];
   bool? isRatted;
+  List? CommentsCount = [];
 
   PostModel({
     this.postId,
@@ -40,6 +41,7 @@ class PostModel {
     this.receiverId,
     this.requestsUsersId,
     this.isRatted = false,
+    this.CommentsCount,
   });
 
   Map<String, dynamic> toMap() {
@@ -62,6 +64,7 @@ class PostModel {
       'receiverId': receiverId,
       'requestsUsersId': requestsUsersId,
       'isRatted': isRatted ??= false,
+      'CommentsCount':CommentsCount
     };
   }
 
@@ -85,6 +88,7 @@ class PostModel {
       receiverId: json['receiverId'],
       requestsUsersId: json['requestsUsersId'],
       isRatted: json['isRatted'] ??= false,
+        CommentsCount:json['CommentsCount'],
     );
   }
 }
