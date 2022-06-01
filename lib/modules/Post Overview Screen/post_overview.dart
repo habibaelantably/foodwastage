@@ -13,10 +13,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../Chat_details/chat_details.dart';
 
 class PostOverview extends StatelessWidget {
-  const PostOverview({Key? key, required this.postModel,required this.userModel}) : super(key: key);
+  const PostOverview(
+      {Key? key, required this.postModel, required this.userModel})
+      : super(key: key);
   final PostModel postModel;
   final UserModel userModel;
-
 
   @override
   Widget build(BuildContext context) {
@@ -154,8 +155,21 @@ class PostOverview extends StatelessWidget {
                                     children: [
                                       Expanded(
                                         child: defaultButton(
-                                          function: () {
-                                            navigateTo(context, ChatDetails());
+                                          function: () async {
+                                            await FoodCubit.get(context)
+                                                .getUserdata(
+                                                    context: context,
+                                                    selectedUserId:
+                                                        postModel.donorId)
+                                                .then((value) {
+                                              navigateTo(
+                                                  context,
+                                                  ChatDetails(
+                                                    userModel:
+                                                        FoodCubit.get(context)
+                                                            .selectedUserModel,
+                                                  ));
+                                            });
                                           },
                                           text: AppLocalizations.of(context)!
                                               .chatButton
@@ -191,8 +205,21 @@ class PostOverview extends StatelessWidget {
                                         children: [
                                           Expanded(
                                             child: defaultButton(
-                                              function: () {
-                                                navigateTo(context, ChatDetails(userModel: FoodCubit.get(context).selectedUserModel,));
+                                              function: () async {
+                                                await FoodCubit.get(context)
+                                                    .getUserdata(
+                                                        context: context,
+                                                        selectedUserId:
+                                                            postModel.donorId)
+                                                    .then((value) {
+                                                  navigateTo(
+                                                      context,
+                                                      ChatDetails(
+                                                        userModel: FoodCubit
+                                                                .get(context)
+                                                            .selectedUserModel,
+                                                      ));
+                                                });
                                               },
                                               text:
                                                   AppLocalizations.of(context)!

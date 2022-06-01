@@ -39,6 +39,10 @@
   "@Name": {
     "description": "Name"
   },
+  "pickProfileImageFailedToast": "No image selected",
+  "@pickProfileImageFailedToast": {
+    "description": "pickProfileImageFailedToast"
+  },
   "donateScreenLocationFieldValidation": "Enter the location",
   "@Enter the location": {
     "description": "Enter the location"
@@ -135,9 +139,29 @@
   "@Delete": {
     "description": "Delete"
   },
+  "editProfile": "Edit Profile",
+  "@editProfile": {
+    "description": "editProfile"
+  },
+  "contactMethodLabel": "Contact method: ",
+  "@contactMethodLabel": {
+    "description": "contactMethodLabel"
+  },
+  "foodTypeLabel": "Food Type: ",
+  "@foodTypeLabel": {
+    "description": "foodTypeLabel"
+  },
   "editButton": "Edit",
   "@editButton": {
     "description": "editButton"
+  },
+  "commentsScreenFallback": "No comments yet...",
+  "@commentsScreenFallback": {
+    "description": "commentsScreenFallback"
+  },
+  "commentsTextFieldHint": "type comment here...",
+  "@commentsTextFieldHint": {
+    "description": "commentsTextFieldHint"
   },
   "updateButton": "Update",
   "@updateButton": {

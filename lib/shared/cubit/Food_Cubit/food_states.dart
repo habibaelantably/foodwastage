@@ -35,6 +35,8 @@ class DeleteImage1State extends FoodStates {}
 
 class DeleteImage2State extends FoodStates {}
 
+class DeleteProfileImgSuccessState extends FoodStates {}
+
 class CreatePostLoadingState extends FoodStates {}
 
 class CreatePostSuccessState extends FoodStates {}
@@ -146,6 +148,7 @@ class GetCommentsSuccessState extends FoodStates{}
 class GetCommentsLoadingState extends FoodStates{}
 
 class CommentsButtonActivationState extends FoodStates{}
+
 class EnableEditButtonState extends FoodStates {}
 
 class DisableEditButtonState extends FoodStates {}
@@ -171,6 +174,15 @@ class GetMessageSuccessState extends FoodStates{}
 class UploadProfileImageSuccessState extends FoodStates{}
 
 class UploadProfileImageErrorState extends FoodStates{}
+
+class UpdateUserLoadingState extends FoodStates{}
+
+class UpdateUserSuccessState extends FoodStates{}
+
+class UpdateUserErrorState extends FoodStates{}
+
+class ProfileImagePickedSuccessState extends FoodStates{}
+
 
 
 

@@ -38,6 +38,9 @@ Widget defaultFormField(
         validator: (String? value) {
           return validator(value);
         },
+        onChanged: (value) {
+          onChanged!(value);
+        },
         obscureText: isPassword,
         decoration: InputDecoration(
           labelText: label,
@@ -220,8 +223,13 @@ Widget postBuilder({
     InkWell(
       onTap: viewPost
           ? () {
-        navigateTo(context, PostOverview(postModel: postModel,userModel: userModel,));
-      }
+              navigateTo(
+                  context,
+                  PostOverview(
+                    postModel: postModel,
+                    userModel: userModel,
+                  ));
+            }
           : null,
       child: Card(
         shape: RoundedRectangleBorder(
@@ -276,7 +284,7 @@ Widget postBuilder({
                       InkWell(
                         child: CircleAvatar(
                           backgroundImage:
-                          NetworkImage('${postModel.userImage}'),
+                              NetworkImage('${postModel.userImage}'),
                         ),
                         onTap: () {
                           FoodCubit.get(context).getUserdata(
@@ -320,8 +328,8 @@ Widget postBuilder({
                                       .textTheme
                                       .bodyText1!
                                       .copyWith(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w800)),
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w800)),
                             ),
                             Text(
                               '${FoodCubit.get(context).userModel!.type}',
@@ -346,66 +354,60 @@ Widget postBuilder({
                 children: [
                   postModel.donorId != uId
                       ? IconButton(
-                    onPressed: () {
-                      FoodCubit.get(context)
-                          .changePostFavStatus(postModel);
-                    },
-                    iconSize: 20,
-                    constraints:
-                    BoxConstraints.tight(const Size(35.0, 35.0)),
-                    icon: Icon(
-                      FoodCubit.get(context)
-                          .userModel!
-                          .favPostsId!
-                          .contains(postModel.postId)
-                          ? Icons.favorite
-                          : Icons.favorite_border,
-                      color: Colors.orange,
-                    ),
-                  )
-                      : PopupMenuButton<String>(
-                      icon: const Icon(
-                        Icons.more_horiz,
-                      ),
-                      onSelected: (value) {
-                        if (value == "Delete") {
-                          FoodCubit.get(context)
-                              .deletePost(postModel.postId!);
-                        }
-                        if(value =='Edit'){
-                          navigateTo(context, UpdatePostScreen(postModel: postModel));
-                        }
-                      },
-                      itemBuilder: (BuildContext context) {
-                        return <PopupMenuItem<String>>[
-                          PopupMenuItem(
-                            child: Text(
-                                AppLocalizations.of(context)!.editButton),
-                            value: "Edit",
+                          onPressed: () {
+                            FoodCubit.get(context)
+                                .changePostFavStatus(postModel);
+                          },
+                          iconSize: 20,
+                          constraints:
+                              BoxConstraints.tight(const Size(35.0, 35.0)),
+                          icon: Icon(
+                            FoodCubit.get(context)
+                                    .userModel!
+                                    .favPostsId!
+                                    .contains(postModel.postId)
+                                ? Icons.favorite
+                                : Icons.favorite_border,
+                            color: Colors.orange,
                           ),
-                          PopupMenuItem(
-                            child: Text(
-                                AppLocalizations.of(context)!.deleteButton),
-                            value: "Delete",
-                          )
-                        ];
-                      }),
+                        )
+                      : PopupMenuButton<String>(
+                          icon: const Icon(
+                            Icons.more_horiz,
+                          ),
+                          onSelected: (value) {
+                            if (value == "Delete") {
+                              FoodCubit.get(context)
+                                  .deletePost(postModel.postId!);
+                            }
+                            if (value == 'Edit') {
+                              navigateTo(context,
+                                  UpdatePostScreen(postModel: postModel));
+                            }
+                          },
+                          itemBuilder: (BuildContext context) {
+                            return <PopupMenuItem<String>>[
+                              PopupMenuItem(
+                                child: Text(
+                                    AppLocalizations.of(context)!.editButton),
+                                value: "Edit",
+                              ),
+                              PopupMenuItem(
+                                child: Text(
+                                    AppLocalizations.of(context)!.deleteButton),
+                                value: "Delete",
+                              )
+                            ];
+                          }),
                   const Spacer(),
                   InkWell(
-                    onTap: (){
-                      FoodCubit.get(context).comments=[];
+                    onTap: () {
+                      FoodCubit.get(context).comments = [];
                       navigateTo(
                           context,
-                          CommentsScreen(
-                              postModel.postId,
-                              FoodCubit.get(context).userModel,
-                              postModel
-
-                          ));
+                          CommentsScreen(postModel.postId,
+                              FoodCubit.get(context).userModel, postModel));
                       FoodCubit.get(context).getComments(postModel.postId);
-
-
-
                     },
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,

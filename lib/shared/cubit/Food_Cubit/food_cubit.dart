@@ -20,9 +20,6 @@ import '../../../modules/Home Screen/home_screen.dart';
 import 'package:foodwastage/shared/components/reusable_components.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
-
-
 class FoodCubit extends Cubit<FoodStates> {
   FoodCubit() : super(InitialFoodStates());
 
@@ -32,7 +29,7 @@ class FoodCubit extends Cubit<FoodStates> {
 
   UserModel? selectedUserModel;
 
-  void getUserdata(
+  Future<void> getUserdata(
       {String? selectedUserId, required BuildContext context}) async {
     //this condition to not do the method again if i clicked on current user because we already got his data at starting of application
     await FirebaseFirestore.instance
@@ -138,38 +135,42 @@ class FoodCubit extends Cubit<FoodStates> {
 
 ////////////////////////////////////////////////////////////get images
   final ImagePicker picker = ImagePicker();
-  File? imageFile1;
-  File? imageFile2;
+  File? postImageFile1;
+  File? postImageFile2;
 
-  getImage1() async {
+  getPostImage1(BuildContext context) async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-      imageFile1 = File(pickedFile.path);
+      postImageFile1 = File(pickedFile.path);
       emit(PostImagePickedSuccessState());
     } else {
-      print("No Image Selected");
+      showToast(
+          text: AppLocalizations.of(context)!.pickProfileImageFailedToast,
+          states: ToastStates.ERROR);
       emit(PostImagePickedErrorState());
     }
   }
 
-  getImage2() async {
+  getPostImage2(BuildContext context) async {
     final _pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (_pickedFile != null) {
-      imageFile2 = File(_pickedFile.path);
+      postImageFile2 = File(_pickedFile.path);
       emit(PostImagePickedSuccessState());
     } else {
-      print("No Image Selected");
+      showToast(
+          text: AppLocalizations.of(context)!.pickProfileImageFailedToast,
+          states: ToastStates.ERROR);
       emit(PostImagePickedErrorState());
     }
   }
 
-  deleteImage1() {
-    imageFile1 = null;
+  deletePostImage1() {
+    postImageFile1 = null;
     emit(DeleteImage1State());
   }
 
-  deleteImage2() {
-    imageFile2 = null;
+  deletePostImage2() {
+    postImageFile2 = null;
     emit(DeleteImage2State());
   }
 
@@ -210,10 +211,10 @@ class FoodCubit extends Cubit<FoodStates> {
       postDate: postDate,
     );
     posts.add(postModel.toMap()).then((idValue) async {
-      if (imageFile1 != null) {
-        await uploadImage(imageFile1!, idValue.id, imageUrl1).then((value) {
-          if (imageFile2 != null) {
-            uploadImage(imageFile2!, idValue.id, imageUrl2).then((value) {
+      if (postImageFile1 != null) {
+        await uploadImage(postImageFile1!, idValue.id, imageUrl1).then((value) {
+          if (postImageFile2 != null) {
+            uploadImage(postImageFile2!, idValue.id, imageUrl2).then((value) {
               emit(CreatePostSuccessState());
             }).catchError((onError) {
               emit(CreatePostErrorState(onError.toString()));
@@ -222,10 +223,10 @@ class FoodCubit extends Cubit<FoodStates> {
         }).catchError((onError) {
           emit(CreatePostErrorState(onError.toString()));
         });
-      } else if (imageFile2 != null) {
-        await uploadImage(imageFile2!, idValue.id, imageUrl2).then((value) {
-          if (imageFile1 != null) {
-            uploadImage(imageFile1!, idValue.id, imageUrl1).then((value) {
+      } else if (postImageFile2 != null) {
+        await uploadImage(postImageFile2!, idValue.id, imageUrl2).then((value) {
+          if (postImageFile1 != null) {
+            uploadImage(postImageFile1!, idValue.id, imageUrl1).then((value) {
               emit(CreatePostSuccessState());
             }).catchError((onError) {
               emit(CreatePostErrorState(onError.toString()));
@@ -293,10 +294,10 @@ class FoodCubit extends Cubit<FoodStates> {
       'foodType': foodType,
       'contactMethod': contactMethod
     }).then((idValue) async {
-      if (imageFile1 != null) {
-        await uploadImage(imageFile1!, postId, imageUrl1).then((value) {
-          if (imageFile2 != null) {
-            uploadImage(imageFile2!, postId, imageUrl2).then((value) {
+      if (postImageFile1 != null) {
+        await uploadImage(postImageFile1!, postId, imageUrl1).then((value) {
+          if (postImageFile2 != null) {
+            uploadImage(postImageFile2!, postId, imageUrl2).then((value) {
               emit(UpdatePostSuccessState());
             }).catchError((onError) {
               emit(UpdatePostErrorState(onError.toString()));
@@ -305,10 +306,10 @@ class FoodCubit extends Cubit<FoodStates> {
         }).catchError((onError) {
           emit(UpdatePostErrorState(onError.toString()));
         });
-      } else if (imageFile2 != null) {
-        await uploadImage(imageFile2!, postId, imageUrl2).then((value) {
-          if (imageFile1 != null) {
-            uploadImage(imageFile1!, postId, imageUrl1).then((value) {
+      } else if (postImageFile2 != null) {
+        await uploadImage(postImageFile2!, postId, imageUrl2).then((value) {
+          if (postImageFile1 != null) {
+            uploadImage(postImageFile1!, postId, imageUrl1).then((value) {
               emit(UpdatePostSuccessState());
             }).catchError((onError) {
               emit(UpdatePostErrorState(onError.toString()));
@@ -672,13 +673,17 @@ class FoodCubit extends Cubit<FoodStates> {
               states: ToastStates.SUCCESS);
           emit(PhoneVerifiedSuccessState());
         }).catchError((error) {
-          showToast(text: error, states: ToastStates.ERROR);
+          showToast(
+              text:
+                  "${AppLocalizations.of(context)!.phoneVerificationFailedToast} $error",
+              states: ToastStates.ERROR);
           emit(PhoneVerifiedErrorState());
         });
       },
       verificationFailed: (FirebaseAuthException exception) {
         showToast(
-            text: "${AppLocalizations.of(context)!.phoneVerificationFailedToast} $exception",
+            text:
+                "${AppLocalizations.of(context)!.phoneVerificationFailedToast} $exception",
             states: ToastStates.ERROR);
         emit(PhoneVerifiedErrorState());
       },
@@ -705,16 +710,16 @@ class FoodCubit extends Cubit<FoodStates> {
       emit(PhoneVerifiedSuccessState());
     }).catchError((error) {
       showToast(
-          text: AppLocalizations.of(context)!.phoneVerificationFailedToast,
+          text:
+              "${AppLocalizations.of(context)!.phoneVerificationFailedToast} $error",
           states: ToastStates.ERROR);
       emit(PhoneVerifiedErrorState());
     });
   }
 
   void addComment(BuildContext context,
-      { PostModel? postModel,
-    String? text,required String? postId}) async {
-    CommentsModel model=CommentsModel(
+      {PostModel? postModel, String? text, required String? postId}) async {
+    CommentsModel model = CommentsModel(
       name: userModel!.name,
       image: userModel!.image,
       text: text,
@@ -735,24 +740,25 @@ class FoodCubit extends Cubit<FoodStates> {
     });
   }
 
-  List<CommentsModel>comments=[];
+  List<CommentsModel> comments = [];
 
-  void getComments(String? postId){
+  void getComments(String? postId) {
     emit(GetCommentsLoadingState());
     FirebaseFirestore.instance
         .collection('posts')
         .doc(postId)
-        .collection('Comments').snapshots().listen((event) {
+        .collection('Comments')
+        .snapshots()
+        .listen((event) {
       comments.clear();
       for (var element in event.docs) {
         comments.add(CommentsModel.fromJson(element.data()));
       }
       emit(GetCommentsSuccessState());
     });
-
   }
 
-  void SendMassage({
+  void sendMessage({
     required String? receiverId,
     required String? dateTime,
     required String? text,
@@ -763,7 +769,8 @@ class FoodCubit extends Cubit<FoodStates> {
       dateTime: dateTime,
       text: text,
     );
-    FirebaseFirestore.instance.collection('users')
+    FirebaseFirestore.instance
+        .collection('users')
         .doc(userModel?.uId)
         .collection('Chats')
         .doc(receiverId)
@@ -771,13 +778,12 @@ class FoodCubit extends Cubit<FoodStates> {
         .add(model.toMap())
         .then((value) {
       emit(SendMessageSuccessState());
-    })
-        .catchError((error) {
+    }).catchError((error) {
       emit(SendMessageErrorState());
     });
 
-
-    FirebaseFirestore.instance.collection('users')
+    FirebaseFirestore.instance
+        .collection('users')
         .doc(receiverId)
         .collection('Chats')
         .doc(userModel?.uId)
@@ -785,129 +791,111 @@ class FoodCubit extends Cubit<FoodStates> {
         .add(model.toMap())
         .then((value) {
       emit(SendMessageSuccessState());
-    })
-        .catchError((error) {
+    }).catchError((error) {
       emit(SendMessageErrorState());
     });
   }
 
   List<MessageModel> massages = [];
 
-  void getMessages({
-    required String? receiverId
-  }){
-    FirebaseFirestore.instance.
-    collection("users").
-    doc(userModel!.uId).
-    collection("Chats").
-    doc(receiverId).
-    collection("massage").orderBy('dateTime').
-    snapshots().
-    listen((event) {
-      massages=[];
-      event.docs.forEach((element) {
+  void getMessages({required String? receiverId}) {
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(userModel!.uId)
+        .collection("Chats")
+        .doc(receiverId)
+        .collection("massage")
+        .orderBy('dateTime')
+        .snapshots()
+        .listen((event) {
+      massages = [];
+      for (var element in event.docs) {
         massages.add(MessageModel.fromjson(element.data()));
-      });
+      }
       emit(GetMessageSuccessState());
     });
-
-
   }
 
-  /////////////editprofile
+  /////////////editProfile
 
   File? profileImage;
-  var Picker = ImagePicker();
+  var profileImgPicker = ImagePicker();
 
-  Future<void> getprofileImage() async
-  {
-    final PickedFile = await picker.pickImage(source: ImageSource.gallery);
-    if (PickedFile != null) {
-      profileImage = File(PickedFile.path);
-      print(PickedFile.path);
-     // emit(ProfileImagePi());
-    }
-    else {
-      print('NO IMAGE SELECTED!');
-      //emit(FoodProfileImagePickedErrorState());
+  Future<void> pickProfileImage(BuildContext context) async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      profileImage = File(pickedFile.path);
+      enableEditButton(isEnabled: true);
+    } else {
+      showToast(
+          text: AppLocalizations.of(context)!.pickProfileImageFailedToast,
+          states: ToastStates.ERROR);
     }
   }
 
-  /////////////uploadphoto
+  /////////////uploadPhoto
 
-  String profileImageUrl = '';
-
-  void upLoadProfileImage() {
-    firebase_storage.FirebaseStorage.instance
+  Future<void> upLoadProfileImage() async {
+    await firebase_storage.FirebaseStorage.instance
         .ref()
-        .child('users/${Uri
-        .file(profileImage!.path)
-        .pathSegments
-        .last}')
+        .child('users/${Uri.file(profileImage!.path).pathSegments.last}')
         .putFile(profileImage!)
         .then((value) {
-      value.ref.getDownloadURL().then((value) {
-      emit(UploadProfileImageSuccessState());
-        print(value);
-        profileImageUrl = value;
-      }).catchError((error) {
-        //emit(Upload());
+      value.ref.getDownloadURL().then((value) async {
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(uId)
+            .update({"image": value});
+        emit(UploadProfileImageSuccessState());
+      }).catchError((error) {});
+    });
+  }
+
+  deleteProfileImage() {
+    profileImage = null;
+    enableEditButton(isEnabled: false);
+    emit(DeleteProfileImgSuccessState());
+  }
+
+  Future updateUser(
+      {required String name,
+      required String phone,
+      required String email,
+      required String country,
+      required BuildContext context}) async {
+    emit(UpdateUserLoadingState());
+    if (profileImage != null) {
+      await upLoadProfileImage().then((value) async {
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userModel!.uId)
+            .update({
+          'name': name,
+          'phone': phone,
+          'email': email,
+          'country': country,
+        }).then((value) async {
+          getUserdata(context: context);
+          emit(UpdateUserSuccessState());
+        }).catchError((error) {
+          emit(UpdateUserErrorState());
+        });
       });
-    })
-        .catchError((error) {
-      //emit(Uploa());
-    });
-  }
-
-
-  void UpdateUserImage({required String name,
-    required String phone,
-    required String email,
-    required String country,
-    required BuildContext context
-
-  })
-  {
-    //emit(UserUpdateImageLoadingState());
-  if (profileImage != null) {
-    upLoadProfileImage();
-  } else {
-    UpdateUsers(
-      name:name,
-      phone:phone,
-      email:email,
-      country:country,
-      context: context
-    );
-  }
-  }
-
-  void UpdateUsers({required String name,
-    required String phone,
-    required String email,
-    required String country,
-    required BuildContext context
-  })
-  {
-    UserModel model = UserModel
-      (
-      name: name,
-      phone: phone,
-      email: email,
-      country: country,
-      image :userModel?.image, ////////// el nhaga el adema htfdl b asmaha zi kdaa
-
-
-    );
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(userModel?.uId)
-        .update(model.toMap())
-        .then((value) {
-      getUserdata(context:context );
-    })
-        .catchError((error) {
-     // emit(FoodUserUpdateErrorState());
-    });
+    } else {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userModel!.uId)
+          .update({
+        'name': name,
+        'phone': phone,
+        'email': email,
+        'country': country,
+      }).then((value) async {
+        getUserdata(context: context);
+        emit(UpdateUserSuccessState());
+      }).catchError((error) {
+        emit(UpdateUserErrorState());
+      });
+    }
   }
 }

@@ -11,7 +11,7 @@ import 'package:foodwastage/styles/colors.dart';
 import 'package:foodwastage/shared/components/reusable_components.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'Edite_profile.dart';
+import 'Edit_profile.dart';
 
 // ignore: must_be_immutable
 class ProfileScreen extends StatelessWidget {

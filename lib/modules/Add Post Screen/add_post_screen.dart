@@ -221,8 +221,8 @@ class AddPosts extends StatelessWidget {
                           const SizedBox(
                             width: 5,
                           ),
-                          if (FoodCubit.get(context).imageFile1 == null)
-                            FoodCubit.get(context).imageFile2 != null
+                          if (FoodCubit.get(context).postImageFile1 == null)
+                            FoodCubit.get(context).postImageFile2 != null
                                 ? DottedBorder(
                                     color: defaultColor,
                                     strokeWidth: 2,
@@ -232,13 +232,16 @@ class AddPosts extends StatelessWidget {
                                     ],
                                     child: InkWell(
                                       onTap: () {
-                                        if (FoodCubit.get(context).imageFile1 ==
+                                        if (FoodCubit.get(context)
+                                                .postImageFile1 ==
                                             null) {
-                                          FoodCubit.get(context).getImage1();
+                                          FoodCubit.get(context)
+                                              .getPostImage1(context);
                                         } else if (FoodCubit.get(context)
-                                                .imageFile2 ==
+                                                .postImageFile2 ==
                                             null) {
-                                          FoodCubit.get(context).getImage2();
+                                          FoodCubit.get(context)
+                                              .getPostImage2(context);
                                         }
                                       },
                                       child: Container(
@@ -255,7 +258,8 @@ class AddPosts extends StatelessWidget {
                                     ),
                                   )
                                 : const SizedBox()
-                          else if (FoodCubit.get(context).imageFile1 != null)
+                          else if (FoodCubit.get(context).postImageFile1 !=
+                              null)
                             Stack(
                               children: [
                                 Container(
@@ -265,7 +269,7 @@ class AddPosts extends StatelessWidget {
                                     height: size.width * .23,
                                     //    padding: const EdgeInsets.all(16.0),
                                     child: Image.file(
-                                      FoodCubit.get(context).imageFile1!,
+                                      FoodCubit.get(context).postImageFile1!,
                                       fit: BoxFit.cover,
                                     )),
                                 Positioned(
@@ -279,7 +283,8 @@ class AddPosts extends StatelessWidget {
                                       child: IconButton(
                                         padding: EdgeInsets.zero,
                                         onPressed: () {
-                                          FoodCubit.get(context).deleteImage1();
+                                          FoodCubit.get(context)
+                                              .deletePostImage1();
                                         },
                                         icon: Icon(
                                           Icons.clear,
@@ -295,7 +300,7 @@ class AddPosts extends StatelessWidget {
                           const SizedBox(
                             width: 10,
                           ),
-                          if (FoodCubit.get(context).imageFile2 == null)
+                          if (FoodCubit.get(context).postImageFile2 == null)
                             DottedBorder(
                               color: defaultColor,
                               strokeWidth: 2,
@@ -305,13 +310,15 @@ class AddPosts extends StatelessWidget {
                               ],
                               child: InkWell(
                                 onTap: () {
-                                  if (FoodCubit.get(context).imageFile1 ==
+                                  if (FoodCubit.get(context).postImageFile1 ==
                                       null) {
-                                    FoodCubit.get(context).getImage1();
+                                    FoodCubit.get(context)
+                                        .getPostImage1(context);
                                   } else if (FoodCubit.get(context)
-                                          .imageFile2 ==
+                                          .postImageFile2 ==
                                       null) {
-                                    FoodCubit.get(context).getImage2();
+                                    FoodCubit.get(context)
+                                        .getPostImage2(context);
                                   }
                                 },
                                 child: Container(
@@ -338,7 +345,7 @@ class AddPosts extends StatelessWidget {
                                     //    padding: const EdgeInsets.all(16.0),
                                     child: ClipRRect(
                                       child: Image.file(
-                                        FoodCubit.get(context).imageFile2!,
+                                        FoodCubit.get(context).postImageFile2!,
                                         fit: BoxFit.fill,
                                       ),
                                     )),
@@ -353,7 +360,8 @@ class AddPosts extends StatelessWidget {
                                       child: IconButton(
                                         padding: EdgeInsets.zero,
                                         onPressed: () {
-                                          FoodCubit.get(context).deleteImage2();
+                                          FoodCubit.get(context)
+                                              .deletePostImage2();
                                         },
                                         icon: Icon(
                                           Icons.clear,
@@ -372,7 +380,7 @@ class AddPosts extends StatelessWidget {
                         height: size.height / 60,
                       ),
                       ///////////////////////////////////// FoodType/////////////////////////////////////
-                      const Text("Food Type:"),
+                      Text(AppLocalizations.of(context)!.foodTypeLabel),
                       RadioGroup<String>.builder(
                         activeColor: defaultColor,
                         direction: Axis.horizontal,
@@ -392,7 +400,7 @@ class AddPosts extends StatelessWidget {
                       const SizedBox(
                         height: 5.0,
                       ),
-                      const Text("Contact Method"),
+                      Text(AppLocalizations.of(context)!.contactMethodLabel),
                       RadioGroup<String>.builder(
                         activeColor: defaultColor,
                         direction: Axis.horizontal,
@@ -423,8 +431,8 @@ class AddPosts extends StatelessWidget {
                             child: Icon(
                               FoodCubit.get(context).addPostPolicyIsChecked ==
                                       false
-                                  ? Icons.radio_button_unchecked_outlined
-                                  : Icons.check_circle_outline,
+                                  ? Icons.check_box_outline_blank
+                                  : Icons.check_box_outlined,
                               color: defaultColor,
                             ),
                           ),
@@ -492,23 +500,41 @@ class AddPosts extends StatelessWidget {
                                             'Both') &&
                                     FirebaseAuth.instance.currentUser!
                                         .phoneNumber!.isEmpty) {
-                                  showToast(text: AppLocalizations.of(context)!.phoneNumberIsNotVerified, states: ToastStates.ERROR);
+                                  showToast(
+                                      text: AppLocalizations.of(context)!
+                                          .phoneNumberIsNotVerified,
+                                      states: ToastStates.ERROR);
                                   showDialog(
                                       context: context,
                                       builder: (context) {
                                         return AlertDialog(
                                           title: Text(
-                                              AppLocalizations.of(context)!.phoneNumberIsNotVerified),
-                                          content: Text(AppLocalizations.of(context)!.phoneNumberIsNotVerifiedDialogContent),
+                                              AppLocalizations.of(context)!
+                                                  .phoneNumberIsNotVerified),
+                                          content: Text(AppLocalizations.of(
+                                                  context)!
+                                              .phoneNumberIsNotVerifiedDialogContent),
                                           actions: [
-                                            state is PhoneVerificationCodeSendLoadingState?const Center(child: CircularProgressIndicator(),):
-                                            TextButton(
-                                                onPressed: () {
-                                                  FoodCubit.get(context).verifyPhoneNumber(FoodCubit.get(context).userModel!.phone!, context);
-                                                },
-                                                child: Text(AppLocalizations.of(
-                                                        context)!
-                                                    .verifyButton)),
+                                            state
+                                                    is PhoneVerificationCodeSendLoadingState
+                                                ? const Center(
+                                                    child:
+                                                        CircularProgressIndicator(),
+                                                  )
+                                                : TextButton(
+                                                    onPressed: () {
+                                                      FoodCubit.get(context)
+                                                          .verifyPhoneNumber(
+                                                              FoodCubit.get(
+                                                                      context)
+                                                                  .userModel!
+                                                                  .phone!,
+                                                              context);
+                                                    },
+                                                    child: Text(
+                                                        AppLocalizations.of(
+                                                                context)!
+                                                            .verifyButton)),
                                             TextButton(
                                                 onPressed: () {
                                                   Navigator.pop(context);

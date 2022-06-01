@@ -52,28 +52,29 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   const SizedBox(
                     height: 12,
                   ),
-                  RichText(
-                    text: TextSpan(children: [
-                      TextSpan(
-                        text: "${FoodCubit.get(context).userModel!.name} ",
-                        style: TextStyle(
-                          fontSize: 22,
-                          color:
-                              PreferencesCubit.get(context).darkModeSwitchIsOn
-                                  ? Colors.white
-                                  : Colors.black,
-                          fontWeight: FontWeight.w700,
-                        ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text("${FoodCubit.get(context).userModel!.name} ",
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 22,
+                            color:
+                            PreferencesCubit.get(context).darkModeSwitchIsOn
+                                ? Colors.white
+                                : Colors.black,
+                            fontWeight: FontWeight.w700,
+                          ),),
                       ),
-                      TextSpan(
-                        text: "(${FoodCubit.get(context).userModel!.type})",
+                      Text(
+                        "(${FoodCubit.get(context).userModel!.type})",
                         style: TextStyle(
                           fontSize: 15,
                           color: Colors.grey[700],
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                    ]),
+                    ],
                   ),
                   const SizedBox(
                     height: 7.0,

@@ -84,7 +84,7 @@ class ChatDetails extends StatelessWidget
                                   color: Colors.deepOrangeAccent,
                                   child: MaterialButton(
                                     onPressed:(){
-                                      FoodCubit.get(context).SendMassage(
+                                      FoodCubit.get(context).sendMessage(
                                           receiverId: userModel!.uId,
                                           dateTime: DateTime.now().toString(),
                                           text: messageController.text);
@@ -144,7 +144,7 @@ class ChatDetails extends StatelessWidget
                                   color: Colors.deepOrange,
                                   child: MaterialButton(
                                     onPressed:(){
-                                      FoodCubit.get(context).SendMassage(
+                                      FoodCubit.get(context).sendMessage(
                                           receiverId: userModel!.uId,
                                           dateTime: DateTime.now().toString(),
                                           text: messageController.text);
