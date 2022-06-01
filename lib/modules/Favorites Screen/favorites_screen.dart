@@ -24,6 +24,7 @@ class FavoritesScreen extends StatelessWidget {
                 itemBuilder: (context, index) => postBuilder(
                   context: context,
                   postModel: FoodCubit.get(context).favPosts[index],
+                  userModel: FoodCubit.get(context).userData[index],
                   viewPost: true
                 ),
                 separatorBuilder: (context, index) => const SizedBox(

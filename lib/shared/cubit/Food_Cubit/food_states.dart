@@ -1,3 +1,4 @@
+
 abstract class FoodStates {}
 
 class InitialFoodStates extends FoodStates {}
@@ -159,7 +160,21 @@ class PhoneVerifiedLoadingState extends FoodStates {}
 
 class PhoneVerifiedSuccessState extends FoodStates {}
 
-class PhoneVerifiedErrorState extends FoodStates {
+class PhoneVerifiedErrorState extends FoodStates {}
 
-}
+class SendMessageSuccessState extends FoodStates{}
+
+class SendMessageErrorState extends FoodStates{}
+
+class GetMessageSuccessState extends FoodStates{}
+
+class UploadProfileImageSuccessState extends FoodStates{}
+
+class UploadProfileImageErrorState extends FoodStates{}
+
+
+
+
+
+
 

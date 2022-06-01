@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:foodwastage/models/User_model.dart';
+import 'package:foodwastage/modules/Chat_details/chat_details.dart';
 import 'package:foodwastage/shared/constants.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_states.dart';
 import 'package:foodwastage/styles/colors.dart';
 import 'package:foodwastage/shared/components/reusable_components.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'Edite_profile.dart';
 
 // ignore: must_be_immutable
 class ProfileScreen extends StatelessWidget {
@@ -42,12 +45,14 @@ class ProfileScreen extends StatelessWidget {
             actions: [
               selectedUserId == uId
                   ? IconButton(
-                      icon: const Icon(
-                        Icons.edit,
-                        color: Colors.orange,
-                      ),
-                      onPressed: () {},
-                    )
+                icon: const Icon(
+                  Icons.edit,
+                  color: Colors.orange,
+                ),
+                onPressed: () {
+                  navigateTo(context, EditProfile());
+                },
+              )
                   : const SizedBox(),
             ],
           ),
@@ -69,7 +74,7 @@ class ProfileScreen extends StatelessWidget {
                           CircleAvatar(
                             radius: 40.0,
                             backgroundImage:
-                                NetworkImage(profileUserModel.image!),
+                            NetworkImage(profileUserModel.image!),
                           ),
                           const SizedBox(
                             width: 30.0,
@@ -85,8 +90,8 @@ class ProfileScreen extends StatelessWidget {
                                           .textTheme
                                           .bodyText1!
                                           .copyWith(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w800)),
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w800)),
                                   TextSpan(
                                     text: "(${profileUserModel.type})",
                                     style: TextStyle(
@@ -105,7 +110,7 @@ class ProfileScreen extends StatelessWidget {
                                     initialRating: profileUserModel.rating!,
                                     itemSize: 20.0,
                                     ignoreGestures:
-                                        selectedUserId == uId ? true : false,
+                                    selectedUserId == uId ? true : false,
                                     itemCount: 5,
                                     direction: Axis.horizontal,
                                     ratingWidget: RatingWidget(
@@ -132,21 +137,24 @@ class ProfileScreen extends StatelessWidget {
                               ),
                               selectedUserId != uId
                                   ? MaterialButton(
-                                      onPressed: () {},
-                                      color: defaultColor,
-                                      height: 24,
-                                      child: Text(
-                                        AppLocalizations.of(context)!
-                                            .chatButton,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white),
-                                      ),
-                                      shape: const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(12.0)),
-                                      ),
-                                    )
+                                onPressed: () {
+                                  navigateTo(context, ChatDetails(userModel: profileUserModel));
+                                  FoodCubit.get(context).getMessages(receiverId: profileUserModel.uId);
+                                },
+                                color: defaultColor,
+                                height: 24,
+                                child: Text(
+                                  AppLocalizations.of(context)!
+                                      .chatButton,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                ),
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(12.0)),
+                                ),
+                              )
                                   : const SizedBox(),
                             ],
                           ),
@@ -167,31 +175,31 @@ class ProfileScreen extends StatelessWidget {
                           physics: const BouncingScrollPhysics(),
                           itemBuilder: (context, index) {
                             return postBuilder(
-                                context: context,
-                                postModel: uId == selectedUserId
-                                    ? FoodCubit.get(context)
-                                        .currentUserPostsList[index]
-                                    : FoodCubit.get(context)
-                                        .selectedUserPostsList[index],
-                                viewPost: true,);
+                              context: context,
+                              postModel: uId == selectedUserId
+                                  ? FoodCubit.get(context)
+                                  .currentUserPostsList[index]
+                                  : FoodCubit.get(context)
+                                  .selectedUserPostsList[index],
+                              viewPost: true, userModel: FoodCubit.get(context).userData[index],);
                           },
                           separatorBuilder: (context, index) => const SizedBox(
-                                height: 20.0,
-                              ),
+                            height: 20.0,
+                          ),
                           itemCount: selectedUserId == uId
                               ? FoodCubit.get(context)
-                                  .currentUserPostsList
-                                  .length
+                              .currentUserPostsList
+                              .length
                               : FoodCubit.get(context)
-                                  .selectedUserPostsList
-                                  .length),
+                              .selectedUserPostsList
+                              .length),
                     )
                   ],
                 );
               },
               condition: (selectedUserId != uId &&
-                      FoodCubit.get(context).selectedUserPostsList.isNotEmpty &&
-                      FoodCubit.get(context).selectedUserModel != null) ||
+                  FoodCubit.get(context).selectedUserPostsList.isNotEmpty &&
+                  FoodCubit.get(context).selectedUserModel != null) ||
                   (selectedUserId == uId &&
                       FoodCubit.get(context).currentUserPostsList.isNotEmpty &&
                       FoodCubit.get(context).userModel != null),
@@ -211,7 +219,7 @@ class ProfileScreen extends StatelessWidget {
                               CircleAvatar(
                                 radius: 40.0,
                                 backgroundImage:
-                                    NetworkImage(profileUserModel.image!),
+                                NetworkImage(profileUserModel.image!),
                               ),
                               const SizedBox(
                                 width: 30.0,
@@ -225,8 +233,8 @@ class ProfileScreen extends StatelessWidget {
                                         .textTheme
                                         .bodyText1!
                                         .copyWith(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w800),
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w800),
                                   ),
                                   const SizedBox(
                                     height: 7.0,
@@ -266,21 +274,23 @@ class ProfileScreen extends StatelessWidget {
                                   ),
                                   selectedUserId != uId
                                       ? MaterialButton(
-                                          onPressed: () {},
-                                          color: defaultColor,
-                                          height: 24,
-                                          child: Text(
-                                            AppLocalizations.of(context)!
-                                                .chatButton,
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white),
-                                          ),
-                                          shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(12.0)),
-                                          ),
-                                        )
+                                    onPressed: () {
+                                      navigateTo(context, ChatDetails(userModel: profileUserModel,));
+                                    },
+                                    color: defaultColor,
+                                    height: 24,
+                                    child: Text(
+                                      AppLocalizations.of(context)!
+                                          .chatButton,
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
+                                    ),
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(12.0)),
+                                    ),
+                                  )
                                       : const SizedBox(),
                                 ],
                               ),
@@ -305,7 +315,9 @@ class ProfileScreen extends StatelessWidget {
                               color: defaultColor),
                         )
                       ]);
-                } else if (selectedUserId != uId &&
+                }
+                else if (
+                selectedUserId != uId &&
                     FoodCubit.get(context).selectedUserPostsList.isEmpty &&
                     FoodCubit.get(context).selectedUserModel != null) {
                   profileUserModel = FoodCubit.get(context).selectedUserModel!;
@@ -320,7 +332,7 @@ class ProfileScreen extends StatelessWidget {
                               CircleAvatar(
                                 radius: 40.0,
                                 backgroundImage:
-                                    NetworkImage(profileUserModel.image!),
+                                NetworkImage(profileUserModel.image!),
                               ),
                               const SizedBox(
                                 width: 30.0,
@@ -334,8 +346,8 @@ class ProfileScreen extends StatelessWidget {
                                         .textTheme
                                         .bodyText1!
                                         .copyWith(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w800),
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w800),
                                   ),
                                   const SizedBox(
                                     height: 7.0,
@@ -374,21 +386,23 @@ class ProfileScreen extends StatelessWidget {
                                   ),
                                   selectedUserId != uId
                                       ? MaterialButton(
-                                          onPressed: () {},
-                                          color: defaultColor,
-                                          height: 24,
-                                          child: Text(
-                                            AppLocalizations.of(context)!
-                                                .chatButton,
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white),
-                                          ),
-                                          shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(12.0)),
-                                          ),
-                                        )
+                                    onPressed: () {
+                                      navigateTo(context, ChatDetails(userModel: profileUserModel,));
+                                      },
+                                    color: defaultColor,
+                                    height: 24,
+                                    child: Text(
+                                      AppLocalizations.of(context)!
+                                          .chatButton,
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
+                                    ),
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(12.0)),
+                                    ),
+                                  )
                                       : const SizedBox(),
                                 ],
                               ),

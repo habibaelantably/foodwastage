@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foodwastage/models/User_model.dart';
 import 'package:foodwastage/models/post_model.dart';
 import 'package:foodwastage/modules/Post RequestsScreen/post_requests_screen.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
@@ -9,9 +10,13 @@ import 'package:foodwastage/shared/components/reusable_components.dart';
 import '../../styles/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../Chat_details/chat_details.dart';
+
 class PostOverview extends StatelessWidget {
-  const PostOverview({Key? key, required this.postModel}) : super(key: key);
+  const PostOverview({Key? key, required this.postModel,required this.userModel}) : super(key: key);
   final PostModel postModel;
+  final UserModel userModel;
+
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +154,9 @@ class PostOverview extends StatelessWidget {
                                     children: [
                                       Expanded(
                                         child: defaultButton(
-                                          function: () {},
+                                          function: () {
+                                            navigateTo(context, ChatDetails());
+                                          },
                                           text: AppLocalizations.of(context)!
                                               .chatButton
                                               .toUpperCase(),
@@ -184,7 +191,9 @@ class PostOverview extends StatelessWidget {
                                         children: [
                                           Expanded(
                                             child: defaultButton(
-                                              function: () {},
+                                              function: () {
+                                                navigateTo(context, ChatDetails(userModel: FoodCubit.get(context).selectedUserModel,));
+                                              },
                                               text:
                                                   AppLocalizations.of(context)!
                                                       .chatButton

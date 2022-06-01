@@ -42,7 +42,7 @@ class HomeScreen extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: 8.0),
                         child: Center(child: CircularProgressIndicator(),),
                       )
-                      :Padding(
+                          :Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: TextButton(onPressed: (){
                           FoodCubit.get(context).verifyPhoneNumber(FoodCubit.get(context).userModel!.phone!, context);
@@ -55,27 +55,28 @@ class HomeScreen extends StatelessWidget {
                 child: ListView.separated(
                     shrinkWrap: true,
                     itemBuilder: (context, index) => postBuilder(
-                          viewPost: true,
-                          postModel: FoodCubit.get(context).isSearching
-                              ? FoodCubit.get(context).searchedForPosts[index]
-                              : FoodCubit.get(context).filterValue == 'All'
-                                  ? FoodCubit.get(context).postsList[index]
-                                  : FoodCubit.get(context).filteredPosts[index],
-                          context: context,
-                        ),
+                        viewPost: true,
+                        postModel: FoodCubit.get(context).isSearching
+                            ? FoodCubit.get(context).searchedForPosts[index]
+                            : FoodCubit.get(context).filterValue == 'All'
+                            ? FoodCubit.get(context).postsList[index]
+                            : FoodCubit.get(context).filteredPosts[index],
+                        context: context,
+                        userModel: FoodCubit.get(context).userModel!
+                    ),
                     separatorBuilder: (context, index) => const SizedBox(
-                          height: 20.0,
-                        ),
+                      height: 20.0,
+                    ),
                     itemCount: FoodCubit.get(context).isSearching
                         ? FoodCubit.get(context).searchedForPosts.length
                         : FoodCubit.get(context).filterValue == 'All'
-                            ? FoodCubit.get(context).postsList.length
-                            : FoodCubit.get(context).filteredPosts.length),
+                        ? FoodCubit.get(context).postsList.length
+                        : FoodCubit.get(context).filteredPosts.length),
               ),
             ],
           ),
           fallback: (context) =>
-              const Center(child: CircularProgressIndicator()),
+          const Center(child: CircularProgressIndicator()),
         );
       },
       listener: (BuildContext context, Object? state) {
