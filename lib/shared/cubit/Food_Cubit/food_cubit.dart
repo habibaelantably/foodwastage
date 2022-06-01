@@ -5,10 +5,12 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:foodwastage/models/Comments_model.dart';
+import 'package:foodwastage/models/Message_Model.dart';
 import 'package:foodwastage/models/User_model.dart';
 import 'package:foodwastage/models/post_model.dart';
 import 'package:foodwastage/modules/Nearby%20Screen/nearby_screen.dart';
 import 'package:foodwastage/shared/constants.dart';
+import 'package:foodwastage/shared/cubit/Food_Cubit/food_states.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../modules/Add Post Screen/add_post_screen.dart';
@@ -17,7 +19,9 @@ import '../../../modules/Favorites Screen/favorites_screen.dart';
 import '../../../modules/Home Screen/home_screen.dart';
 import 'package:foodwastage/shared/components/reusable_components.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'food_states.dart';
+
+
+
 
 class FoodCubit extends Cubit<FoodStates> {
   FoodCubit() : super(InitialFoodStates());
@@ -41,6 +45,7 @@ class FoodCubit extends Cubit<FoodStates> {
         emit(GetSelectedUserDataSuccessState(selectedUserId));
       } else if (selectedUserId == uId || selectedUserId == null) {
         userModel = UserModel.fromJson(value.data()!);
+        userData.add(userModel!);
         emit(GetCurrentUserDataSuccessState());
       }
     }).catchError((error) {
@@ -745,5 +750,164 @@ class FoodCubit extends Cubit<FoodStates> {
       emit(GetCommentsSuccessState());
     });
 
+  }
+
+  void SendMassage({
+    required String? receiverId,
+    required String? dateTime,
+    required String? text,
+  }) {
+    MessageModel model = MessageModel(
+      senderId: userModel!.uId,
+      receviverId: receiverId,
+      dateTime: dateTime,
+      text: text,
+    );
+    FirebaseFirestore.instance.collection('users')
+        .doc(userModel?.uId)
+        .collection('Chats')
+        .doc(receiverId)
+        .collection('massage')
+        .add(model.toMap())
+        .then((value) {
+      emit(SendMessageSuccessState());
+    })
+        .catchError((error) {
+      emit(SendMessageErrorState());
+    });
+
+
+    FirebaseFirestore.instance.collection('users')
+        .doc(receiverId)
+        .collection('Chats')
+        .doc(userModel?.uId)
+        .collection('massage')
+        .add(model.toMap())
+        .then((value) {
+      emit(SendMessageSuccessState());
+    })
+        .catchError((error) {
+      emit(SendMessageErrorState());
+    });
+  }
+
+  List<MessageModel> massages = [];
+
+  void getMessages({
+    required String? receiverId
+  }){
+    FirebaseFirestore.instance.
+    collection("users").
+    doc(userModel!.uId).
+    collection("Chats").
+    doc(receiverId).
+    collection("massage").orderBy('dateTime').
+    snapshots().
+    listen((event) {
+      massages=[];
+      event.docs.forEach((element) {
+        massages.add(MessageModel.fromjson(element.data()));
+      });
+      emit(GetMessageSuccessState());
+    });
+
+
+  }
+
+  /////////////editprofile
+
+  File? profileImage;
+  var Picker = ImagePicker();
+
+  Future<void> getprofileImage() async
+  {
+    final PickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (PickedFile != null) {
+      profileImage = File(PickedFile.path);
+      print(PickedFile.path);
+     // emit(ProfileImagePi());
+    }
+    else {
+      print('NO IMAGE SELECTED!');
+      //emit(FoodProfileImagePickedErrorState());
+    }
+  }
+
+  /////////////uploadphoto
+
+  String profileImageUrl = '';
+
+  void upLoadProfileImage() {
+    firebase_storage.FirebaseStorage.instance
+        .ref()
+        .child('users/${Uri
+        .file(profileImage!.path)
+        .pathSegments
+        .last}')
+        .putFile(profileImage!)
+        .then((value) {
+      value.ref.getDownloadURL().then((value) {
+      emit(UploadProfileImageSuccessState());
+        print(value);
+        profileImageUrl = value;
+      }).catchError((error) {
+        //emit(Upload());
+      });
+    })
+        .catchError((error) {
+      //emit(Uploa());
+    });
+  }
+
+
+  void UpdateUserImage({required String name,
+    required String phone,
+    required String email,
+    required String country,
+    required BuildContext context
+
+  })
+  {
+    //emit(UserUpdateImageLoadingState());
+  if (profileImage != null) {
+    upLoadProfileImage();
+  } else {
+    UpdateUsers(
+      name:name,
+      phone:phone,
+      email:email,
+      country:country,
+      context: context
+    );
+  }
+  }
+
+  void UpdateUsers({required String name,
+    required String phone,
+    required String email,
+    required String country,
+    required BuildContext context
+  })
+  {
+    UserModel model = UserModel
+      (
+      name: name,
+      phone: phone,
+      email: email,
+      country: country,
+      image :userModel?.image, ////////// el nhaga el adema htfdl b asmaha zi kdaa
+
+
+    );
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(userModel?.uId)
+        .update(model.toMap())
+        .then((value) {
+      getUserdata(context:context );
+    })
+        .catchError((error) {
+     // emit(FoodUserUpdateErrorState());
+    });
   }
 }

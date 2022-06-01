@@ -27,3 +27,5 @@ class FoodSuccessSentOTPState extends FoodRegisterStates {}
 class FoodSuccessVerifyOTPState extends FoodRegisterStates {}
 
 class FoodSendOTPLoadingState extends FoodRegisterStates {}
+
+class FoodUserUpdateLoadingState extends FoodRegisterStates {}

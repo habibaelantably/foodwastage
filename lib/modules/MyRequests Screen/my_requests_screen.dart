@@ -1,6 +1,7 @@
 import 'package:buildcondition/buildcondition.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foodwastage/models/User_model.dart';
 import 'package:foodwastage/models/post_model.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Food_Cubit/food_states.dart';
@@ -20,26 +21,26 @@ class MyRequestsScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
-            appBar: AppBar(
-              leading: IconButton(
-                onPressed: () {
-                  //to back to home directly
-                  FoodCubit.get(context).currentIndex != 0
-                      ? FoodCubit.get(context).changeBottomNav(0)
-                      : null;
+          appBar: AppBar(
+            leading: IconButton(
+              onPressed: () {
+                //to back to home directly
+                FoodCubit.get(context).currentIndex != 0
+                    ? FoodCubit.get(context).changeBottomNav(0)
+                    : null;
 
-                  Navigator.pop(context);
-                },
-                icon: const Icon(Icons.arrow_back),
-              ),
-              title: Text(AppLocalizations.of(context)!.myRequestsScreenTitle),
+                Navigator.pop(context);
+              },
+              icon: const Icon(Icons.arrow_back),
             ),
-            body: BuildCondition(
+            title: Text(AppLocalizations.of(context)!.myRequestsScreenTitle),
+          ),
+          body: BuildCondition(
               builder: (context) => ListView.separated(
-                  itemBuilder: (context, index) => buildRequestPost(context: context, postModel: FoodCubit.get(context).myRequestsList[index],),
+                  itemBuilder: (context, index) => buildRequestPost(context: context, postModel: FoodCubit.get(context).myRequestsList[index],userModel: FoodCubit.get(context).userData[index]),
                   separatorBuilder: (context, index) => const SizedBox(
-                        height: 20.0,
-                      ),
+                    height: 20.0,
+                  ),
                   itemCount: FoodCubit.get(context).myRequestsList.length),
               condition: FoodCubit.get(context).myRequestsList.isNotEmpty,
               fallback: (context) =>FoodCubit.get(context).myRequestsList.isEmpty? Padding(
@@ -55,7 +56,7 @@ class MyRequestsScreen extends StatelessWidget {
                   ),
                 ),
               ) : const Center(child: CircularProgressIndicator())
-            ),
+          ),
         );
       },
     );
@@ -63,10 +64,10 @@ class MyRequestsScreen extends StatelessWidget {
 }
 
 Widget buildRequestPost(
-    {required BuildContext context, required PostModel postModel}) {
+    {required BuildContext context, required PostModel postModel,required UserModel userModel}) {
   return InkWell(
     onTap: (){
-      navigateTo(context, PostOverview(postModel: postModel));
+      navigateTo(context, PostOverview(postModel: postModel,userModel: userModel,));
     },
     child: Card(
 
