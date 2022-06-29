@@ -10,12 +10,25 @@
             <action android:name="android.intent.action.DIAL" />
             <data android:scheme="tel" />
         </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="http" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.SEND" />
+            <data android:scheme="mailto" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.SEND" />
+            <data android:scheme="sms" />
+        </intent>
     </queries>
+
 
     <application
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher"
-        android:label="foodwastage">
+        android:icon="@mipmap/app_logo"
+        android:label="Sharek - شارك">
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

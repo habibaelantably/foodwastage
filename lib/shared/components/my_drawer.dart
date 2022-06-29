@@ -8,6 +8,9 @@ import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Prefrences%20Cubit/prefrences_cubit.dart';
 import '../../modules/History Screen/history_screen.dart';
 import '../../modules/Profile Screen/profile_screen.dart';
+import '../../modules/about_us.dart';
+import '../../modules/contact_us_screen.dart';
+import '../../modules/terms_&_conditions.dart';
 import '../constants.dart';
 import '../../styles/colors.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -55,25 +58,27 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   Row(
                     children: [
                       Expanded(
-                        child: Text("${FoodCubit.get(context).userModel!.name} ",
+                        flex: 5,
+                        child: Text("${FoodCubit.get(context).userModel!.name}", style: TextStyle(
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 22,
-                            color:
-                            PreferencesCubit.get(context).darkModeSwitchIsOn
-                                ? Colors.white
-                                : Colors.black,
-                            fontWeight: FontWeight.w700,
-                          ),),
-                      ),
-                      Text(
-                        "(${FoodCubit.get(context).userModel!.type})",
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.grey[700],
+                          fontSize: 22,
+                          color:
+                          PreferencesCubit.get(context).darkModeSwitchIsOn
+                              ? Colors.white
+                              : Colors.black,
                           fontWeight: FontWeight.w700,
-                        ),
+                        ),),
                       ),
+                      Expanded(
+                        flex: 1,
+                        child: Text("(${FoodCubit.get(context).userModel!.type})",
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.grey[700],
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      )
                     ],
                   ),
                   const SizedBox(
@@ -136,11 +141,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       ),
                       onTap: () {
                         Navigator.pop(context);
-                        FoodCubit.get(context)
-                            .getSelectedUserPosts(selectedUserId: uId!);
-                        FoodCubit.get(context)
-                            .getUserdata(context: context, selectedUserId: uId);
-                        print(FoodCubit.get(context).userModel!.rating);
+                        FoodCubit.get(context).getSelectedUserPosts(selectedUserId: uId!);
+                        FoodCubit.get(context).getUserdata(context: context,selectedUserId: uId);
                         navigateTo(
                             context,
                             ProfileScreen(
@@ -255,7 +257,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                           fontSize: 16,
                         ),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        navigateTo(context, const AboutUs());
+                      },
                     ),
                     ListTile(
                       dense: true,
@@ -272,7 +276,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                           fontSize: 16,
                         ),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        navigateTo(context, const ContactUs());
+                      },
                     ),
                     ListTile(
                       dense: true,
@@ -290,7 +296,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                           fontSize: 16,
                         ),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        navigateTo(context, const TermsAndConditions());
+                      },
                     ),
                     ListTile(
                       dense: true,
