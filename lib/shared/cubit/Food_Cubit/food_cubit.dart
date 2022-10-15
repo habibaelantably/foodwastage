@@ -66,16 +66,14 @@ class FoodCubit extends Cubit<FoodStates> {
     const NearbyScreen(),
     AddPosts(),
     const FavoritesScreen(),
-    const ChatsScreen()
+     ChatsScreen()
   ];
 
   void changeBottomNav(int index) {
-    // if (index == 2) {
-    //   emit(DonateFoodState());
-    // } else {
+
     currentIndex = index;
     emit(ChangeBottomNavState());
-    // }
+
   }
 
   CollectionReference posts =
@@ -374,6 +372,7 @@ class FoodCubit extends Cubit<FoodStates> {
   }
 
   void getFavPosts() async {
+    print(favPosts.length.toString()+'++++++++++++++');
     await Future.delayed(const Duration(seconds: 2));
     FirebaseFirestore.instance
         .collection('users')
@@ -387,6 +386,7 @@ class FoodCubit extends Cubit<FoodStates> {
         PostModel post = PostModel.fromJson(element.data());
         post.postId = element.id;
         favPosts.add(post);
+        print(favPosts.length.toString()+'++++++++++++++');
       }
       emit(GetFavoritePostsSuccessState());
     });
@@ -897,5 +897,72 @@ class FoodCubit extends Cubit<FoodStates> {
         emit(UpdateUserErrorState());
       });
     }
+  }
+
+  List<UserModel>chatUsers=[];
+  void getChats () async
+  {
+    print(userModel!.uId);
+     if(chatUsers.length==0)
+       await FirebaseFirestore.instance.
+     collection('users').
+     doc(uId).
+     collection('Chats')
+        .get().then((value) {
+      print(uId);
+      print(value.docs.isEmpty);
+      print(FirebaseFirestore.instance.collection('users').doc(uId)
+          .collection('Chats').get().then((value) {print(value);}));
+      value.docs.forEach((element) {
+        print('enter method***************');
+        chatUsers.add(UserModel.fromJson(element.data()));
+        print(chatUsers);
+        emit(GetChatUsersSuccessState());
+      });
+    }).catchError((error){
+      emit(GetChatUsersErrorState(error.toString()));
+      print(error.toString());
+    });
+
+  }
+
+  void getAllUsers()
+  {
+    // if(allUsers.length==0)
+    //   FirebaseFirestore.instance
+    //       .collection('users')
+    //       .get().then((value) {
+    //     value.docs.forEach((element) {
+    //       if(element.data()['uId'] != socialModel!.uId)
+    //         allUsers.add(UserModel.fromJson(element.data()));
+    //       emit(SocialGetAllUsersSuccessState());
+    //     });
+    //   })
+    //       .catchError((error){
+    //     emit(SocialGetAllUsersErrorState(error.toString()));
+    //   });
+
+    //////////////////////////
+    //print(userModel!.uId);
+    // if(chatUsers.length==0)
+    //   await FirebaseFirestore.instance.
+    // collection('users').
+    // doc(uId).
+    // collection('Chats')
+    //     .get().then((value) {
+    //   print(uId);
+    //   print(value.docs.isEmpty);
+    //   print(FirebaseFirestore.instance.collection('users').doc(uId)
+    //       .collection('Chats').get().then((value) {print(value);}));
+    //   value.docs.forEach((element) {
+    //     print('enter method***************');
+    //     chatUsers.add(UserModel.fromJson(element.data()));
+    //     print(chatUsers);
+    //     emit(GetChatUsersSuccessState());
+    //   });
+    // }).catchError((error){
+    //   emit(GetChatUsersErrorState(error.toString()));
+    //   //print(error.toString());
+    // });
   }
 }

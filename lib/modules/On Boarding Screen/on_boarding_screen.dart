@@ -131,9 +131,10 @@ class OnBoardingScreen extends StatelessWidget {
 
   Widget onBoardingItem({required OnBoardingModel onBoardingModel}) {
     return Container(
+      height: 200,
       decoration: BoxDecoration(
           image: DecorationImage(
-              image: AssetImage(onBoardingModel.image), fit: BoxFit.cover)),
+              image: AssetImage(onBoardingModel.image), )),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
         child: Center(

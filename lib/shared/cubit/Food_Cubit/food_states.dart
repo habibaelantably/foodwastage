@@ -183,6 +183,14 @@ class UpdateUserErrorState extends FoodStates{}
 
 class ProfileImagePickedSuccessState extends FoodStates{}
 
+class GetChatUsersSuccessState extends FoodStates{}
+
+class GetChatUsersErrorState extends FoodStates
+{
+  final String error;
+  GetChatUsersErrorState(this.error);
+}
+
 
 
 

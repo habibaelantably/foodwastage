@@ -15,7 +15,7 @@ class FavoritesScreen extends StatelessWidget {
     return BlocConsumer<FoodCubit, FoodStates>(
       builder: (BuildContext context, state) {
         return BuildCondition(
-          condition: FoodCubit.get(context).favPosts.isNotEmpty &&
+          condition: FoodCubit.get(context).favPosts.length>0 &&
               FoodCubit.get(context).userModel != null,
           builder: (context) => SingleChildScrollView(
             child: ListView.separated(

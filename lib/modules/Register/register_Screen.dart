@@ -2,8 +2,11 @@ import 'package:buildcondition/buildcondition.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:foodwastage/layout/App_Layout.dart';
 import 'package:foodwastage/shared/components/reusable_components.dart';
 import 'package:foodwastage/modules/Login%20Screen/login_Screen.dart';
+import 'package:foodwastage/shared/constants.dart';
+import 'package:foodwastage/shared/cubit/Food_Cubit/food_cubit.dart';
 import 'package:foodwastage/shared/cubit/Prefrences%20Cubit/prefrences_cubit.dart';
 import 'package:foodwastage/shared/cubit/Register/food_register_cubit.dart';
 import 'package:foodwastage/shared/cubit/Register/food_register_state.dart';
@@ -194,13 +197,18 @@ class RegisterScreen extends StatelessWidget {
                         height: 40.0,
                       ),
                       BuildCondition(
-                        condition: state is! FoodSendOTPLoadingState ,
+                        condition: state is! FoodLoadingRegisterState ,
                         builder: (context)=>defaultButton(
                             function:()
                             {
                               if(formkey.currentState != null && formkey.currentState!.validate())
                               {
-                                FoodRegisterCubit.get(context).sendOTP(emailController.text);
+                                FoodRegisterCubit.get(context).userRegister(
+                                    name: nameController.text,
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                    phone: phoneController.text,
+                                    country: countryController.text);
 
                               }
                             },
@@ -243,16 +251,17 @@ class RegisterScreen extends StatelessWidget {
           ),
         );
       }, listener: (BuildContext context, Object? state) {
-        if(state is FoodSuccessSentOTPState)
+        if(state is FoodSuccessCreateState)
         {
-          navigateTo(context, OTP(
-            name: nameController.text,
-            email: emailController.text,
-            password: passwordController.text,
-            phone: phoneController.text,
-            country:countryController.text
-
-          ));
+          if (uId != null) {
+            FoodCubit.getLoggedInUser();
+            FoodCubit.get(context).getUserdata(context: context);
+            FoodCubit.get(context).getPosts();
+            navigateAndKill(context, AppLayout());
+          } else {
+            FoodCubit.getLoggedInUser();
+            navigateAndKill(context, AppLayout());
+          }
         }
       }),
     );

@@ -64,7 +64,9 @@ class MyApp extends StatelessWidget {
               ..getUserdata(context: context)
               ..getPosts()
               ..getMyHistoryTransactions()
-              ..getFavPosts()),
+              ..getFavPosts()
+                .. getChats()
+              ),
         BlocProvider(
             create: (BuildContext context) => PreferencesCubit()
               ..changeAppTheme(themeFromCache: isDark)

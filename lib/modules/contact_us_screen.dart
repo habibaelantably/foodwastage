@@ -23,7 +23,7 @@ class ContactUs extends StatelessWidget {
                   },
                   child: Row(
                     children: const [
-                      Icon(Icons.phone,size: 32,color: defaultColor),
+                      Icon(Icons.phone,size: 1,color: defaultColor),
                       SizedBox(width: 10.0,),
                       Text("+201129592697",style: TextStyle(fontSize: 16.0))
                     ],
@@ -51,7 +51,7 @@ class ContactUs extends StatelessWidget {
               },
               child: Row(
                 children: const [
-                  Icon(Icons.email,size: 32,color: defaultColor),
+                  Icon(Icons.email,size: 1,color: defaultColor),
                   SizedBox(width: 10.0,),
                   Text("mahmoudnabil141981@gmail.com",style: TextStyle(fontSize: 16.0),)
                 ],

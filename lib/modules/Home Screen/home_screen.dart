@@ -36,17 +36,17 @@ class HomeScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(AppLocalizations.of(context)!.phoneNumberIsNotVerified,style: const TextStyle(color: Colors.red, fontSize: 16.0, fontWeight: FontWeight.bold),),
+                      Text(AppLocalizations.of(context)!.phoneNumberIsNotVerified,style: const TextStyle(color: Colors.red, fontSize: 14.0, fontWeight: FontWeight.bold),),
                       state is PhoneVerificationCodeSendLoadingState?
                       const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.0),
+                        padding: EdgeInsets.symmetric(horizontal: 5.0),
                         child: Center(child: CircularProgressIndicator(),),
                       )
                           :Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: TextButton(onPressed: (){
                           FoodCubit.get(context).verifyPhoneNumber(FoodCubit.get(context).userModel!.phone!, context);
-                        }, child: Text(AppLocalizations.of(context)!.verifyButton,style: const TextStyle(color: defaultColor,fontSize: 16.0, fontWeight: FontWeight.bold),)),
+                        }, child: Text(AppLocalizations.of(context)!.verifyButton,style: const TextStyle(color: defaultColor,fontSize: 14.0, fontWeight: FontWeight.bold),)),
                       )
                     ],
                   ),

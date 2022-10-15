@@ -391,7 +391,7 @@ class AddPosts extends StatelessWidget {
                         items: FoodCubit.get(context).foodTypeList,
                         textStyle: const TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 12,
+                          fontSize: 10,
                         ),
                         itemBuilder: (item) => RadioButtonBuilder(
                           item,
@@ -411,7 +411,7 @@ class AddPosts extends StatelessWidget {
                         items: FoodCubit.get(context).contactMethodList,
                         textStyle: const TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 12,
+                          fontSize: 10,
                         ),
                         itemBuilder: (item) => RadioButtonBuilder(
                           item,
@@ -442,7 +442,7 @@ class AddPosts extends StatelessWidget {
                           Text(
                             AppLocalizations.of(context)!.donateScreenPolicy,
                             style: TextStyle(
-                                fontSize: size.width * 0.03,
+                                fontSize: size.width * 0.026,
                                 fontWeight: FontWeight.normal),
                           )
                         ],

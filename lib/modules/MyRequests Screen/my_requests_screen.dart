@@ -105,7 +105,7 @@ Widget buildRequestPost(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      height: 25,
+                      height: 20,
                       child: Text(
                         "${postModel.postDate}",
                         style: const TextStyle(
@@ -199,12 +199,12 @@ Widget buildRequestPost(
                             onPressed: () {
                               FoodCubit.get(context).cancelRequest(context, postModel: postModel);
                             },
-                            height: 30,
+                            height: 7,
                             color: Colors.red,
                             child: Text(
                               AppLocalizations.of(context)!.cancelButton,
                               style: const TextStyle(
-                                  fontSize: 16.0,
+                                  fontSize: 15.0,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white),
                             ),
